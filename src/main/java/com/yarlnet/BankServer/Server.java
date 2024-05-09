@@ -45,9 +45,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
 
     // button for termination of a client:
     JButton btnTerminate = new JButton("Terminate ");
-    // button for administrator privileges
     JButton btnAdministrator = new JButton("Administrator ");
-
     JLabel lblRunning; // label to show how many clients are logged.
     JLabel timeRunning; // label to show the updated time.
     long acctno, balance;
@@ -635,9 +633,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         }
     }
 
-    /**
-     * Main function, from where Server starts.
-     */
     public static void main(String args[]) {
 
         // // validate parameter count:
@@ -668,7 +663,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             localHost = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
             System.out.println("Unknown host - probably localhost with no IP!");
-            // no exit, since can work on "localhost" without internet.
         }
 
         // print out the info (the same info is also shown on the server's
@@ -678,7 +672,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         // create & start server GUI engine:
         new Server();
 
-    } // end of main().
+    }
 
     private void closeApplication() {
         // ask user if he/she is sure to shut down the server when
@@ -713,7 +707,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
     }
 
     public void setDisplay() {
-
         adminEntry.setVisible(false);
         adminCreate.setVisible(false);
         adminDelete.setVisible(false);

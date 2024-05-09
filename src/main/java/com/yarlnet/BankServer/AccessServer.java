@@ -1,26 +1,11 @@
-/*
-  Project            :
-  File Name          :
-  Author:
-  Date  :
-*/
-
 package com.yarlnet.BankServer;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
-/**
-*
-*
-*
-*/
 public class AccessServer extends Thread {
-
-  // sockets for client connections:
   Socket clientConnection = null;
-  // streams for communication:
   BufferedReader inClient = null;
   PrintStream outClient = null;
 
@@ -32,26 +17,13 @@ public class AccessServer extends Thread {
   String strAction = new String(" ");
   Server server; // pointer to owner server class (used to remove system).
 
-  /**
-   * Constructor.
-   *
-   * 
-   * @param ourServer pointer to owner Server class.
-   */
   public AccessServer(Server temp) {
     server = temp;
   }
 
-  /**
-   * Connects client to this system.
-   *
-   * @param clientConnection socket of client to be connected.
-   */
-
   public void connectClient(Socket clientConnection) {
     this.clientConnection = clientConnection;
 
-    // open streams for communication:
     try {
       inClient = new BufferedReader(new InputStreamReader(clientConnection.getInputStream()));
       outClient = new PrintStream(clientConnection.getOutputStream());
@@ -64,16 +36,8 @@ public class AccessServer extends Thread {
     thClient.start();
 
     System.out.println("Starting access...");
-
-    // inform both sides that connection is successful:
-
-    // sendToClient("ALL_CONNECTED");
-
   }
 
-  /**
-   * The run method of that is used by a thread.
-   */
   public void run() {
 
     Thread thisThread = Thread.currentThread();
@@ -83,7 +47,6 @@ public class AccessServer extends Thread {
       String inputLine = null;
       try {
         inputLine = inClient.readLine();
-        // System.out.println("hello");
       } catch (IOException ioe) {
         if (thClient != null) { // system not over yet?
           System.err.println("inClient.readLine() -> " + ioe);
@@ -92,16 +55,8 @@ public class AccessServer extends Thread {
       if (inputLine != null)
         clientTalks(inputLine); // trigger "event".
     }
+  }
 
-  }// end of run
-
-  /**
-   * This method is triggered by thread "thClient" when
-   * there is a message from client.
-   * Processes the message and makes an appropriate reaction to it.
-   *
-   * @param msg what client has to say.
-   */
   public void clientTalks(String msg) {
 
     if (thClient == null) { // system over?
@@ -109,9 +64,7 @@ public class AccessServer extends Thread {
       return; // no need to process.
     }
 
-    // System.out.println("CLIENT: " + msg);
-
-    // process the message:
+    System.out.println("CLIENT: " + msg);
 
     if (msg.equals("Hello_Server")) {
       sendToClient("Welcome_Client");
@@ -121,7 +74,6 @@ public class AccessServer extends Thread {
       String message = msg;
       values = new StringTokenizer(message, ".");
       String cmd = values.nextToken();
-
       if (cmd.equals("LOGIN")) {
 
         String AcctNo1 = new String();
@@ -195,8 +147,7 @@ public class AccessServer extends Thread {
               server.clients.addElement(server.lastClient);
               server.lblRunning.setText("Currently logged :" + server.clients.size() + " client(s)");
 
-              sendToClient("LOGSUCCESS");// can decrease the scope...if needed for teller
-
+              sendToClient("LOGSUCCESS");
             } else {
               strName = Name1;
               strAcctNo = AcctNo1;
@@ -210,7 +161,6 @@ public class AccessServer extends Thread {
                   "INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','" + server.currentTime + "',"
                       + AcctNo1 + ",'LOG IN',' LOG IN FAILED ','" + clientConnection.getInetAddress() + "')");
               sendToClient("LOGFAIL");
-
             }
           } else if (!val) {
             strName = Name1;
@@ -252,91 +202,32 @@ public class AccessServer extends Thread {
           System.out.println("Error" + nle);
         }
 
-      }
-
-      /*
-       * else if(cmd.equals("GET_LOAN_DETAILS"))
-       * {
-       * String AcctNo = values.nextToken();
-       * try {
-       * server.aDbase.uprs = server.aDbase.stmt.
-       * executeQuery("SELECT AccountNo,Balance,LoanStatus FROM ClientAccStatus WHERE AccountNo = "
-       * + AcctNo);
-       * server.aDbase.uprs.next();
-       * long bal = server.aDbase.uprs.getLong(2);
-       * boolean lnStatus = server.aDbase.uprs.getBoolean(3);
-       * server.aDbase.uprs.close();
-       * strAction = "Request for  Loans ..Checking Get Loan Details...";
-       * if((lnStatus)||(bal<2500))
-       * sendToClient("GET_LOAN_DET." + AcctNo + "." + bal + "." + "Not Eligible");
-       * else
-       * sendToClient("GET_LOAN_DET." + AcctNo + "." + bal + "." + "Eligible");
-       * }
-       * catch(java.sql.SQLException sqle)
-       * {
-       * strAction = "SQL Error occured ";
-       * 
-       * System.out.println("Error :" + sqle);
-       * 
-       * 
-       * }
-       * 
-       * 
-       * 
-       * }
-       */
-      else if (cmd.equals("VIEW_LOGS")) {
+      } else if (cmd.equals("VIEW_LOGS")) {
         String AcctNo = values.nextToken();
         int i = 0;
         try {
-          // server.aDbase.uprs = server.aDbase.stmt.executeQuery("SELECT
-          // Date,Time,AccountNo,Action,Remarks,LogInIP FROM ClientLogs ORDER BY Date
-          // DESC,Time Desc WHERE AccountNo = " + AcctNo );
-          //
-
-          //
-          // Object[][] Data = new Object[iRow+1][6];
           String dtLog = new String("");
-          // server.aDbase.uprs = server.aDbase.stmt.executeQuery("SELECT
-          // Date,Time,AccountNo,Action,Remarks FROM ClientLogs WHERE AccountNo = " +
-          // AcctNo + " ORDER BY Date DESC,Time Desc");
-          // server.aDbase.uprs.last( );
-          // int iRow = server.aDbase.uprs.getRow( );
           server.aDbase.uprs = server.aDbase.stmt
               .executeQuery("SELECT Date,Time,AccountNo,Action,Remarks FROM ClientLogs  WHERE AccountNo = " + AcctNo
                   + " ORDER BY ID DESC");
 
           while (server.aDbase.uprs.next()) {
-            // Data[i][0] = server.aDbase.uprs.getString(1) ;
-            // Data[i][1] = server.aDbase.uprs.getString(2);
-            // Data[i][2] = Long.toString(server.aDbase.uprs.getLong(3)) ;
-            // Data[i][3]= server.aDbase.uprs.getString(4) ;
-            // Data[i][4]= server.aDbase.uprs.getString(5);
-            // Data[i][5]= server.aDbase.uprs.getString(6);
-
             dtLog = dtLog + server.aDbase.uprs.getString(1) + "$" + server.aDbase.uprs.getString(2) + "$"
                 + server.aDbase.uprs.getString(4) + "$" + server.aDbase.uprs.getString(5) + ".";
             i++;
           }
           strAction = "Viewing Account Logs.. ";
           sendToClient("ACCOUNT_LOGS_TO_CLIENT." + AcctNo + "." + Integer.toString(i) + "." + dtLog);
-
           System.out.println(" i = " + i);
-
         } catch (java.sql.SQLException sqle) {
           System.out.println("Error : " + sqle);
-
         }
-
-      }
-
-      else if (cmd.equals("FORCED_LOGGED_OUT")) {
+      } else if (cmd.equals("FORCED_LOGGED_OUT")) {
         try {
           // String AcctNo = values.nextToken();
           if (values.hasMoreTokens()) {
             String AcctNo = values.nextToken();
             // Your existing code for handling the token goes here
-
             server.aDbase.stmt
                 .executeUpdate("UPDATE ClientAccStatus SET LogInStatus = False  WHERE AccountNo = " + AcctNo);
             server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
@@ -352,25 +243,6 @@ public class AccessServer extends Thread {
             System.out.println("No tokens available");
           }
 
-          // if (AcctNo.trim().equals("")) {
-          // System.out.println("No Account Number");
-          // } else {
-          // server.aDbase.stmt
-          // .executeUpdate("UPDATE ClientAccStatus SET LogInStatus = False WHERE
-          // AccountNo = " + AcctNo);
-          // server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM
-          // ClientLogs");
-          // server.aDbase.uprs.last();
-          // long id = server.aDbase.uprs.getLong(1) + 1;
-
-          // server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'"
-          // + server.dtString + "','"
-          // + server.currentTime + "'," + AcctNo + ",'LOGGED OUT',' FORCED LOGGED OUT BY
-          // ADMINISTRATOR ','"
-          // + clientConnection.getInetAddress() + "')");
-
-          // strAction = "Forced Logged Out Success";
-          // }
         } catch (java.sql.SQLException sqle) {
           strAction = "Forced Logged Out Failed";
           System.out.println("Error FL:" + sqle);
@@ -378,52 +250,7 @@ public class AccessServer extends Thread {
           strAction = "Terminated port..\nNo clients at present.. ";
           System.out.println("Error FLN:" + nle);
         }
-      }
-
-      /*
-       * else if(cmd.equals("AVAIL_LOAN"))
-       * {
-       * String Pin = values.nextToken();
-       * String AcctNo = values.nextToken();
-       * try {
-       * server.aDbase.uprs = server.aDbase.stmt.
-       * executeQuery("SELECT AccountNo,Pin FROM ClientInfo WHERE AccountNo = " +
-       * AcctNo);
-       * server.aDbase.uprs.next();
-       * long pinAct = server.aDbase.uprs.getLong(2);
-       * server.aDbase.uprs.close();
-       * strAction = "Request for Avail Loans ..\nChecking PIN..";
-       * if(Long.parseLong(Pin)==pinAct)
-       * {
-       * strAction = "PIN Validation Success..\nLoans Allowed..";
-       * sendToClient("AVAIL_LOANS_ALLOWED");
-       * 
-       * }
-       * else
-       * {
-       * strAction = "PIN Validation failed..\nLoans Not Allowed..";
-       * server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES('" +
-       * server.dtString + "','" + server.currentTime + "'," + AcctNo +
-       * ",'VALIDATE PIN','INCORRECT PIN ,REQUEST FOR LOANS FAILED','" +
-       * clientConnection.getInetAddress() + "')" );
-       * sendToClient("INCORRECT_PIN");
-       * 
-       * }
-       * }
-       * catch(java.sql.SQLException sqle)
-       * {
-       * System.out.println("Error :" + sqle);
-       * }
-       * catch(java.lang.NumberFormatException nle)
-       * {
-       * sendToClient("ERROR.AVAIL_LOANS");
-       * System.out.println("Error" + nle);
-       * }
-       * 
-       * }
-       */
-
-      else if (cmd.equals("ACCT_OPTIONS")) {
+      } else if (cmd.equals("ACCT_OPTIONS")) {
         String Pin = values.nextToken();
         String AcctNo = values.nextToken();
         try {
@@ -483,8 +310,6 @@ public class AccessServer extends Thread {
         }
 
         try {
-          // server.removeClient(this);
-          // server.removeClient(server.lastClient);
           AccessServer t;
           t = (AccessServer) this;
           server.removeClient(t);
@@ -492,6 +317,7 @@ public class AccessServer extends Thread {
           server.txtInfo.setText("No client with index: " +
               server.tabbedPane.getSelectedIndex());
         }
+
       } else if (cmd.equals("VIEWACC")) {
         String AcctNo = values.nextToken();
         try {
@@ -517,7 +343,6 @@ public class AccessServer extends Thread {
         }
 
       } else if (cmd.equals("PASSWORD_CHANGE")) {
-
         String AcctNo = values.nextToken();
         String oldPw = values.nextToken();
         String newPw1 = values.nextToken();
@@ -910,19 +735,12 @@ public class AccessServer extends Thread {
 
   }
 
-  /**
-   * Sends message to client
-   *
-   * @param msg the message to be sent.
-   */
   public void sendToClient(String msg) {
+
     outClient.println(msg);
     System.out.println("===================================================");
     System.out.println("SENT to CLIENT: " + msg);
-    System.out.println("Client Address: " + clientConnection.getInetAddress());
     System.out.println("Client Port   : " + clientConnection.getPort());
-    System.out.println("Logged in User details:");
-    System.out.println("Current User      : " + strName);
     System.out.println("Current Account no: " + strAcctNo);
     System.out.println("Current Action    : " + strAction);
     System.out.println("===================================================");
@@ -930,23 +748,12 @@ public class AccessServer extends Thread {
     // Flush the stream and check its error state:
     if (outClient.checkError())
       System.err.println("Cannot send -> " + msg);
-    // else
-    // System.out.println("SENT to CLIENT: " + msg);
   }
 
   /**
    * Returns the information about the system.
    */
   public String getInfo() {
-    // System.out.println("===================================================");
-    // System.out.println("Client Address: " + clientConnection.getInetAddress());
-    // System.out.println("Client Port : " + clientConnection.getPort());
-    // System.out.println("Logged in User details:");
-    // System.out.println("Current User : " + strName);
-    // System.out.println("Current Account no: " + strAcctNo);
-    // System.out.println("Current Action : " + strAction);
-    // System.out.println("===================================================");
-
     return "Details of client terminal:\n" +
         "Client Address: " + clientConnection.getInetAddress() + "\n" +
         "Client Port   : " + clientConnection.getPort() + "\n\n" +
@@ -955,19 +762,12 @@ public class AccessServer extends Thread {
         "Current User      : " + strName + "\n" +
         "Current Account no: " + strAcctNo + "\n" +
         "Current Action    : " + strAction;
-
   }
 
-  /**
-   * Prepares this system for termination.
-   * Closes all sockets, streams, and stops threads.
-   */
   public void closeEverything() {
     try {
       // stop all system threads:
       thClient = null;
-      // close sockets and streams:
-      // streams closed after sockets, otherwise causes problems.
       clientConnection.close();
       inClient.close();
       outClient.close();
