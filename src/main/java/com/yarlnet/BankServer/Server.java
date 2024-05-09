@@ -218,7 +218,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         // automatic update of info for selected client:
         while (thUpdateClientInfo == thisThread) {
             if (clients.size() > 0) // no clients?
-                showClientData();
+                showClientData(lastClient.clientConnection.getPort());
             thUpdateClientInfo.yield(); // this thread isn't so important, think of others.
             pause(1200); // update every 1.2 of a second.
         }
@@ -586,50 +586,134 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
     public void stateChanged(ChangeEvent e) {
         Object src = e.getSource();
         if (src == tabbedPane) { // click on a tab
-            showClientData();
+            showClientData(lastClient.clientConnection.getPort());
         }
     }
 
-    public void addNewTab() {
+    // public void addNewTab(int clientPort, String clientInfo) {
+    // try {
+    // int curTabs = tabbedPane.getTabCount();
+    // if (curTabs == 0) { // no tabs in tabbedPane?
+    // tabbedPane.addTab("Client " + clientPort, icon, pInnerTab);
+    // JTextArea txtInfo = new JTextArea(clientInfo); // Display client info in a
+    // text area
+    // pInnerTab.add(txtInfo, BorderLayout.CENTER);
+    // tabbedPane.setSelectedIndex(0);
+    // } else {
+    // // add empty tab, component from Tab#0 will be used:
+    // tabbedPane.addTab("Client " + clientPort, icon, null);
+    // JTextArea txtInfo = new JTextArea(clientInfo); // Display client info in a
+    // text area
+    // tabbedPane.setSelectedIndex(curTabs);
+    // }
+    // } catch (Exception e) {
+    // System.err.println("addNewTab() -> " + e);
+    // }
+    // }
+
+    public void addNewTab(int clientPort, String clientInfo) {
         try {
-            int curTabs = tabbedPane.getTabCount();
-            if (curTabs == 0) { // no tabs in tabbedPane?
-                tabbedPane.addTab("Client 1", icon, pInnerTab);
-                // tabbedPane.addTab("Client " + lastClient.strName, icon, pInnerTab);
-                tabbedPane.setSelectedIndex(0);
-            } else {
-                // add empty tab, component from Tab#0 will be used:
-                tabbedPane.addTab("Client " + (curTabs + 1), icon, null);
-                // tabbedPane.addTab("Client " + lastClient.strName, icon, null);
-                // activate last tab (newly added):
-                tabbedPane.setSelectedIndex(curTabs);
-            }
+            JPanel clientPanel = new JPanel(new BorderLayout()); // Create a new panel for each client
+            JTextArea txtInfo = new JTextArea(clientInfo); // Display client info in a text area
+            clientPanel.add(new JScrollPane(txtInfo), BorderLayout.CENTER); // Add text area to client panel
+
+            tabbedPane.addTab("Client " + clientPort, icon, clientPanel); // Add client panel to the new tab
+            tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1); // Select the new tab
         } catch (Exception e) {
             System.err.println("addNewTab() -> " + e);
         }
     }
 
-    private void removeLastTab() {
-        System.out.println("removeLastTab()");
+    private void removeClientTab(int clientPort) {
         try {
-            int curTabs = tabbedPane.getTabCount();
-            tabbedPane.removeTabAt(curTabs - 1);
-            if (curTabs > 1)
-                tabbedPane.setSelectedIndex(0);
+            System.out.println("removeClientTab()");
+            System.out.println("removeClient in Progress (" + clientPort + ")");
+            int tabCount = tabbedPane.getTabCount();
+            for (int i = 0; i < tabCount; i++) {
+                String tabTitle = tabbedPane.getTitleAt(i);
+                if (tabTitle.contains(Integer.toString(clientPort))) {
+                    tabbedPane.removeTabAt(i);
+                    System.out.println("Tab removed: " + tabTitle);
+                    break; // Stop searching after removing the tab
+                }
+            }
         } catch (Exception e) {
-            System.err.println("removeLastTab() -> " + e);
+            System.err.println("removeClientTab() -> " + e);
         }
     }
 
-    private void showClientData() {
+    // private void removeLastTab() {
+    // System.out.println("removeLastTab()");
+    // try {
+    // int curTabs = tabbedPane.getTabCount();
+    // tabbedPane.removeTabAt(curTabs - 1);
+    // if (curTabs > 1)
+    // tabbedPane.setSelectedIndex(0);
+    // } catch (Exception e) {
+    // System.err.println("removeLastTab() -> " + e);
+    // }
+    // }
+
+    // private void showClientData() {
+    // try {
+    // AccessServer temp; // temporary pointer.
+    // temp = (AccessServer) clients.get(tabbedPane.getSelectedIndex());
+    // String sInfo = temp.getInfo();
+    // if (!sInfo.equals(txtInfo.getText())) // update text only when required.
+    // txtInfo.setText(sInfo);
+    // } catch (ArrayIndexOutOfBoundsException ae) {
+    // txtInfo.setText("No client with index: " + tabbedPane.getSelectedIndex());
+    // }
+    // }
+
+    // private void showClientData(int clientPort) {
+    // try {
+    // // Find the AccessServer instance associated with the provided client port
+    // AccessServer temp = null;
+    // for (Object client : clients) {
+    // AccessServer accessServer = (AccessServer) client;
+    // if (accessServer.clientConnection.getPort() == clientPort) {
+    // temp = accessServer;
+    // break;
+    // }
+    // }
+
+    // if (temp != null) {
+    // String sInfo = temp.getInfo();
+    // if (!sInfo.equals(txtInfo.getText())) // update text only when required.
+    // txtInfo.setText(sInfo);
+    // } else {
+    // txtInfo.setText("No client with port: " + clientPort);
+    // }
+    // } catch (Exception e) {
+    // System.err.println("showClientData() -> " + e);
+    // }
+    // }
+
+    public void showClientData(int clientPort) {
         try {
-            AccessServer temp; // temporary pointer.
-            temp = (AccessServer) clients.get(tabbedPane.getSelectedIndex());
-            String sInfo = temp.getInfo();
-            if (!sInfo.equals(txtInfo.getText())) // update text only when required.
-                txtInfo.setText(sInfo);
-        } catch (ArrayIndexOutOfBoundsException ae) {
-            txtInfo.setText("No client with index: " + tabbedPane.getSelectedIndex());
+            // Find the index of the tab associated with the provided client port
+            int tabCount = tabbedPane.getTabCount();
+            for (int i = 0; i < tabCount; i++) {
+                Component tabComponent = tabbedPane.getComponentAt(i);
+                if (tabComponent instanceof JPanel) {
+                    JPanel panel = (JPanel) tabComponent;
+                    AccessServer accessServer = (AccessServer) panel.getClientProperty("AccessServer");
+                    if (accessServer != null && accessServer.clientConnection.getPort() == clientPort) {
+                        // Update the text area in the panel with the client information
+                        JTextArea txtInfo = (JTextArea) panel.getClientProperty("InfoTextArea");
+                        if (txtInfo != null) {
+                            String sInfo = accessServer.getInfo();
+                            if (!sInfo.equals(txtInfo.getText())) {
+                                txtInfo.setText(sInfo);
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("showClientData() -> " + e);
         }
     }
 
@@ -723,7 +807,8 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             // clientToDelete.closeEverything();
             clients.remove(clientToDelete); // remove from vector.
             lblRunning.setText("Currently logged: " + clients.size() + " client(s).");
-            removeLastTab();
+            // removeLastTab();
+            removeClientTab(clientToDelete.clientConnection.getPort());
         }
     }
 }

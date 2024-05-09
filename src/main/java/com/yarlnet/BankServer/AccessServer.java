@@ -23,7 +23,6 @@ public class AccessServer extends Thread {
 
   public void connectClient(Socket clientConnection) {
     this.clientConnection = clientConnection;
-
     try {
       inClient = new BufferedReader(new InputStreamReader(clientConnection.getInputStream()));
       outClient = new PrintStream(clientConnection.getOutputStream());
@@ -124,7 +123,12 @@ public class AccessServer extends Thread {
                   + clientConnection.getInetAddress() + "')");
               System.out.println("Heeloooo::: " + id);
 
-              server.addNewTab();
+              String clientInfo = getInfo();
+
+              // server.addNewTab(clientConnection.getPort());
+              server.addNewTab(clientConnection.getPort(), clientInfo);
+              server.showClientData(clientConnection.getPort());
+
               server.clients.addElement(server.lastClient);
               server.lblRunning.setText("Currently logged :" + server.clients.size() + " client(s)");
 
@@ -143,7 +147,9 @@ public class AccessServer extends Thread {
                   + clientConnection.getInetAddress() + "')");
 
               // Creating tabbed Panel
-              server.addNewTab();
+              // server.addNewTab(clientConnection.getPort());
+              // server.showClientData(clientConnection.getPort());
+
               server.clients.addElement(server.lastClient);
               server.lblRunning.setText("Currently logged :" + server.clients.size() + " client(s)");
 
@@ -302,6 +308,13 @@ public class AccessServer extends Thread {
 
           strAction = "Logged Out Success";
           sendToClient("LOGGED_OUT_SUCCESS");
+          System.out.println("Logged Out Success");
+
+          System.out.println("Removing client from server..");
+          // AccessServer t;
+          // t = (AccessServer) this;
+
+          server.removeClient(this);
 
         } catch (java.sql.SQLException sqle) {
           strAction = "Logged Out Failed";
@@ -309,14 +322,15 @@ public class AccessServer extends Thread {
           System.out.println("Error at Logout:" + sqle);
         }
 
-        try {
-          AccessServer t;
-          t = (AccessServer) this;
-          server.removeClient(t);
-        } catch (ArrayIndexOutOfBoundsException ae) {
-          server.txtInfo.setText("No client with index: " +
-              server.tabbedPane.getSelectedIndex());
-        }
+        // try {
+        // System.out.println("Removing client from server..");
+        // AccessServer t;
+        // t = (AccessServer) this;
+        // server.removeClient(t);
+        // } catch (ArrayIndexOutOfBoundsException ae) {
+        // server.txtInfo.setText("No client with index: " +
+        // server.tabbedPane.getSelectedIndex());
+        // }
 
       } else if (cmd.equals("VIEWACC")) {
         String AcctNo = values.nextToken();
@@ -738,13 +752,7 @@ public class AccessServer extends Thread {
   public void sendToClient(String msg) {
 
     outClient.println(msg);
-    System.out.println("===================================================");
-    System.out.println("SENT to CLIENT: " + msg);
     System.out.println("Client Port   : " + clientConnection.getPort());
-    System.out.println("Current Account no: " + strAcctNo);
-    System.out.println("Current Action    : " + strAction);
-    System.out.println("===================================================");
-
     // Flush the stream and check its error state:
     if (outClient.checkError())
       System.err.println("Cannot send -> " + msg);
