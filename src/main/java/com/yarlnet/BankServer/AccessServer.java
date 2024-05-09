@@ -590,7 +590,7 @@ public class AccessServer extends Thread {
         String AcctNo = values.nextToken();
         String Name = values.nextToken();
         String pWord = values.nextToken();
-        if ((Name.equals("Administrator")) && (pWord.equals("Admin"))) {
+        if ((Name.equals("admin")) && (pWord.equals("admin"))) {
           try {
             server.aDbase.uprs = server.aDbase.stmt
                 .executeQuery("SELECT AccountNo,Balance,Name FROM ClientAccStatus WHERE AccountNo = " + AcctNo);
