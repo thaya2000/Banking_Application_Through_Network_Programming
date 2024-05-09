@@ -485,21 +485,13 @@ public class AccessServer extends Thread {
         try {
           // server.removeClient(this);
           // server.removeClient(server.lastClient);
-
           AccessServer t;
           t = (AccessServer) this;
           server.removeClient(t);
-
-          // AccessServer t; // temporary pointer.
-          // t = (AccessServer) server.clients.get(server.tabbedPane.getSelectedIndex());
-          // t.sendToClient("TERMINATED");
-          // server.removeClient(t);
-
         } catch (ArrayIndexOutOfBoundsException ae) {
           server.txtInfo.setText("No client with index: " +
               server.tabbedPane.getSelectedIndex());
         }
-
       } else if (cmd.equals("VIEWACC")) {
         String AcctNo = values.nextToken();
         try {

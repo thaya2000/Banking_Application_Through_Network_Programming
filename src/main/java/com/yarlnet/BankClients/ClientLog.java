@@ -1,10 +1,3 @@
-/*
-  Project            :
-  File Name          :
-  Author:
-  Date  :
-*/
-
 package com.yarlnet.BankClients;
 
 import javax.swing.*;
@@ -13,19 +6,12 @@ import java.awt.*;
 import java.net.*;
 import java.io.*;
 import java.util.*;
-// import java.lang.*;
 import java.text.*;
-
-/*
- * This class represents a client side
- */
 
 public class ClientLog extends JFrame implements ActionListener, Runnable {
 
-  // streams for communication with the server:
   static PrintStream out; // for sending to server.
   static BufferedReader in; // for getting data from server.
-  // socket for connection with the server:
 
   static Socket socket = null;
 
@@ -46,33 +32,21 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
   ClientAcctOptions clientAcctOp;
   ClientPassPin clientPP;
 
-  // ClientLoanMenu clientLnMenu;
-  // ClientLoanDetails clientLnDet;
-  // ClientLoanAgreement clientLnAgmt;
-
   StringTokenizer values;
   StringTokenizer valLog;
   JLabel timeRunning = new JLabel("", SwingConstants.LEFT);
   JLabel lblDateRunning = new JLabel("", SwingConstants.LEFT);
-  // Object[][] Data ;
 
   String currentTime;
   String dtString;
 
-  // thread which cares about receiving data from server:
   Thread thServer = null;
   Thread clockThread = null;
   Thread dateThread = null;
 
-  /**
-   * Default Constructor.
-   */
-
   public ClientLog() {
 
     super("Network Bank");
-
-    // look & feel setup:
     try {
       UIManager.setLookAndFeel(
           UIManager.getSystemLookAndFeelClassName());
@@ -113,9 +87,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
     clientVPin = new ClientValidatePin(this);
     clientAcctOp = new ClientAcctOptions(this);
     clientPP = new ClientPassPin(this);
-    // clientLnMenu = new ClientLoanMenu(this);
-    // clientLnDet = new ClientLoanDetails(this);
-    // clientLnAgmt = new ClientLoanAgreement(this);
 
     // prepare the layout:
     JPanel pMain = new JPanel();
@@ -207,9 +178,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
     sendToServer("Hello_Server");
   }
 
-  /**
-   * Main function, from where GameClient starts.
-   */
   public static void main(String args[]) {
 
     // validate parameters:
@@ -228,13 +196,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
     // System.exit(1);
     // }
 
-    // if (args.length != 2) {
-    // System.err.println("Usage: java ClientLog <host> <port>");
-    // System.exit(1);
-    // }
-
-    // trying to connect to the server:
-
     try {
       // String serverAddress = "192.168.114.216";
       InetAddress ipAddress = InetAddress.getLocalHost();
@@ -247,8 +208,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
     }
 
     System.out.println(socket);
-
-    // open in and out streams for talking with the server:
     try {
       in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       out = new PrintStream(socket.getOutputStream());
@@ -263,20 +222,10 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       localHost = InetAddress.getLocalHost();
     } catch (UnknownHostException e) {
       System.out.println("Unknown host - probably localhost with no IP!");
-      // no exit, since can work on "localhost" without internet.
     }
     System.out.println("Clients local address: " + localHost);
-
-    // create GameClient and show its window:
     new ClientLog();
   }
-
-  /**
-   * Makes current thread to pause.
-   *
-   * @param time miliseconds to sleep.
-   * 
-   */
 
   private void pause(int time) {
     try {
@@ -289,12 +238,8 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
   public void sendToServer(String msg) {
     out.println(msg);
     System.out.println("SENT to SERVER: " + msg);
-
-    // Flush the stream and check its error state:
     if (out.checkError())
       System.err.println("Cannot send -> " + msg);
-    // else
-    // System.out.println("SENT to SERVER: " + msg);
   }
 
   public void serverTalks(String msg) {
@@ -422,15 +367,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       clientAcctOp.setVisible(true);
     }
 
-    /*
-     * else if(msg.equals("AVAIL_LOANS_ALLOWED"))
-     * {
-     * clientVPin.setVisible(false);
-     * clientLnMenu.setVisible(true);
-     * 
-     * 
-     * }
-     */
     else if (msg.equals("TRANSACTION_SUCCESS")) {
       JOptionPane.showMessageDialog(clientTrans,
           "Transfer Success",
@@ -452,7 +388,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
           "Deposit only through Teller",
           "Client Deposit Money",
           JOptionPane.INFORMATION_MESSAGE);
-
     }
 
     else if (msg.equals("DEPOSIT_SUCCESS")) {
@@ -578,20 +513,7 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
               JOptionPane.ERROR_MESSAGE);
         }
       }
-      /*
-       * else if(cmd.equals("GET_LOAN_DET"))
-       * {
-       * String AcctNo = values.nextToken();
-       * String Bal = values.nextToken();
-       * String lnStatus = values.nextToken();
-       * clientLnDet.setActionCmd(Bal,AcctNo,lnStatus);
-       * clientLnMenu.setVisible(false);
-       * clientLnDet.Initialize();
-       * clientLnDet.setVisible(true);
-       * 
-       * 
-       * }
-       */
+
       else if (cmd.equals("ACCOUNT_LOGS_TO_CLIENT")) {
 
         String AcctNo = values.nextToken();
@@ -657,16 +579,9 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
   }
 
-  /**
-   * The run method of that is used by a thread.
-   * 
-   */
-
   public void run() {
 
     Thread thisThread = Thread.currentThread();
-
-    // thread which cares about receiving data from server:
     while (thServer == thisThread) {
       String msg;
       try {
@@ -687,8 +602,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
         Thread.sleep(1000);
       } catch (InterruptedException e) {
         System.err.println("clock thread -> " + e);
-        // the VM doesn't want us to sleep anymore,
-        // so get back to work
       }
     }
 
@@ -698,25 +611,14 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
         Thread.sleep(1000);
       } catch (InterruptedException e) {
         System.err.println("clock thread -> " + e);
-        // the VM doesn't want us to sleep anymore,
-        // so get back to work
       }
     }
-
-  } // end of run().
+  }
 
   private void iterateTime() {
     // get the time and convert it to a date
     Calendar cal = Calendar.getInstance();
     java.util.Date date = cal.getTime();
-    // System.out.println("Display time : " + date.toString());
-
-    // char dts[] = date.toString().toCharArray() ;
-    // Dattee ;
-    // System.out.println("Display time : " + dts);
-    // Dattee.valueOf(dts,12,9);
-    // System.out.println("Display time : " + Dattee);
-    // format it and display it
     DateFormat dateFormatter = DateFormat.getTimeInstance();
     SimpleDateFormat dateFormatterH = new SimpleDateFormat("H:mm:ss");
     currentTime = dateFormatterH.format(date);
@@ -724,7 +626,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
   }
 
   private void iterateDate() {
-
     // get the time and convert it to a date
 
     // format it and display it
@@ -735,12 +636,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
     dtString = dt.format(date);
     lblDateRunning.setText("  Date : " + dtString);
   }
-
-  /**
-   * Processes clicks on buttons
-   *
-   * @param e the ActionEvent object.
-   */
 
   public void actionPerformed(ActionEvent e) {
     JButton src = (JButton) e.getSource();
@@ -785,18 +680,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       clientVPin.info = "TRANS";
     }
 
-    /*
-     * else if(src==clientMain.btnAvLoan)
-     * {
-     * clientMain.setVisible(false);
-     * clientVPin.setClear();
-     * clientVPin.setVisible(true);
-     * clientVPin.info = "AVAIL_LOAN";
-     * 
-     * 
-     * 
-     * }
-     */
     else if (src == clientVPin.logIn) {
       try {
 
@@ -858,6 +741,13 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
     else if (src == clientMain.btnExit) {
       clientMain.setVisible(false);
       sendToServer("LOGGED_OUT." + txtAcctNo.getText().trim());
+      // setVisible(true);
+      // setClear();
+      // JOptionPane.showMessageDialog(clientMain,
+      // "Have a Good Day...\n",
+      // "LOGGED OUT",
+      // JOptionPane.OK_OPTION);
+      // closeApplication();
     }
 
     else if (src == clientTrans.btnTrans) {
@@ -897,23 +787,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       clientVPin.setVisible(true);
       clientVPin.info = "WITHDRAW";
     }
-    /*
-     * else if(src==clientLnDet.btnOK)
-     * {
-     * clientLnDet.setVisible(false);
-     * clientLnAgmt.Initialize();
-     * clientLnAgmt.setVisible(true);
-     * 
-     * 
-     * }
-     * else if(src==clientLnDet.btnCancel)
-     * {
-     * clientLnDet.setVisible(false);
-     * clientLnMenu.setVisible(true);
-     * 
-     * 
-     * }
-     */
 
     else if (src == clientWDraw.btnWthDr) {
       if (clientWDraw.txtAmt.getText().trim().equals("")) {
@@ -931,14 +804,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       clientWDraw.setVisible(false);
       clientMain.setVisible(true);
     }
-
-    /*
-     * else if(src==clientLnMenu.btnGetLoan)
-     * {
-     * sendToServer("GET_LOAN_DETAILS." + txtAcctNo.getText().trim());
-     * 
-     * }
-     */
 
     else if (src == clientMain.btnAcctOp) {
       clientMain.setVisible(false);
@@ -1020,44 +885,24 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
   }
 
-  /*
-   * public void pause(int time) {
-   * try {
-   * Thread.sleep(time);
-   * }
-   * catch (InterruptedException e) {
-   * System.err.println(e.getMessage());
-   * }
-   * }
-   */
-
   public void setClear() {
     txtAcctNo.setText("");
     txtName.setText("");
     txtPassword.setText("");
   }
 
-  /**
-  *
-  */
-
   private void closeApplication() {
-    // inform the server:
     try {
       thServer = null; // stop the thread.
       dateThread = null;
       clockThread = null;
-      // close server streams:
       out.close(); // close stream that sends data to server.
       in.close(); // close stream that gets data from server.
-      // close socket connected to server:
       if (socket != null)
         socket.close();
     } catch (IOException e) {
     }
-
-    // close everything:
     System.exit(0);
   }
 
-} // end of class.
+}
