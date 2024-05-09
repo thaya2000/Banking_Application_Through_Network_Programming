@@ -114,9 +114,13 @@ public class AccessServer extends Thread {
               System.out.println("UPDATE ClientAccStatus SET LogInStatus = True  WHERE AccountNo = " + strAcctNo);
 
               server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-              server.aDbase.uprs.last();
-              long id = server.aDbase.uprs.getLong(1) + 1;
-              System.out.println(id);
+
+              long id = 1; // Default ID value if no records are found
+
+              if (server.aDbase.uprs.next()) {
+                server.aDbase.uprs.last(); // Move to the last row
+                id = server.aDbase.uprs.getLong(1) + 1; // Get the last ID and increment
+              }
 
               server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','"
                   + server.currentTime + "'," + AcctNo1 + ",'LOGGED IN',' SUCCESSFULLY LOGGED IN ','"
