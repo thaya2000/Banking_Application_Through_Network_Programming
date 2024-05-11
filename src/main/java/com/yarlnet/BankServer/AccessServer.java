@@ -122,11 +122,6 @@ public class AccessServer extends Thread {
               // System.out.println("Heeloooo::: " + id);
 
               String clientInfo = getInfo();
-
-              // server.addNewTab(clientConnection.getPort());
-              server.addNewTab(clientConnection.getPort(), clientInfo);
-              server.showClientData(clientConnection.getPort());
-
               server.clients.addElement(server.lastClient);
               server.lblRunning.setText("Currently logged :" + server.clients.size() + " client(s)");
 
@@ -138,11 +133,6 @@ public class AccessServer extends Thread {
               // strAcctNo = AcctNo1;
               // server.aDbase.uprs.last();
               long id = server.aDbase.uprs.getLong(1) + 1;
-
-              // Creating tabbed Panel
-              // server.addNewTab(clientConnection.getPort());
-              // server.showClientData(clientConnection.getPort());
-
               server.clients.addElement(server.lastClient);
               server.lblRunning.setText("Currently logged :" + server.clients.size() + " client(s)");
 
@@ -203,10 +193,8 @@ public class AccessServer extends Thread {
         }
       } else if (cmd.equals("FORCED_LOGGED_OUT")) {
         try {
-          // String AcctNo = values.nextToken();
           if (values.hasMoreTokens()) {
             String AcctNo = values.nextToken();
-            // Your existing code for handling the token goes here
             server.aDbase.stmt
                 .executeUpdate("UPDATE ClientAccStatus SET LogInStatus = False  WHERE AccountNo = " + AcctNo);
           } else {

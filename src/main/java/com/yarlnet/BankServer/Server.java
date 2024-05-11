@@ -1,15 +1,12 @@
 package com.yarlnet.BankServer;
 
 import javax.swing.*;
-import javax.swing.event.*; // for ChangeListener of JTabbedPane.
+import javax.swing.event.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.text.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.sql.*;
 
 public class Server extends JFrame implements ActionListener, ChangeListener, Runnable {
@@ -35,40 +32,22 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
     AdminMainMenu adminMain;
     AdminUpdateAcc adminUpdate;
     AdminViewAccount adminViewAcct;
-    AdminViewReport adminView;
 
     // server sockets for receiving connection from clients:
     ServerSocket socketForClient = null;
     // visual interface:
 
-    String Date;
-
     // button for termination of a client:
-    JButton btnTerminate = new JButton("Terminate ");
     JButton btnAdministrator = new JButton("Administrator ");
     JLabel lblRunning; // label to show how many clients are logged.
-    JLabel timeRunning; // label to show the updated time.
     long acctno, balance;
-    ImageIcon icon = new ImageIcon("pic.gif"); // picture for tabbedPane.
-    JTextArea txtInfo = new JTextArea(); // text area for information.
-    JTabbedPane tabbedPane = new JTabbedPane(); // tabs to select clients.
-    JPanel pInnerTab = new JPanel(new BorderLayout()); // panel inside the tabbedPane.
-    JLabel lblDateRunning;
 
     // thread that cares about accepting new clients:
     Thread thClientAccept = null;
-    // thread that cares about updating the client info:
     Thread thUpdateClientInfo = null;
-    // thread that cares about updating the date:
-    // Thread clockThread = null;
-    // Thread dateThread = null;
-    String dtString = new String("");;
-    String currentTime = new String("");
 
     public Server() {
-
         super(" Bank Server");
-
         try {
             socketForClient = new ServerSocket(client_port);
         } catch (IOException ioe) {
@@ -93,61 +72,35 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
                     + "look and feel: " + e);
         }
 
-        // update look & feel for those components created in
-        // declaration (if required):
-        btnTerminate.updateUI();
         btnAdministrator.updateUI();
-        txtInfo.updateUI();
-        tabbedPane.updateUI();
-        pInnerTab.updateUI();
-
-        /*
-         * The default value is: HIDE_ON_CLOSE,
-         * we need to ask user "Are you sure?" when there are clients logged.
-         */
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
-        // processing window events:
         WindowListener L = new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
+                System.out.println("Closing the server.");
                 closeApplication();
             }
         };
 
         addWindowListener(L);
 
-        // prepare the layout:
         JPanel pMain = new JPanel(new BorderLayout()); // main layout.
         JPanel pUpper = new JPanel(new GridLayout(1, 2)); // upper layout.
         JPanel pLLBL = new JPanel(new GridLayout(5, 1)); // for labels at left.
         JPanel pRLBL = new JPanel(new GridLayout(1, 1)); // for labels at right.
 
         lblRunning = new JLabel("     Currently logged : 0 client(s).");
-        lblDateRunning = new JLabel("");
 
         pLLBL.add(new JLabel(" "));
         pLLBL.add(new JLabel(" "));
-        pLLBL.add(lblDateRunning);
         pLLBL.add(new JLabel("     Server is running on host: " + localHost));
         pLLBL.add(lblRunning);
-        timeRunning = new JLabel(" ");
-        pRLBL.add(timeRunning);
 
         pUpper.add(pLLBL);
         pUpper.add(pRLBL);
 
-        JPanel pBtns = new JPanel(new FlowLayout()); // for "Terminate" button.
-
-        btnTerminate.addActionListener(this);
-        pBtns.add(btnTerminate);
-
-        // shown inside the tabbedPane:
-        pInnerTab.add(txtInfo, BorderLayout.CENTER);
-        pInnerTab.add(pBtns, BorderLayout.SOUTH);
+        // JPanel pBtns = new JPanel(new FlowLayout()); // for "Terminate" button.
 
         pMain.add(pUpper, BorderLayout.NORTH);
-        tabbedPane.addChangeListener(this);
-        pMain.add(tabbedPane, BorderLayout.CENTER);
 
         JPanel adminBtns = new JPanel(new BorderLayout());
         JPanel adminDisplay = new JPanel(new FlowLayout());
@@ -155,59 +108,35 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
 
         btnAdministrator.addActionListener(this);
         adminDisplay.add(btnAdministrator);
-
         adminBtns.add(adminDisplay, BorderLayout.SOUTH);
         pMain.add(adminBtns, BorderLayout.SOUTH);
+
         // set content pane:
         setContentPane(pMain);
-
-        // it doesn't work with our JTabbedPane !!! ---> pack();
         setSize(600, 500);
         setBounds(100, 20, 600, 500);
-
-        // show the window:
         setVisible(true);
-
-        setResizable(false);
+        setResizable(true);
 
         aDbase = new AccessDbase();
         aDbase.connectionDb();
         pause(2000);
-        adminView = new AdminViewReport(this);
 
         // start threads:
         thClientAccept = new Thread(this);
         thUpdateClientInfo = new Thread(this);
-        // clockThread = new Thread(this);
-        // dateThread = new Thread(this);
-        thClientAccept.start(); // start accepting new clients.
-        thUpdateClientInfo.start(); // start to care about updating the info.
-        // clockThread.start();
-        // dateThread.start(); // start to care about the time.
+        thClientAccept.start();
+        thUpdateClientInfo.start();
     }
 
     public void run() {
-
         Thread thisThread = Thread.currentThread();
-
-        // thread that cares about accepting new clients:
         while (thClientAccept == thisThread) {
             try {
-                // wait for client to connect, and then validate connection:
-                // use temporary pointer for new connection:
                 Socket clientConnection = socketForClient.accept();
-
                 System.out.println("Client accepted!");
-
-                // register a new client:
-                // addNewTab();
                 lastClient = new AccessServer(this);
-                // clients.addElement(lastClient);
-                // lblRunning.setText("Currently logged :" + clients.size() + " client(s)");
-
-                // // connect client to AccessServer:
                 lastClient.connectClient(clientConnection);
-
             } catch (Exception e) {
                 if (thClientAccept != null) // not shutting down yet?
                     System.err.println("Accept client -> " + e);
@@ -218,49 +147,10 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         // automatic update of info for selected client:
         while (thUpdateClientInfo == thisThread) {
             if (clients.size() > 0) // no clients?
-                showClientData(lastClient.clientConnection.getPort());
-            thUpdateClientInfo.yield(); // this thread isn't so important, think of others.
+                Thread.yield(); // this thread isn't so important, think of others.
             pause(1200); // update every 1.2 of a second.
         }
-
-        /*
-         * while (clockThread == thisThread) {
-         * iterateTime();
-         * try {
-         * Thread.sleep(1000);
-         * } catch (InterruptedException e) {
-         * System.err.println("clock thread -> " + e);
-         * }
-         * }
-         * while (dateThread == thisThread) {
-         * iterateDate();
-         * try {
-         * Thread.sleep(1000);
-         * } catch (InterruptedException e) {
-         * System.err.println("clock thread -> " + e);
-         * }
-         * }
-         */
     }
-
-    /*
-     * private void iterateDate() {
-     * // Get the current date and time
-     * LocalDateTime now = LocalDateTime.now();
-     * 
-     * // Format the date according to MySQL DATE format 'YYYY-MM-DD'
-     * DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-     * 
-     * // Get the formatted date and time strings
-     * String dateString = now.format(formatter);
-     * 
-     * // Update the label to display the formatted date
-     * lblDateRunning.setText("     Date : " + dateString);
-     * 
-     * // Store the formatted date and time strings for later use if needed
-     * dtString = dateString;
-     * }
-     */
 
     public void pause(int time) {
         try {
@@ -271,18 +161,8 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
     }
 
     public void actionPerformed(ActionEvent e) {
-        // JButton tempBtn = (JButton)e.getSource();
         JButton src = (JButton) e.getSource();
-        if (src == btnTerminate) { // terminate the client
-            try {
-                AccessServer t; // temporary pointer.
-                t = (AccessServer) clients.get(tabbedPane.getSelectedIndex());
-                t.sendToClient("TERMINATED");
-                removeClient(t);
-            } catch (ArrayIndexOutOfBoundsException ae) {
-                txtInfo.setText("No client with index: " + tabbedPane.getSelectedIndex());
-            }
-        } else if (src == btnAdministrator) {
+        if (src == btnAdministrator) {
             btnAdministrator.setEnabled(false);
             adminEntry.setClear();
             adminEntry.setVisible(true);
@@ -329,19 +209,11 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             adminViewAcct.setClear();
             adminViewAcct.setVisible(true);
 
-        } /*
-           * else if (src == adminMain.btnViewReport) {
-           * adminMain.setVisible(false);
-           * adminView.setActionCmd();
-           * adminView.setVisible(true);
-           * }
-           */ else if (src == adminMain.btnLogout) {
+        } else if (src == adminMain.btnLogout) {
             adminEntry.setClear();
             adminMain.setVisible(false);
             adminEntry.setVisible(true);
-        }
-
-        else if (src == adminCreate.btnSubmit) {
+        } else if (src == adminCreate.btnSubmit) {
             try {
                 if ((adminCreate.fields[1].getText().trim().equals(""))
                         || (adminCreate.fields[2].getText().trim().equals(""))
@@ -378,9 +250,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             } catch (SQLException sqle) {
                 System.out.println("Error AccCre:" + sqle);
             }
-        }
-
-        else if (src == adminCreate.btnCancel) {
+        } else if (src == adminCreate.btnCancel) {
             adminCreate.setVisible(false);
             adminMain.setVisible(true);
         } else if (src == adminDelete.btnDelete) {
@@ -438,7 +308,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             adminMain.setVisible(true);
         } else if (src == adminUpdate.btnUpdate) {
             try {
-
                 String s = adminEdit.txtAcctNo.getText();
 
                 String updateQuery = "UPDATE ClientInfo SET Name = '" + adminUpdate.fields[1].getText()
@@ -470,7 +339,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         } else if (src == adminUpdate.btnCancel) {
             adminUpdate.setVisible(false);
             adminMain.setVisible(true);
-
         } else if (src == adminViewAcct.btnDbBegin) {
             try {
                 String query1 = " SELECT * FROM ClientInfo ";
@@ -580,158 +448,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         }
     }
 
-    public void stateChanged(ChangeEvent e) {
-        Object src = e.getSource();
-        if (src == tabbedPane) { // click on a tab
-            showClientData(lastClient.clientConnection.getPort());
-        }
-    }
-
-    // public void addNewTab(int clientPort, String clientInfo) {
-    // try {
-    // int curTabs = tabbedPane.getTabCount();
-    // if (curTabs == 0) { // no tabs in tabbedPane?
-    // tabbedPane.addTab("Client " + clientPort, icon, pInnerTab);
-    // JTextArea txtInfo = new JTextArea(clientInfo); // Display client info in a
-    // text area
-    // pInnerTab.add(txtInfo, BorderLayout.CENTER);
-    // tabbedPane.setSelectedIndex(0);
-    // } else {
-    // // add empty tab, component from Tab#0 will be used:
-    // tabbedPane.addTab("Client " + clientPort, icon, null);
-    // JTextArea txtInfo = new JTextArea(clientInfo); // Display client info in a
-    // text area
-    // tabbedPane.setSelectedIndex(curTabs);
-    // }
-    // } catch (Exception e) {
-    // System.err.println("addNewTab() -> " + e);
-    // }
-    // }
-
-    public void addNewTab(int clientPort, String clientInfo) {
-        try {
-            JPanel clientPanel = new JPanel(new BorderLayout()); // Create a new panel for each client
-            JTextArea txtInfo = new JTextArea(clientInfo); // Display client info in a text area
-            clientPanel.add(new JScrollPane(txtInfo), BorderLayout.CENTER); // Add text area to client panel
-
-            tabbedPane.addTab("Client " + clientPort, icon, clientPanel); // Add client panel to the new tab
-            tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1); // Select the new tab
-        } catch (Exception e) {
-            System.err.println("addNewTab() -> " + e);
-        }
-    }
-
-    private void removeClientTab(int clientPort) {
-        try {
-            System.out.println("removeClientTab()");
-            System.out.println("removeClient in Progress (" + clientPort + ")");
-            int tabCount = tabbedPane.getTabCount();
-            for (int i = 0; i < tabCount; i++) {
-                String tabTitle = tabbedPane.getTitleAt(i);
-                if (tabTitle.contains(Integer.toString(clientPort))) {
-                    tabbedPane.removeTabAt(i);
-                    System.out.println("Tab removed: " + tabTitle);
-                    break; // Stop searching after removing the tab
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("removeClientTab() -> " + e);
-        }
-    }
-
-    // private void removeLastTab() {
-    // System.out.println("removeLastTab()");
-    // try {
-    // int curTabs = tabbedPane.getTabCount();
-    // tabbedPane.removeTabAt(curTabs - 1);
-    // if (curTabs > 1)
-    // tabbedPane.setSelectedIndex(0);
-    // } catch (Exception e) {
-    // System.err.println("removeLastTab() -> " + e);
-    // }
-    // }
-
-    // private void showClientData() {
-    // try {
-    // AccessServer temp; // temporary pointer.
-    // temp = (AccessServer) clients.get(tabbedPane.getSelectedIndex());
-    // String sInfo = temp.getInfo();
-    // if (!sInfo.equals(txtInfo.getText())) // update text only when required.
-    // txtInfo.setText(sInfo);
-    // } catch (ArrayIndexOutOfBoundsException ae) {
-    // txtInfo.setText("No client with index: " + tabbedPane.getSelectedIndex());
-    // }
-    // }
-
-    // private void showClientData(int clientPort) {
-    // try {
-    // // Find the AccessServer instance associated with the provided client port
-    // AccessServer temp = null;
-    // for (Object client : clients) {
-    // AccessServer accessServer = (AccessServer) client;
-    // if (accessServer.clientConnection.getPort() == clientPort) {
-    // temp = accessServer;
-    // break;
-    // }
-    // }
-
-    // if (temp != null) {
-    // String sInfo = temp.getInfo();
-    // if (!sInfo.equals(txtInfo.getText())) // update text only when required.
-    // txtInfo.setText(sInfo);
-    // } else {
-    // txtInfo.setText("No client with port: " + clientPort);
-    // }
-    // } catch (Exception e) {
-    // System.err.println("showClientData() -> " + e);
-    // }
-    // }
-
-    public void showClientData(int clientPort) {
-        try {
-            // Find the index of the tab associated with the provided client port
-            int tabCount = tabbedPane.getTabCount();
-            for (int i = 0; i < tabCount; i++) {
-                Component tabComponent = tabbedPane.getComponentAt(i);
-                if (tabComponent instanceof JPanel) {
-                    JPanel panel = (JPanel) tabComponent;
-                    AccessServer accessServer = (AccessServer) panel.getClientProperty("AccessServer");
-                    if (accessServer != null && accessServer.clientConnection.getPort() == clientPort) {
-                        // Update the text area in the panel with the client information
-                        JTextArea txtInfo = (JTextArea) panel.getClientProperty("InfoTextArea");
-                        if (txtInfo != null) {
-                            String sInfo = accessServer.getInfo();
-                            if (!sInfo.equals(txtInfo.getText())) {
-                                txtInfo.setText(sInfo);
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("showClientData() -> " + e);
-        }
-    }
-
     public static void main(String args[]) {
-
-        // // validate parameter count:
-        // if (args.length != 1) {
-        // System.err.println("Wrong parameters! Usage:");
-        // System.err.println("java Server <client_port> ");
-        // System.exit(1);
-        // }
-
-        // // process parameters:
-        // try {
-        // client_port = Integer.parseInt(args[0]);
-        // } catch (NumberFormatException e) {
-        // System.err.println("Wrong number for a port -> " + e);
-        // System.exit(1);
-        // }
-
-        // process parameters:
         try {
             client_port = Integer.parseInt("4444");
         } catch (NumberFormatException e) {
@@ -739,7 +456,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             System.exit(1);
         }
 
-        // get address of the server:
         try {
             localHost = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
@@ -756,8 +472,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
     }
 
     private void closeApplication() {
-        // ask user if he/she is sure to shut down the server when
-        // there are clients running:
         if (clients.size() > 0) {
             int result;
             result = JOptionPane.showConfirmDialog(this,
@@ -775,10 +489,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
                 removeClient(temp);
             }
         }
-
-        // stop the server's threads:
         thClientAccept = null;
-
         try {
             socketForClient.close();
         } catch (IOException e) {
@@ -798,14 +509,15 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
     }
 
     public void removeClient(AccessServer clientToDelete) {
-        if (clients.contains(clientToDelete)) { // check if not removed already.
-            // close sockets, streams, stop threads:
+        if (clients.contains(clientToDelete)) {
             pause(1500);
-            // clientToDelete.closeEverything();
             clients.remove(clientToDelete); // remove from vector.
             lblRunning.setText("Currently logged: " + clients.size() + " client(s).");
-            // removeLastTab();
-            removeClientTab(clientToDelete.clientConnection.getPort());
         }
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        throw new UnsupportedOperationException("Unimplemented method 'stateChanged'");
     }
 }

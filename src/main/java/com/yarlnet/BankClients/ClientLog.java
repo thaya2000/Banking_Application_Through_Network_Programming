@@ -6,16 +6,13 @@ import java.awt.*;
 import java.net.*;
 import java.io.*;
 import java.util.*;
-import java.text.*;
 
 public class ClientLog extends JFrame implements ActionListener, Runnable {
 
-  static PrintStream out; // for sending to server.
-  static BufferedReader in; // for getting data from server.
-
+  static PrintStream out;
+  static BufferedReader in;
   static Socket socket = null;
 
-  // label to show status messages:
   JLabel lblStatus = new JLabel("Connected to Server", JLabel.RIGHT);
   JTextField txtAcctNo;
   JTextField txtName;
@@ -36,15 +33,9 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
   JLabel timeRunning = new JLabel("", SwingConstants.LEFT);
   JLabel lblDateRunning = new JLabel("", SwingConstants.LEFT);
 
-  String currentTime;
-  String dtString;
-
   Thread thServer = null;
-  Thread clockThread = null;
-  Thread dateThread = null;
 
   public ClientLog() {
-
     super("Clients");
     try {
       UIManager.setLookAndFeel(
@@ -63,8 +54,7 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
         clientWDraw.setVisible(false);
         clientView.setVisible(false);
         clientTrans.setVisible(false);
-
-        sendToServer("FORCED_LOGGED_OUT." + txtAcctNo.getText());
+        // sendToServer("FORCED_LOGGED_OUT." + txtAcctNo.getText());
         setVisible(true);
         setClear();
         JOptionPane.showMessageDialog(clientMain,
@@ -117,8 +107,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
     lblDateRunning.setSize(5, 4);
     timeRunning.setSize(5, 4);
-    // lblDateRunning.updateUI();
-    // timeRunning.updateUI();
 
     txtAcctNo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     txtName.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -168,37 +156,14 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
     // start the thread that cares about receiving data from server:
     thServer = new Thread(this);
-    // clockThread = new Thread(this);
-    // dateThread = new Thread(this);
     thServer.start();
-    // clockThread.start();
-    // dateThread.start();
     sendToServer("Hello_Server");
   }
 
   public static void main(String args[]) {
-
-    // validate parameters:
-    // if (args.length != 2) {
-    // System.err.println("Usage: java ClientLog <host> <port>");
-    // System.exit(1);
-    // }
-
-    // // trying to connect to the server:
-    // try {
-    // String serverAddress = args[0];
-    // int serverPort = Integer.parseInt(args[1]);
-    // socket = new Socket(serverAddress, serverPort);
-    // } catch (Exception e) {
-    // System.err.println("Wrong arguments -> " + e);
-    // System.exit(1);
-    // }
-
     try {
-      // String serverAddress = "192.168.114.216";
       InetAddress ipAddress = InetAddress.getLocalHost();
       int serverPort = Integer.parseInt("4444");
-      // socket = new Socket(serverAddress, serverPort);
       socket = new Socket(ipAddress, serverPort);
     } catch (Exception e) {
       System.err.println("Wrong arguments -> " + e);
@@ -264,7 +229,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       clientWDraw.setVisible(false);
       clientView.setVisible(false);
       clientTrans.setVisible(false);
-
       sendToServer("FORCED_LOGGED_OUT." + txtAcctNo.getText());
       setVisible(true);
       setClear();
@@ -513,7 +477,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       }
 
       else if (cmd.equals("ACCOUNT_LOGS_TO_CLIENT")) {
-
         clientMain.setVisible(false);
       }
 
@@ -566,53 +529,10 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
         closeApplication(); // force to close.
       }
     }
-
-    /*
-     * while (clockThread == thisThread) {
-     * iterateTime();
-     * try {
-     * Thread.sleep(1000);
-     * } catch (InterruptedException e) {
-     * System.err.println("clock thread -> " + e);
-     * }
-     * }
-     * 
-     * while (dateThread == thisThread) {
-     * iterateDate();
-     * try {
-     * Thread.sleep(1000);
-     * } catch (InterruptedException e) {
-     * System.err.println("clock thread -> " + e);
-     * }
-     * }
-     */
-  }
-
-  private void iterateTime() {
-    // get the time and convert it to a date
-    Calendar cal = Calendar.getInstance();
-    java.util.Date date = cal.getTime();
-    DateFormat dateFormatter = DateFormat.getTimeInstance();
-    SimpleDateFormat dateFormatterH = new SimpleDateFormat("H:mm:ss");
-    currentTime = dateFormatterH.format(date);
-    timeRunning.setText("  Time : " + dateFormatter.format(date));
-  }
-
-  private void iterateDate() {
-    // get the time and convert it to a date
-
-    // format it and display it
-    Calendar cal = Calendar.getInstance();
-    java.util.Date date = cal.getTime();
-    SimpleDateFormat dt = new SimpleDateFormat("dd MMM yyyy '(' EE ')' ");
-    // java.util.Date currTime = new java.util.Date();
-    dtString = dt.format(date);
-    lblDateRunning.setText("  Date : " + dtString);
   }
 
   public void actionPerformed(ActionEvent e) {
     JButton src = (JButton) e.getSource();
-
     if (src == btnLogIn) {
 
       String pWord = new String(txtPassword.getPassword());
@@ -637,56 +557,38 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
             "Client Entry Level",
             JOptionPane.ERROR_MESSAGE);
         setClear();
-
         System.out.println("Error :" + nle);
       }
-    }
-
-    else if (src == clientMain.btnViewAcc) {
+    } else if (src == clientMain.btnViewAcc) {
       sendToServer("VIEWACC." + txtAcctNo.getText());
-    }
-
-    else if (src == clientMain.btnTransfer) {
+    } else if (src == clientMain.btnTransfer) {
       clientMain.setVisible(false);
       clientVPin.setClear();
       clientVPin.setVisible(true);
       clientVPin.info = "TRANS";
-    }
-
-    else if (src == clientVPin.logIn) {
+    } else if (src == clientVPin.logIn) {
       try {
-
         String val = new String(clientVPin.txtPin.getPassword());
         int pin = Integer.parseInt(val);
-
         if ((pin > 999) && (pin < 10000)) {
-
           if (clientVPin.info.equals("TRANS")) {
             sendToServer("TRANS." + pin + "." + txtAcctNo.getText().trim());
           } else if (clientVPin.info.equals("WITHDRAW")) {
             sendToServer("WITHDRAW." + pin + "." + txtAcctNo.getText().trim() + "." + txtName.getText());
           } else if (clientVPin.info.equals("ACCTOP")) {
             sendToServer("ACCT_OPTIONS." + pin + "." + txtAcctNo.getText().trim());
-
           } else if (clientVPin.info.equals("AVAIL_LOAN")) {
             sendToServer("AVAIL_LOAN." + pin + "." + txtAcctNo.getText().trim());
-
           }
-
-        }
-
-        else {
+        } else {
           JOptionPane.showMessageDialog(clientVPin,
               "Personal Identification Number(PIN) is a 4 digit number.\nPlease enter PIN again..",
               "Client Validate Pin",
               JOptionPane.ERROR_MESSAGE);
           clientVPin.txtPin.setText("");
           clientVPin.txtPin.setFocusable(true);
-
         }
-      }
-
-      catch (java.lang.NumberFormatException nle) {
+      } catch (java.lang.NumberFormatException nle) {
         JOptionPane.showMessageDialog(clientVPin,
             "Personal Identification Number(PIN) is a 4 digit number.\nPlease enter PIN again..",
             "Client Validate Pin",
@@ -694,36 +596,16 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
         clientVPin.txtPin.setText("");
         clientVPin.txtPin.setFocusable(true);
       }
-
-    }
-
-    else if (src == clientVPin.cancelLogIn) {
+    } else if (src == clientVPin.cancelLogIn) {
       clientVPin.setVisible(false);
       clientMain.setVisible(true);
-    }
-
-    else if (src == clientMain.btnDeposit) {
+    } else if (src == clientMain.btnDeposit) {
       String pWord = new String(txtPassword.getPassword());
       sendToServer("DEP." + txtAcctNo.getText() + "." + txtName.getText() + "." + pWord);
-    }
-
-    // else if (src == clientMain.btnViewLogs) {
-    // sendToServer("VIEW_LOGS." + txtAcctNo.getText().trim());
-    // }
-
-    else if (src == clientMain.btnExit) {
+    } else if (src == clientMain.btnExit) {
       clientMain.setVisible(false);
       sendToServer("LOGGED_OUT." + txtAcctNo.getText().trim());
-      // setVisible(true);
-      // setClear();
-      // JOptionPane.showMessageDialog(clientMain,
-      // "Have a Good Day...\n",
-      // "LOGGED OUT",
-      // JOptionPane.OK_OPTION);
-      // closeApplication();
-    }
-
-    else if (src == clientTrans.btnTrans) {
+    } else if (src == clientTrans.btnTrans) {
       if ((clientTrans.txtAcctTo.getText().trim().equals("")) || (clientTrans.txtAmt.getText().trim().equals(""))) {
         JOptionPane.showMessageDialog(clientTrans,
             "Fields are incomplete ..\nPlease enter Account No and Amount...",
@@ -734,14 +616,10 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
         sendToServer("TRANSACTION." + txtAcctNo.getText() + "." + clientTrans.txtAcctTo.getText() + "."
             + clientTrans.txtAmt.getText());
       }
-    }
-
-    else if (src == clientTrans.btnCancel) {
+    } else if (src == clientTrans.btnCancel) {
       clientTrans.setVisible(false);
       clientMain.setVisible(true);
-    }
-
-    else if (src == clientDep.btnDep) {
+    } else if (src == clientDep.btnDep) {
       if (clientDep.txtAmt.getText().trim().equals("")) {
         JOptionPane.showMessageDialog(clientDep,
             "Fields are incomplete ..\nPlease enter  Amount...",
@@ -752,21 +630,15 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
         sendToServer(
             "DEPOSIT_IN_PROGRESS." + clientDep.lblAcctNo.getText().trim() + "." + clientDep.txtAmt.getText().trim());
       }
-    }
-
-    else if (src == clientDep.btnCancel) {
+    } else if (src == clientDep.btnCancel) {
       clientDep.setVisible(false);
       clientMain.setVisible(true);
-    }
-
-    else if (src == clientMain.btnWithdraw) {
+    } else if (src == clientMain.btnWithdraw) {
       clientMain.setVisible(false);
       clientVPin.setClear();
       clientVPin.setVisible(true);
       clientVPin.info = "WITHDRAW";
-    }
-
-    else if (src == clientWDraw.btnWthDr) {
+    } else if (src == clientWDraw.btnWthDr) {
       if (clientWDraw.txtAmt.getText().trim().equals("")) {
         JOptionPane.showMessageDialog(clientWDraw,
             "Fields are incomplete ..\nPlease enter Amount...",
@@ -776,21 +648,15 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       } else {
         sendToServer("WITHDRAW_IN_PROGRESS." + txtAcctNo.getText() + "." + clientWDraw.txtAmt.getText().trim());
       }
-    }
-
-    else if (src == clientWDraw.btnCancel) {
+    } else if (src == clientWDraw.btnCancel) {
       clientWDraw.setVisible(false);
       clientMain.setVisible(true);
-    }
-
-    else if (src == clientMain.btnAcctOp) {
+    } else if (src == clientMain.btnAcctOp) {
       clientMain.setVisible(false);
       clientVPin.setClear();
       clientVPin.setVisible(true);
       clientVPin.info = "ACCTOP";
-    }
-
-    else if (src == clientAcctOp.btnChPass) {
+    } else if (src == clientAcctOp.btnChPass) {
       clientAcctOp.setVisible(false);
       clientPP.info = "PASSWORD";
       clientPP.lblhead.setText("CHANGE PASSWORD");
@@ -803,9 +669,7 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       clientPP.txtVal2.setText("");
       clientPP.txtVal3.setText("");
       clientPP.setVisible(true);
-    }
-
-    else if (src == clientAcctOp.btnChPin) {
+    } else if (src == clientAcctOp.btnChPin) {
       clientAcctOp.setVisible(false);
       clientPP.info = "PIN";
       clientPP.lblhead.setText("CHANGE PIN");
@@ -818,9 +682,7 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       clientPP.txtVal2.setText("");
       clientPP.txtVal3.setText("");
       clientPP.setVisible(true);
-    }
-
-    else if (src == clientPP.btnOk) {
+    } else if (src == clientPP.btnOk) {
       if (clientPP.info.equals("PASSWORD")) {
         String val1 = new String(clientPP.txtVal1.getPassword());
         String val2 = new String(clientPP.txtVal2.getPassword());
@@ -849,18 +711,13 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
         }
       }
-    }
-
-    else if (src == clientPP.btnCancel) {
+    } else if (src == clientPP.btnCancel) {
       clientPP.setVisible(false);
       clientMain.setVisible(true);
-    }
-
-    else if (src == clientAcctOp.btnCancel) {
+    } else if (src == clientAcctOp.btnCancel) {
       clientAcctOp.setVisible(false);
       clientMain.setVisible(true);
     }
-
   }
 
   public void setClear() {
@@ -871,16 +728,13 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
   private void closeApplication() {
     try {
-      thServer = null; // stop the thread.
-      dateThread = null;
-      clockThread = null;
-      out.close(); // close stream that sends data to server.
-      in.close(); // close stream that gets data from server.
+      thServer = null;
+      out.close();
+      in.close();
       if (socket != null)
         socket.close();
     } catch (IOException e) {
     }
     System.exit(0);
   }
-
 }
