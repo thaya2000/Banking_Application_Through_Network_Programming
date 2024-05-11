@@ -307,7 +307,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
 
         } else if (src == adminMain.btnCreate) {
             adminMain.setVisible(false);
-            // adminCreate.setClear();
+             adminCreate.setClear();
             adminCreate.setVisible(true);
             System.out.println("Admin Create Acc");
         } else if (src == adminMain.btnDelete) {
