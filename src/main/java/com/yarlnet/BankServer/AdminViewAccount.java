@@ -1,20 +1,8 @@
-
-/****
-* File Name		:
-* Author		:
-* Professor		:
-* Project		:
-* Description	:
-*/
-
-/* Standard Java Packages */
 package com.yarlnet.BankServer;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-import java.io.*;
-import java.util.*;
 import java.sql.*;
 
 class AdminViewAccount extends JFrame implements ActionListener {

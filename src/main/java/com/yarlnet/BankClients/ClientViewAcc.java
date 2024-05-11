@@ -1,19 +1,8 @@
-/****
-* File Name		:
-* Author		:
-* Professor		:
-* Project		:
-* Description	:
-*/
-
-/* Standard Java Packages */
 package com.yarlnet.BankClients;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-import java.io.*;
-import java.util.*;
 
 class ClientViewAcc extends JFrame implements ActionListener {
 
@@ -50,13 +39,6 @@ class ClientViewAcc extends JFrame implements ActionListener {
 
     }
 
-    /**
-     * Name : Initialize
-     * 
-     * @param : none
-     * @return : void
-     *         Description : develops the GUI
-     */
     public void Initialize() {
 
         // frame = new JFrame();
@@ -166,13 +148,6 @@ class ClientViewAcc extends JFrame implements ActionListener {
 
     }
 
-    /**
-     * Name : actionPeformed
-     * 
-     * @param : ActionEvent
-     * @return : void
-     *         Description :
-     */
     public void actionPerformed(ActionEvent e) {
         JButton src = (JButton) e.getSource();
 

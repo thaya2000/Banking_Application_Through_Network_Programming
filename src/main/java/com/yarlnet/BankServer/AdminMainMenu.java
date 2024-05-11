@@ -1,20 +1,8 @@
-
-/****
-* File Name		:
-* Author		:
-* Professor		:
-* Project		:
-* Description	:
-*/
-
-/* Standard Java Packages */
 package com.yarlnet.BankServer;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-import java.io.*;
-import java.util.*;
 
 class AdminMainMenu extends JFrame implements ActionListener {
 
@@ -27,7 +15,7 @@ class AdminMainMenu extends JFrame implements ActionListener {
 	JButton btnDelete;
 	JButton btnEdit;
 	JButton btnViewAcct;
-	//JButton btnViewReport;
+	// JButton btnViewReport;
 	// JButton btnLnDet;
 	JButton btnLogout;
 
@@ -99,14 +87,14 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		btnEdit = new JButton("Edit Account");// .setFont(font);
 		btnViewAcct = new JButton("View Account");
 		// btnLnDet = new JButton("Loan Details");
-		//btnViewReport = new JButton("View Report");// .setFont(font);
+		// btnViewReport = new JButton("View Report");// .setFont(font);
 		btnLogout = new JButton("Log Out");// .setFont(font);
 		btnCreate.updateUI();
 		btnDelete.updateUI();
 		btnEdit.updateUI();
 		btnViewAcct.updateUI();
 		// btnLnDet.updateUI();
-		//btnViewReport.updateUI();
+		// btnViewReport.updateUI();
 		btnLogout.updateUI();
 		lblLeft = new JLabel("               ");
 		lblRight = new JLabel("               ");
@@ -133,7 +121,7 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		btnEdit.addActionListener(server);
 		btnViewAcct.addActionListener(server);
 		// btnLnDet.addActionListener(server);
-		//btnViewReport.addActionListener(server);
+		// btnViewReport.addActionListener(server);
 		btnLogout.addActionListener(server);
 		JLabel lbl1 = new JLabel("Administrator : Main Menu", SwingConstants.CENTER);
 		lbl1.setFont(new Font("", Font.BOLD, 12));
@@ -145,7 +133,7 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		centerPanel.add(btnEdit);
 		centerPanel.add(btnViewAcct);
 		// centerPanel.add(btnLnDet);
-		//centerPanel.add(btnViewReport);
+		// centerPanel.add(btnViewReport);
 		centerPanel.add(btnLogout);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
 		mainPanel.add(lblLeft, BorderLayout.EAST);

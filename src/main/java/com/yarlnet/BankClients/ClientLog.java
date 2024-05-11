@@ -190,13 +190,13 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
     new ClientLog();
   }
 
-  private void pause(int time) {
-    try {
-      Thread.sleep(time);
-    } catch (InterruptedException e) {
-      System.err.println(e.getMessage());
-    }
-  }
+  // private void pause(int time) {
+  // try {
+  // Thread.sleep(time);
+  // } catch (InterruptedException e) {
+  // System.err.println(e.getMessage());
+  // }
+  // }
 
   public void sendToServer(String msg) {
     out.println(msg);

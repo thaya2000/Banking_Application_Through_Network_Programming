@@ -121,18 +121,11 @@ public class AccessServer extends Thread {
               // }
               // System.out.println("Heeloooo::: " + id);
 
-              String clientInfo = getInfo();
-              server.clients.addElement(server.lastClient);
-              server.lblRunning.setText("Currently logged :" + server.clients.size() + " client(s)");
-
               strAction = "Log in Success";
               sendToClient("LOGSUCCESS");
 
             } else if ((AcctNo1.equals(AcctNo2)) && (pWord1.equals("admin")) && (Name1.equals("admin"))) {
               strName = "Administrator : " + Name2;
-              // strAcctNo = AcctNo1;
-              // server.aDbase.uprs.last();
-              long id = server.aDbase.uprs.getLong(1) + 1;
               server.clients.addElement(server.lastClient);
               server.lblRunning.setText("Currently logged :" + server.clients.size() + " client(s)");
 

@@ -1,19 +1,8 @@
-/****
-* File Name		:
-* Author		:
-* Professor		:
-* Project		:
-* Description	:
-*/
-
-/* Standard Java Packages */
 package com.yarlnet.BankClients;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-import java.io.*;
-import java.util.*;
 
 class ClientDeposit extends JFrame implements ActionListener {
 
@@ -188,13 +177,6 @@ class ClientDeposit extends JFrame implements ActionListener {
 
     }
 
-    /**
-     * Name : actionPeformed
-     * 
-     * @param : ActionEvent
-     * @return : void
-     *         Description :
-     */
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
 
