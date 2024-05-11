@@ -36,27 +36,15 @@ class AdminCreateAcc extends JFrame implements ActionListener {
 	JLabel lblRight;
 	JTextField fields[];
 
-	public AdminCreateAcc(Server temp)// AdminMainMenu temp )//Server temp
+	public AdminCreateAcc(Server temp)
 
 	{
-		/* Instantiate an object of this class to use as ActionListener of the GUI */
-		// adminMain = temp ;
 		server = temp;
 		Initialize();
 
 	}
 
-	/**
-	 * Name : Initialize
-	 * 
-	 * @param : none
-	 * @return : void
-	 *         Description : develops the GUI
-	 */
 	public void Initialize() {
-
-		// frame = new JFrame();
-		// look & feel setup:
 		try {
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
@@ -65,21 +53,13 @@ class AdminCreateAcc extends JFrame implements ActionListener {
 					+ "look and feel: " + e);
 		}
 
-		/*
-		 * The default value is: HIDE_ON_CLOSE,
-		 * 
-		 */
-		// frame.
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-		// processing window events:
 		WindowListener L = new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-
 				server.btnAdministrator.setEnabled(true); // closeApplication();
 			}
 		};
-		// frame.
 		addWindowListener(L);
 
 		btnSubmit = new JButton("Submit");
@@ -94,18 +74,6 @@ class AdminCreateAcc extends JFrame implements ActionListener {
 		upperPanel = new JPanel(new GridLayout(4, 1, 5, 5));
 		bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-		/*
-		 * leftPanel.add(lblAcctNo);
-		 * leftPanel.add(lblName);
-		 * leftPanel.add(lblPassWord);
-		 * leftPanel.add(lblAddrLn1);
-		 * leftPanel.add(lblAddrLn2);
-		 * leftPanel.add(lblCtyTwn);
-		 * leftPanel.add(lblState);
-		 * leftPanel.add(lblPhone);
-		 * leftPanel.add(btnSubmit);
-		 * leftPanel.add(btnCancel);
-		 */
 		lblAcctNo.setSize(5, 4);
 		lblPin.setSize(5, 4);
 		lblName.setSize(5, 4);
@@ -116,26 +84,16 @@ class AdminCreateAcc extends JFrame implements ActionListener {
 		lblState.setSize(5, 4);
 		lblPhone.setSize(5, 4);
 
-		// btnSubmit.setSize(10,5);
-		// btnCancel.setSize(10,5);
 		btnSubmit.addActionListener(server);
 		btnCancel.addActionListener(server);
 		for (int i = 0; i < 9; i++) {
-
-			// fields[(2*i)+1] = new JTextField(labels[i]);
 			fields[(i)] = new JTextField("", 15);
-			// fields[(2*i)+1].setEditable(false);
 			fields[i].setSize(5, 4);
 			fields[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
 		}
-
-		// System.out.println(s);
 
 		fields[0].setEditable(false);
 		fields[8].setEditable(false);
-		// rightPanel.add(new JLabel(" "));
-		// rightPanel.add(new JLabel(" "));
 
 		centerPanel.add(lblAcctNo);
 		centerPanel.add(fields[0]);
@@ -175,46 +133,13 @@ class AdminCreateAcc extends JFrame implements ActionListener {
 		mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
 		setContentPane(mainPanel);
-
-		// it doesn't work with our JTabbedPane !!! ---> pack();
-		// frame.
 		setSize(400, 400);
-		// frame.
 		setBounds(150, 80, 400, 400);
-
-		// show the window:
-		// frame.
 		setVisible(true);
-
 	}
 
-	/**
-	 * Name : actionPeformed
-	 * 
-	 * @param : ActionEvent
-	 * @return : void
-	 *         Description :
-	 */
 	public void actionPerformed(ActionEvent e) {
-		/*
-		 * Object src=e.getSource();
-		 * 
-		 * if (src == btnSubmit){
-		 * 
-		 * 
-		 * //PENDING.........
-		 * 
-		 * 
-		 * 
-		 * }else if (src==btnCancel){
-		 * 
-		 * 
-		 * //frame.
-		 * setVisible(false);
-		 * closeApplication();
-		 * 
-		 * }
-		 */
+
 	}
 
 	public void setClear() {
@@ -222,7 +147,6 @@ class AdminCreateAcc extends JFrame implements ActionListener {
 			fields[i].setText("");
 		}
 		try {
-
 			server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT AccountNo FROM ClientInfo");
 			if (server.aDbase.uprs.last()) {
 				s = server.aDbase.uprs.getLong(1) + 1;
@@ -246,15 +170,11 @@ class AdminCreateAcc extends JFrame implements ActionListener {
 	}
 
 	public void setVVVisible() {
-		// frame.
 		setVisible(true);
-
 	}
 
 	public void setInVVVisible() {
-		// frame.
 		setVisible(false);
-
 	}
 
-}// end of class...
+}
