@@ -46,7 +46,7 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
   public ClientLog() {
 
-    super("Network Bank");
+    super("Clients");
     try {
       UIManager.setLookAndFeel(
           UIManager.getSystemLookAndFeelClassName());
@@ -119,8 +119,8 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
     lblDateRunning.setSize(5, 4);
     timeRunning.setSize(5, 4);
-    lblDateRunning.updateUI();
-    timeRunning.updateUI();
+    //lblDateRunning.updateUI();
+    //timeRunning.updateUI();
 
     txtAcctNo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     txtName.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -170,11 +170,11 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
     // start the thread that cares about receiving data from server:
     thServer = new Thread(this);
-    clockThread = new Thread(this);
-    dateThread = new Thread(this);
+   // clockThread = new Thread(this);
+    //dateThread = new Thread(this);
     thServer.start();
-    clockThread.start();
-    dateThread.start();
+    //clockThread.start();
+   // dateThread.start();
     sendToServer("Hello_Server");
   }
 
@@ -596,7 +596,7 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       }
     }
 
-    while (clockThread == thisThread) {
+/*    while (clockThread == thisThread) {
       iterateTime();
       try {
         Thread.sleep(1000);
@@ -612,7 +612,7 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       } catch (InterruptedException e) {
         System.err.println("clock thread -> " + e);
       }
-    }
+    }*/
   }
 
   private void iterateTime() {

@@ -60,14 +60,14 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
     // thread that cares about updating the client info:
     Thread thUpdateClientInfo = null;
     // thread that cares about updating the date:
-    Thread clockThread = null;
-    Thread dateThread = null;
+   // Thread clockThread = null;
+    //Thread dateThread = null;
     String dtString = new String("");;
     String currentTime = new String("");
 
     public Server() {
 
-        super("The Server");
+        super(" Bank Server");
 
         try {
             socketForClient = new ServerSocket(client_port);
@@ -178,12 +178,12 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         // start threads:
         thClientAccept = new Thread(this);
         thUpdateClientInfo = new Thread(this);
-        clockThread = new Thread(this);
-        dateThread = new Thread(this);
+       // clockThread = new Thread(this);
+       // dateThread = new Thread(this);
         thClientAccept.start(); // start accepting new clients.
         thUpdateClientInfo.start(); // start to care about updating the info.
-        clockThread.start();
-        dateThread.start(); // start to care about the time.
+      //  clockThread.start();
+      //  dateThread.start(); // start to care about the time.
     }
 
     public void run() {
@@ -223,7 +223,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             pause(1200); // update every 1.2 of a second.
         }
 
-        while (clockThread == thisThread) {
+        /*while (clockThread == thisThread) {
             iterateTime();
             try {
                 Thread.sleep(1000);
@@ -238,19 +238,10 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             } catch (InterruptedException e) {
                 System.err.println("clock thread -> " + e);
             }
-        }
+        }*/
     }
 
-    private void iterateTime() {
-        Calendar cal = Calendar.getInstance();
-        java.util.Date date = cal.getTime();
-        DateFormat dateFormatter = DateFormat.getTimeInstance();
-        SimpleDateFormat dateFormatterH = new SimpleDateFormat("HH:mm:ss");
-        currentTime = dateFormatterH.format(date);
-        timeRunning.setText("                   Time : " + dateFormatter.format(date));
-    }
-
-    private void iterateDate() {
+/*private void iterateDate() {
         // Get the current date and time
         LocalDateTime now = LocalDateTime.now();
 
@@ -265,7 +256,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
 
         // Store the formatted date and time strings for later use if needed
         dtString = dateString;
-    }
+    }*/
 
     public void pause(int time) {
         try {
@@ -334,11 +325,11 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             adminViewAcct.setClear();
             adminViewAcct.setVisible(true);
 
-        } else if (src == adminMain.btnViewReport) {
+        } /*else if (src == adminMain.btnViewReport) {
             adminMain.setVisible(false);
             adminView.setActionCmd();
             adminView.setVisible(true);
-        } else if (src == adminMain.btnLogout) {
+        }*/ else if (src == adminMain.btnLogout) {
             adminEntry.setClear();
             adminMain.setVisible(false);
             adminEntry.setVisible(true);
