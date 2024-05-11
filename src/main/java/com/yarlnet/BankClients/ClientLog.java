@@ -882,7 +882,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       clientAcctOp.setVisible(false);
       clientMain.setVisible(true);
     }
-
   }
 
   public void setClear() {
