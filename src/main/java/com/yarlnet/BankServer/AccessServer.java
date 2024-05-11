@@ -113,19 +113,13 @@ public class AccessServer extends Thread {
 
               System.out.println("UPDATE ClientAccStatus SET LogInStatus = True  WHERE AccountNo = " + strAcctNo);
 
-              server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
+              // long id = 1; // Default ID value if no records are found
 
-              long id = 1; // Default ID value if no records are found
-
-              if (server.aDbase.uprs.next()) {
-                server.aDbase.uprs.last(); // Move to the last row
-                id = server.aDbase.uprs.getLong(1) + 1; // Get the last ID and increment
-              }
-
-              server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','"
-                  + server.currentTime + "'," + AcctNo1 + ",'LOGGED IN',' SUCCESSFULLY LOGGED IN ','"
-                  + clientConnection.getInetAddress() + "')");
-              System.out.println("Heeloooo::: " + id);
+              // if (server.aDbase.uprs.next()) {
+              // server.aDbase.uprs.last(); // Move to the last row
+              // id = server.aDbase.uprs.getLong(1) + 1; // Get the last ID and increment
+              // }
+              // System.out.println("Heeloooo::: " + id);
 
               String clientInfo = getInfo();
 
@@ -141,14 +135,9 @@ public class AccessServer extends Thread {
 
             } else if ((AcctNo1.equals(AcctNo2)) && (pWord1.equals("admin")) && (Name1.equals("admin"))) {
               strName = "Administrator : " + Name2;
-              strAcctNo = AcctNo1;
-              server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-              server.aDbase.uprs.last();
+              // strAcctNo = AcctNo1;
+              // server.aDbase.uprs.last();
               long id = server.aDbase.uprs.getLong(1) + 1;
-
-              server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','"
-                  + server.currentTime + "'," + AcctNo1 + ",'LOGGED IN :ADMINISTRATOR',' SUCCESSFULLY LOGGED IN ','"
-                  + clientConnection.getInetAddress() + "')");
 
               // Creating tabbed Panel
               // server.addNewTab(clientConnection.getPort());
@@ -163,14 +152,9 @@ public class AccessServer extends Thread {
               strAcctNo = AcctNo1;
 
               strAction = "Log in Fail";
-              server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
               server.aDbase.uprs.last();
               long id = server.aDbase.uprs.getLong(1) + 1;
 
-              server.aDbase.stmt.executeUpdate(
-                  "INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','" + server.currentTime + "',"
-                      + AcctNo1 + ",'LOG IN',' LOG IN FAILED ','" + clientConnection.getInetAddress() + "')");
-              sendToClient("LOGFAIL");
             }
           } else if (!val) {
             strName = Name1;
@@ -178,26 +162,14 @@ public class AccessServer extends Thread {
 
             strAction = "Account Not Valid";
             sendToClient("ACCOUNT_NOT_VALID");
-            server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
             server.aDbase.uprs.last();
             long id = server.aDbase.uprs.getLong(1) + 1;
-
-            server.aDbase.stmt.executeUpdate(
-                "INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','" + server.currentTime + "',"
-                    + AcctNo1 + ",'LOG IN',' ACCOUNT NOT VALID ','" + clientConnection.getInetAddress() + "')");
           } else if (logValidity) {
             strName = Name1;
             strAcctNo = AcctNo1;
 
             strAction = "Trying to Log In as Duplicate";
             sendToClient("LOGGED_IN_DUPLICATE");
-            server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-            server.aDbase.uprs.last();
-            long id = server.aDbase.uprs.getLong(1) + 1;
-
-            server.aDbase.stmt.executeUpdate(
-                "INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','" + server.currentTime + "',"
-                    + AcctNo1 + ",'LOG IN',' LOG IN DUPLICATE FAILED ','" + clientConnection.getInetAddress() + "')");
 
           }
         } catch (java.sql.SQLException sqle) {
@@ -217,9 +189,6 @@ public class AccessServer extends Thread {
         int i = 0;
         try {
           String dtLog = new String("");
-          server.aDbase.uprs = server.aDbase.stmt
-              .executeQuery("SELECT Date,Time,AccountNo,Action,Remarks FROM ClientLogs  WHERE AccountNo = " + AcctNo
-                  + " ORDER BY ID DESC");
 
           while (server.aDbase.uprs.next()) {
             dtLog = dtLog + server.aDbase.uprs.getString(1) + "$" + server.aDbase.uprs.getString(2) + "$"
@@ -240,15 +209,6 @@ public class AccessServer extends Thread {
             // Your existing code for handling the token goes here
             server.aDbase.stmt
                 .executeUpdate("UPDATE ClientAccStatus SET LogInStatus = False  WHERE AccountNo = " + AcctNo);
-            server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-            server.aDbase.uprs.last();
-            long id = server.aDbase.uprs.getLong(1) + 1;
-
-            server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','"
-                + server.currentTime + "'," + AcctNo + ",'LOGGED OUT',' FORCED LOGGED OUT BY ADMINISTRATOR  ','"
-                + clientConnection.getInetAddress() + "')");
-
-            strAction = "Forced Logged Out Success";
           } else {
             System.out.println("No tokens available");
           }
@@ -276,14 +236,8 @@ public class AccessServer extends Thread {
 
           } else {
             strAction = "PIN Validation failed..\nAccount Options Not Allowed..";
-            server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
             server.aDbase.uprs.last();
             long id = server.aDbase.uprs.getLong(1) + 1;
-
-            server.aDbase.stmt.executeUpdate(
-                "INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','" + server.currentTime + "',"
-                    + AcctNo + ",'VALIDATE PIN','INCORRECT PIN ,REQUEST FOR ACCOUNT OPTIONS FAILED','"
-                    + clientConnection.getInetAddress() + "')");
             sendToClient("INCORRECT_PIN");
 
           }
@@ -302,13 +256,6 @@ public class AccessServer extends Thread {
               .executeUpdate("UPDATE ClientAccStatus SET LogInStatus = False  WHERE AccountNo = " + AcctNo);
 
           System.out.println("UPDATE ClientAccStatus SET LogInStatus = False  WHERE AccountNo = " + AcctNo);
-          server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-          server.aDbase.uprs.last();
-          long id = server.aDbase.uprs.getLong(1) + 1;
-
-          server.aDbase.stmt.executeUpdate(
-              "INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','" + server.currentTime + "',"
-                  + AcctNo + ",'LOGGED OUT',' SUCCESSFULLY LOGGED OUT ','" + clientConnection.getInetAddress() + "')");
 
           strAction = "Logged Out Success";
           sendToClient("LOGGED_OUT_SUCCESS");
@@ -345,14 +292,6 @@ public class AccessServer extends Thread {
           String Name = server.aDbase.uprs.getString(2);
           long bal = server.aDbase.uprs.getLong(3);
           String balance = Long.toString(bal);
-
-          server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-          server.aDbase.uprs.last();
-          long id = server.aDbase.uprs.getLong(1) + 1;
-
-          server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','"
-              + server.currentTime + "'," + AcctNo + ",'VIEW ACCOUNT',' BALANCE : Rs " + balance + "\\-','"
-              + clientConnection.getInetAddress() + "')");
           strAction = "Viewing  Account";
           sendToClient("VIEWACC." + AcctNo + "." + Name + "." + balance);
         } catch (java.sql.SQLException sqle) {
@@ -375,26 +314,8 @@ public class AccessServer extends Thread {
               strAction = "Password Changed Successfully";
               server.aDbase.stmt
                   .executeUpdate("UPDATE ClientInfo SET Password  = '" + newPw1 + "'  WHERE AccountNo = " + AcctNo);
-              server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-              server.aDbase.uprs.last();
-              long id = server.aDbase.uprs.getLong(1) + 1;
-
-              server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','"
-                  + server.currentTime + "'," + AcctNo + ",'CHANGE PASSWORD',' SUCCESSFULLY CHANGED PASSWORD ','"
-                  + clientConnection.getInetAddress() + "')");
-              sendToClient("PASSWORD_CHANGE_SUCCESS");
-
             } else {
               strAction = "Password Change Failed..\nIncorrect old password";
-              server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-              server.aDbase.uprs.last();
-              long id = server.aDbase.uprs.getLong(1) + 1;
-
-              server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','"
-                  + server.currentTime + "'," + AcctNo + ",'CHANGE PASSWORD',' FAILED:INCORRECT OLD PASSWORD  ','"
-                  + clientConnection.getInetAddress() + "')");
-              sendToClient("PASSWORD_CHANGE_FAILED_INCORRECT_OLDPASSWORD");
-
             }
 
           } catch (java.sql.SQLException sqle) {
@@ -423,30 +344,12 @@ public class AccessServer extends Thread {
             long pin = server.aDbase.uprs.getLong(2);
             if (pin == Long.parseLong(oldPin)) {
               strAction = "PIN Changed Successfully";
+              sendToClient("PIN_CHANGE_SUCCESS");
               server.aDbase.stmt
                   .executeUpdate("UPDATE ClientInfo SET Pin  = " + newPin1 + "  WHERE AccountNo = " + AcctNo);
-              server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-              server.aDbase.uprs.last();
-              long id = server.aDbase.uprs.getLong(1) + 1;
-
-              server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','"
-                  + server.currentTime + "'," + AcctNo + ",'CHANGE PIN',' SUCCESSFULLY CHANGED PIN ','"
-                  + clientConnection.getInetAddress() + "')");
-              sendToClient("PIN_CHANGE_SUCCESS");
-
             } else {
               strAction = "PIN Change Failed..\nIncorrect old PIN";
-              server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-              server.aDbase.uprs.last();
-              long id = server.aDbase.uprs.getLong(1) + 1;
-
-              server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','"
-                  + server.currentTime + "'," + AcctNo + ",'CHANGE PIN',' FAILED:INCORRECT OLD PIN  ','"
-                  + clientConnection.getInetAddress() + "')");
-              sendToClient("PIN_CHANGE_FAILED_INCORRECT_OLDPIN");
-
             }
-
           }
 
           else {
@@ -492,14 +395,6 @@ public class AccessServer extends Thread {
 
             }
           } else {
-            server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-            server.aDbase.uprs.last();
-            long id = server.aDbase.uprs.getLong(1) + 1;
-
-            server.aDbase.stmt.executeUpdate(
-                "INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','" + server.currentTime + "',"
-                    + AcctNo + ",'VALIDATE PIN','INCORRECT PIN ,REQUEST FOR TRANSACTION FAILED','"
-                    + clientConnection.getInetAddress() + "')");
             strAction = "Request for Transaction Failed..\nIncorrect PIN";
             sendToClient("INCORRECT_PIN");
           }
@@ -546,22 +441,6 @@ public class AccessServer extends Thread {
                     .executeUpdate("UPDATE ClientAccStatus SET Balance = " + bal2 + " WHERE AccountNo = " + clntAcctTo);
 
                 // server.aDbase.uprs.close();
-                server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-                server.aDbase.uprs.last();
-                long id = server.aDbase.uprs.getLong(1) + 1;
-
-                server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','"
-                    + server.currentTime + "'," + AcctNo + ",'TRANSFER','TRANSFERRED Rs" + clntAmt
-                    + "\\- TO AccountNo: " + clntAcctTo + "','" + clientConnection.getInetAddress() + "')");
-                server.pause(2000);
-
-                server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-                server.aDbase.uprs.last();
-                id = server.aDbase.uprs.getLong(1) + 1;
-
-                server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','"
-                    + server.currentTime + "'," + clntAcctTo + ",'DEPOSIT','TRANSFERRED Rs" + clntAmt
-                    + "\\- FROM AccountNo: " + AcctNo + "','" + clientConnection.getInetAddress() + "')");
                 strAction = "Transaction Success";
                 sendToClient("TRANSACTION_SUCCESS");
                 //
@@ -594,26 +473,20 @@ public class AccessServer extends Thread {
         String AcctNo = values.nextToken();
         String Name = values.nextToken();
         String pWord = values.nextToken();
-        if ((Name.equals("admin")) && (pWord.equals("admin"))) {
-          try {
-            server.aDbase.uprs = server.aDbase.stmt
-                .executeQuery("SELECT AccountNo,Balance,Name FROM ClientAccStatus WHERE AccountNo = " + AcctNo);
-            server.aDbase.uprs.next();
-            long bal = server.aDbase.uprs.getLong(2);
-            String balance = Long.toString(bal);
-            String clntName = server.aDbase.uprs.getString(3);
-            strName = "Administrator : " + clntName;
-            strAcctNo = AcctNo;
-            strAction = "Deposit in progress for " + clntName;
-            server.pause(2000);
-            sendToClient("DEPOSIT_ALLOWED." + AcctNo + "." + clntName + "." + balance);
-          } catch (java.sql.SQLException sqle) {
-            System.out.println("Error :" + sqle);
-
-          }
-        } else {
-          strAction = "Deposit not allowed";
-          sendToClient("DEPOSIT_NOT_ALLOWED");
+        try {
+          server.aDbase.uprs = server.aDbase.stmt
+              .executeQuery("SELECT AccountNo,Balance,Name FROM ClientAccStatus WHERE AccountNo = " + AcctNo);
+          server.aDbase.uprs.next();
+          long bal = server.aDbase.uprs.getLong(2);
+          String balance = Long.toString(bal);
+          String clntName = server.aDbase.uprs.getString(3);
+          strName = "Administrator : " + clntName;
+          strAcctNo = AcctNo;
+          strAction = "Deposit in progress for " + clntName;
+          server.pause(2000);
+          sendToClient("DEPOSIT_ALLOWED." + AcctNo + "." + clntName + "." + balance);
+        } catch (java.sql.SQLException sqle) {
+          System.out.println("Error :" + sqle);
         }
 
       } else if (cmd.equals("WITHDRAW")) {
@@ -643,15 +516,6 @@ public class AccessServer extends Thread {
               sendToClient("WITHDRAW_NOT_ALLOWED");
             }
           } else {
-            server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-            server.aDbase.uprs.last();
-            long id = server.aDbase.uprs.getLong(1) + 1;
-
-            server.aDbase.stmt.executeUpdate(
-                "INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','" + server.currentTime + "',"
-                    + AcctNo + ",'VALIDATE PIN','INCORRECT PIN ,REQUEST FOR WITHDRAWAL FAILED','"
-                    + clientConnection.getInetAddress() + "')");
-            strAction = "Request for withdrawal Failed..\nIncorrect PIN";
             sendToClient("INCORRECT_PIN");
 
           }
@@ -681,13 +545,6 @@ public class AccessServer extends Thread {
 
             server.pause(1000);
 
-            server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-            server.aDbase.uprs.last();
-            long id = server.aDbase.uprs.getLong(1) + 1;
-
-            server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','"
-                + server.currentTime + "'," + AcctNo + ",'WITHDRAW',' Rs" + Amt + "\\-  CURRENT BALANCE: Rs" + bal
-                + "\\- ','" + clientConnection.getInetAddress() + "')");
             strAction = "Rs " + Amt + "\\- Withdrawn....Withdraw Success ";
             sendToClient("WITHDRAW_SUCCESS");
             //
@@ -726,13 +583,6 @@ public class AccessServer extends Thread {
           server.aDbase.stmt
               .executeUpdate("UPDATE ClientAccStatus SET Balance = " + balance + " WHERE AccountNo = " + AcctNo);
           server.pause(1000);
-          server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT ID FROM ClientLogs");
-          server.aDbase.uprs.last();
-          long id = server.aDbase.uprs.getLong(1) + 1;
-
-          server.aDbase.stmt.executeUpdate("INSERT INTO ClientLogs VALUES(" + id + ",'" + server.dtString + "','"
-              + server.currentTime + "'," + AcctNo + ",'DEPOSIT',' Rs" + depAmt + "\\- CURRENT BALANCE: Rs" + balance
-              + "\\-','" + clientConnection.getInetAddress() + "')");
           strAction = "Deposit Success";
           sendToClient("DEPOSIT_SUCCESS");
 

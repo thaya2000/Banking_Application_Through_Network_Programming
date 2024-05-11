@@ -21,7 +21,7 @@ class ClientMainMenu extends JFrame implements ActionListener {
 			centerPanel = new JPanel();
 
 	JButton btnViewAcc;
-	JButton btnViewLogs;
+	// JButton btnViewLogs;
 	JButton btnTransfer;
 	JButton btnDeposit;
 	JButton btnWithdraw;
@@ -92,7 +92,6 @@ class ClientMainMenu extends JFrame implements ActionListener {
 		// color = new Color(0,200,240);
 		// color2 = new Color(0,0,255);
 		btnViewAcc = new JButton("View Account");// .setFont(font);
-		btnViewLogs = new JButton("View Account Logs");// .setFont(font);
 		btnTransfer = new JButton("Transfer Money");// .setFont(font);
 		btnDeposit = new JButton("Deposit");// .setFont(font);
 		btnWithdraw = new JButton("Withdraw");
@@ -120,7 +119,7 @@ class ClientMainMenu extends JFrame implements ActionListener {
 		centerPanel = new JPanel(new GridLayout(7, 1, 8, 8));
 
 		btnViewAcc.addActionListener(clientLg);
-		btnViewLogs.addActionListener(clientLg);
+		// btnViewLogs.addActionListener(clientLg);
 		btnTransfer.addActionListener(clientLg);
 		btnDeposit.addActionListener(clientLg);
 		btnAcctOp.addActionListener(clientLg);
@@ -135,7 +134,7 @@ class ClientMainMenu extends JFrame implements ActionListener {
 		mainPanel.add(lbl1, BorderLayout.NORTH);// .setFont(font));
 
 		centerPanel.add(btnViewAcc);
-		centerPanel.add(btnViewLogs);
+		// centerPanel.add(btnViewLogs);
 		centerPanel.add(btnTransfer);
 		centerPanel.add(btnDeposit);
 		centerPanel.add(btnWithdraw);

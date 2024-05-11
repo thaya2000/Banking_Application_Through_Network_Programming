@@ -60,8 +60,8 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
     // thread that cares about updating the client info:
     Thread thUpdateClientInfo = null;
     // thread that cares about updating the date:
-   // Thread clockThread = null;
-    //Thread dateThread = null;
+    // Thread clockThread = null;
+    // Thread dateThread = null;
     String dtString = new String("");;
     String currentTime = new String("");
 
@@ -178,12 +178,12 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         // start threads:
         thClientAccept = new Thread(this);
         thUpdateClientInfo = new Thread(this);
-       // clockThread = new Thread(this);
-       // dateThread = new Thread(this);
+        // clockThread = new Thread(this);
+        // dateThread = new Thread(this);
         thClientAccept.start(); // start accepting new clients.
         thUpdateClientInfo.start(); // start to care about updating the info.
-      //  clockThread.start();
-      //  dateThread.start(); // start to care about the time.
+        // clockThread.start();
+        // dateThread.start(); // start to care about the time.
     }
 
     public void run() {
@@ -223,40 +223,44 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             pause(1200); // update every 1.2 of a second.
         }
 
-        /*while (clockThread == thisThread) {
-            iterateTime();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                System.err.println("clock thread -> " + e);
-            }
-        }
-        while (dateThread == thisThread) {
-            iterateDate();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                System.err.println("clock thread -> " + e);
-            }
-        }*/
+        /*
+         * while (clockThread == thisThread) {
+         * iterateTime();
+         * try {
+         * Thread.sleep(1000);
+         * } catch (InterruptedException e) {
+         * System.err.println("clock thread -> " + e);
+         * }
+         * }
+         * while (dateThread == thisThread) {
+         * iterateDate();
+         * try {
+         * Thread.sleep(1000);
+         * } catch (InterruptedException e) {
+         * System.err.println("clock thread -> " + e);
+         * }
+         * }
+         */
     }
 
-/*private void iterateDate() {
-        // Get the current date and time
-        LocalDateTime now = LocalDateTime.now();
-
-        // Format the date according to MySQL DATE format 'YYYY-MM-DD'
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        // Get the formatted date and time strings
-        String dateString = now.format(formatter);
-
-        // Update the label to display the formatted date
-        lblDateRunning.setText("     Date : " + dateString);
-
-        // Store the formatted date and time strings for later use if needed
-        dtString = dateString;
-    }*/
+    /*
+     * private void iterateDate() {
+     * // Get the current date and time
+     * LocalDateTime now = LocalDateTime.now();
+     * 
+     * // Format the date according to MySQL DATE format 'YYYY-MM-DD'
+     * DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+     * 
+     * // Get the formatted date and time strings
+     * String dateString = now.format(formatter);
+     * 
+     * // Update the label to display the formatted date
+     * lblDateRunning.setText("     Date : " + dateString);
+     * 
+     * // Store the formatted date and time strings for later use if needed
+     * dtString = dateString;
+     * }
+     */
 
     public void pause(int time) {
         try {
@@ -307,7 +311,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
 
         } else if (src == adminMain.btnCreate) {
             adminMain.setVisible(false);
-             adminCreate.setClear();
+            adminCreate.setClear();
             adminCreate.setVisible(true);
             System.out.println("Admin Create Acc");
         } else if (src == adminMain.btnDelete) {
@@ -325,11 +329,13 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             adminViewAcct.setClear();
             adminViewAcct.setVisible(true);
 
-        } /*else if (src == adminMain.btnViewReport) {
-            adminMain.setVisible(false);
-            adminView.setActionCmd();
-            adminView.setVisible(true);
-        }*/ else if (src == adminMain.btnLogout) {
+        } /*
+           * else if (src == adminMain.btnViewReport) {
+           * adminMain.setVisible(false);
+           * adminView.setActionCmd();
+           * adminView.setVisible(true);
+           * }
+           */ else if (src == adminMain.btnLogout) {
             adminEntry.setClear();
             adminMain.setVisible(false);
             adminEntry.setVisible(true);
@@ -438,7 +444,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
                 String updateQuery = "UPDATE ClientInfo SET Name = '" + adminUpdate.fields[1].getText()
                         + "', Password = '" + adminUpdate.fields[2].getText() + "', AddressLine1 = '"
                         + adminUpdate.fields[3].getText() + "', AddressLine2 = '" + adminUpdate.fields[4].getText()
-                        + "',City = '" + adminUpdate.fields[5].getText() + "', State = '"
+                        + "',City = '" + adminUpdate.fields[5].getText() + "', Province = '"
                         + adminUpdate.fields[6].getText() + "', Phone = '" + adminUpdate.fields[7].getText()
                         + "', Validity = True WHERE AccountNo = " + s;
 

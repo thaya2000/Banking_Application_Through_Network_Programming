@@ -37,8 +37,8 @@ class AdminViewReport extends JFrame implements ActionListener {
 
   // TableModel myData =
   public AdminViewReport(Server temp) {
-    server = temp;
-    Initialize();
+    // server = temp;
+    // Initialize();
 
   }
 
@@ -110,56 +110,58 @@ class AdminViewReport extends JFrame implements ActionListener {
      */
     try {
 
-      server.aDbase.tmpuprs = server.aDbase.tmpStmt
-          .executeQuery("SELECT Date,Time,AccountNo,Action,Remarks,LogInIp FROM ClientLogs");
-      server.aDbase.tmpuprs.last();
+      // server.aDbase.tmpuprs = server.aDbase.tmpStmt
+      // .executeQuery("SELECT Date,Time,AccountNo,Action,Remarks,LogInIp FROM
+      // ClientLogs");
+      // server.aDbase.tmpuprs.last();
 
-      int iRow = server.aDbase.tmpuprs.getRow();
-      Object[][] Data = new Object[iRow + 1][6];
-      int i = 1;
-      server.aDbase.tmpuprs = server.aDbase.tmpStmt
-          .executeQuery("SELECT Date,Time,AccountNo,Action,Remarks,LogInIp FROM ClientLogs ORDER BY ID DESC");
+      // int iRow = server.aDbase.tmpuprs.getRow();
+      // Object[][] Data = new Object[iRow + 1][6];
+      // int i = 1;
+      // server.aDbase.tmpuprs = server.aDbase.tmpStmt
+      // .executeQuery("SELECT Date,Time,AccountNo,Action,Remarks,LogInIp FROM
+      // ClientLogs ORDER BY ID DESC");
       // server.aDbase.tmpuprs.first();
-      while (server.aDbase.tmpuprs.next()) {
-        String date = server.aDbase.tmpuprs.getString(1);
-        String time = server.aDbase.tmpuprs.getString(2);
-        String AcctNo = Long.toString(server.aDbase.tmpuprs.getLong(3));
-        String action = server.aDbase.tmpuprs.getString(4);
-        String remark = server.aDbase.tmpuprs.getString(5);
-        String logIP = server.aDbase.tmpuprs.getString(6);
-        // Data[][i] = { time,AcctNo,action,remark,logIP };
+      // while (server.aDbase.tmpuprs.next()) {
+      // String date = server.aDbase.tmpuprs.getString(1);
+      // String time = server.aDbase.tmpuprs.getString(2);
+      // String AcctNo = Long.toString(server.aDbase.tmpuprs.getLong(3));
+      // String action = server.aDbase.tmpuprs.getString(4);
+      // String remark = server.aDbase.tmpuprs.getString(5);
+      // String logIP = server.aDbase.tmpuprs.getString(6);
+      // // Data[][i] = { time,AcctNo,action,remark,logIP };
 
-        Data[i][0] = date;
-        Data[i][1] = time;
-        Data[i][2] = AcctNo;
-        Data[i][3] = action;
-        Data[i][4] = remark;
-        Data[i][5] = logIP;
+      // Data[i][0] = date;
+      // Data[i][1] = time;
+      // Data[i][2] = AcctNo;
+      // Data[i][3] = action;
+      // Data[i][4] = remark;
+      // Data[i][5] = logIP;
 
-        i++;
-        if (i > iRow)
-          break;
-        // System.out.println(Data);
-        // setValueAt(date,i,1);
-        // setValueAt(time,i,2);
-        // setValueAt(AcctNo,i,3);
-        // setValueAt(action,i,4);
-        // setValueAt(remark,i,5);
-        // setValueAt(logIP,i,6);
-        // System.out.println(date + "." + time + "." + AcctNo + "." + action + "." +
-        // remark + "." + logIP + "\n");
-        // i = i+1;
-        // table.add(Data);
-      }
+      // i++;
+      // if (i > iRow)
+      // break;
+      // // System.out.println(Data);
+      // // setValueAt(date,i,1);
+      // // setValueAt(time,i,2);
+      // // setValueAt(AcctNo,i,3);
+      // // setValueAt(action,i,4);
+      // // setValueAt(remark,i,5);
+      // // setValueAt(logIP,i,6);
+      // // System.out.println(date + "." + time + "." + AcctNo + "." + action + "." +
+      // // remark + "." + logIP + "\n");
+      // // i = i+1;
+      // // table.add(Data);
+      // }
 
-      table = new JTable(Data, head);
+      // table = new JTable(Data, head);
 
-      table.setEnabled(false);
-      table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-      table.setDragEnabled(false);
-      jp = new JScrollPane(table, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-          ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-      table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+      // table.setEnabled(false);
+      // table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+      // table.setDragEnabled(false);
+      // jp = new JScrollPane(table, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+      // ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+      // table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 
     } catch (java.sql.SQLException sqle) {
       System.out.println("Error :" + sqle);

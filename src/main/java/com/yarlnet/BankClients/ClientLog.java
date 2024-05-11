@@ -27,7 +27,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
   ClientTransMoney clientTrans;
   ClientWithDraw clientWDraw;
   ClientViewAcc clientView;
-  ClientViewLog clientVLog;
   ClientValidatePin clientVPin;
   ClientAcctOptions clientAcctOp;
   ClientPassPin clientPP;
@@ -83,7 +82,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
     clientTrans = new ClientTransMoney(this);
     clientView = new ClientViewAcc(this);
     clientWDraw = new ClientWithDraw(this);
-    clientVLog = new ClientViewLog(this);
     clientVPin = new ClientValidatePin(this);
     clientAcctOp = new ClientAcctOptions(this);
     clientPP = new ClientPassPin(this);
@@ -119,8 +117,8 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
     lblDateRunning.setSize(5, 4);
     timeRunning.setSize(5, 4);
-    //lblDateRunning.updateUI();
-    //timeRunning.updateUI();
+    // lblDateRunning.updateUI();
+    // timeRunning.updateUI();
 
     txtAcctNo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     txtName.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -170,11 +168,11 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
     // start the thread that cares about receiving data from server:
     thServer = new Thread(this);
-   // clockThread = new Thread(this);
-    //dateThread = new Thread(this);
+    // clockThread = new Thread(this);
+    // dateThread = new Thread(this);
     thServer.start();
-    //clockThread.start();
-   // dateThread.start();
+    // clockThread.start();
+    // dateThread.start();
     sendToServer("Hello_Server");
   }
 
@@ -516,34 +514,7 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
       else if (cmd.equals("ACCOUNT_LOGS_TO_CLIENT")) {
 
-        String AcctNo = values.nextToken();
-        String max = values.nextToken();
-
-        clientVLog.count = 0;
-        String log;
-
-        clientVLog.setActionCmd(max, AcctNo);
-
-        while (values.hasMoreTokens()) {
-          try {
-            log = values.nextToken();
-            valLog = new StringTokenizer(log, "$");
-            clientVLog.Data[clientVLog.count][0] = valLog.nextToken();
-            clientVLog.Data[clientVLog.count][1] = valLog.nextToken();
-            clientVLog.Data[clientVLog.count][2] = valLog.nextToken();
-            clientVLog.Data[clientVLog.count][3] = valLog.nextToken();
-            clientVLog.count = clientVLog.count + 1;
-          }
-
-          catch (java.util.NoSuchElementException nle) {
-            System.out.println("Error :" + nle);
-          }
-        }
-
         clientMain.setVisible(false);
-        clientVLog.Initialize();
-        clientVLog.setVisible(true);
-
       }
 
       else if (cmd.equals("TRANS")) {
@@ -596,23 +567,25 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       }
     }
 
-/*    while (clockThread == thisThread) {
-      iterateTime();
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        System.err.println("clock thread -> " + e);
-      }
-    }
-
-    while (dateThread == thisThread) {
-      iterateDate();
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        System.err.println("clock thread -> " + e);
-      }
-    }*/
+    /*
+     * while (clockThread == thisThread) {
+     * iterateTime();
+     * try {
+     * Thread.sleep(1000);
+     * } catch (InterruptedException e) {
+     * System.err.println("clock thread -> " + e);
+     * }
+     * }
+     * 
+     * while (dateThread == thisThread) {
+     * iterateDate();
+     * try {
+     * Thread.sleep(1000);
+     * } catch (InterruptedException e) {
+     * System.err.println("clock thread -> " + e);
+     * }
+     * }
+     */
   }
 
   private void iterateTime() {
@@ -734,9 +707,9 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       sendToServer("DEP." + txtAcctNo.getText() + "." + txtName.getText() + "." + pWord);
     }
 
-    else if (src == clientMain.btnViewLogs) {
-      sendToServer("VIEW_LOGS." + txtAcctNo.getText().trim());
-    }
+    // else if (src == clientMain.btnViewLogs) {
+    // sendToServer("VIEW_LOGS." + txtAcctNo.getText().trim());
+    // }
 
     else if (src == clientMain.btnExit) {
       clientMain.setVisible(false);
@@ -779,6 +752,11 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
         sendToServer(
             "DEPOSIT_IN_PROGRESS." + clientDep.lblAcctNo.getText().trim() + "." + clientDep.txtAmt.getText().trim());
       }
+    }
+
+    else if (src == clientDep.btnCancel) {
+      clientDep.setVisible(false);
+      clientMain.setVisible(true);
     }
 
     else if (src == clientMain.btnWithdraw) {

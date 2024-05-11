@@ -35,7 +35,7 @@ class AdminUpdateAcc extends JFrame implements ActionListener {
 	JTextField fields[];
 	Server server;
 	String labels[] = { "Account No :", "Name :", "Password :", "Address Line 1 :", "Address Line 2 :", "City/Town :",
-			"State :", "Phone :"
+			"Province :", "Phone :"
 	};
 
 	public AdminUpdateAcc(Server temp)// AdminMainMenu temp )//Server temp

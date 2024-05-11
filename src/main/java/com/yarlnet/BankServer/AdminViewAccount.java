@@ -49,7 +49,7 @@ class AdminViewAccount extends JFrame implements ActionListener {
    JLabel lblAddrLn1 = new JLabel("Address line 1 :");
    JLabel lblAddrLn2 = new JLabel("Address Line 2 :");
    JLabel lblCtyTwn = new JLabel("City/Town :");
-   JLabel lblState = new JLabel("State :");
+   JLabel lblState = new JLabel("Province :");
    JLabel lblPhone = new JLabel("Phone :");
 
    // AdminEntryLevel ObAdmin;
@@ -232,7 +232,7 @@ class AdminViewAccount extends JFrame implements ActionListener {
          try {
 
             server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery(
-                  "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,State,Phone,Validity FROM ClientInfo");
+                  "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,Province,Phone,Validity FROM ClientInfo");
 
             server.aDbase.uprs.first();
 
@@ -280,7 +280,7 @@ class AdminViewAccount extends JFrame implements ActionListener {
          try {
 
             server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery(
-                  "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,State,Phone,Validity FROM ClientInfo");
+                  "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,Province,Phone,Validity FROM ClientInfo");
 
             server.aDbase.uprs.last();
 
@@ -326,7 +326,7 @@ class AdminViewAccount extends JFrame implements ActionListener {
             act = act - 1;
             String Actt = Long.toString(act);
             server.aDbase.uprs = server.aDbase.stmt.executeQuery(
-                  "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,State,Phone,Validity FROM ClientInfo WHERE AccountNo = "
+                  "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,Province,Phone,Validity FROM ClientInfo WHERE AccountNo = "
                         + Actt);
 
             server.aDbase.uprs.next();
@@ -384,7 +384,7 @@ class AdminViewAccount extends JFrame implements ActionListener {
             act = act + 1;
             String Actt = Long.toString(act);
             server.aDbase.uprs = server.aDbase.stmt.executeQuery(
-                  "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,State,Phone,Validity FROM ClientInfo WHERE AccountNo = "
+                  "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,Province,Phone,Validity FROM ClientInfo WHERE AccountNo = "
                         + Actt);
 
             server.aDbase.uprs.next();
@@ -439,7 +439,7 @@ class AdminViewAccount extends JFrame implements ActionListener {
 
             String Actt = Long.toString(act);
             server.aDbase.uprs = server.aDbase.stmt.executeQuery(
-                  "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,State,Phone,Validity FROM ClientInfo WHERE AccountNo = "
+                  "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,Province,Phone,Validity FROM ClientInfo WHERE AccountNo = "
                         + Actt);
 
             server.aDbase.uprs.next();
@@ -495,7 +495,7 @@ class AdminViewAccount extends JFrame implements ActionListener {
       }
       try {
          server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery(
-               "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,State,Phone,Validity FROM ClientInfo");
+               "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,Province,Phone,Validity FROM ClientInfo");
          server.aDbase.uprs.first();
 
          long acctno = server.aDbase.uprs.getLong(1);

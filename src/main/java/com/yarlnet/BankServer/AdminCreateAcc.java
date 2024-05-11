@@ -38,7 +38,7 @@ class AdminCreateAcc extends JFrame implements ActionListener {
 	JLabel lblAddrLn1 = new JLabel("Address line 1 :");
 	JLabel lblAddrLn2 = new JLabel("Address Line 2 :");
 	JLabel lblCtyTwn = new JLabel("City/Town :");
-	JLabel lblState = new JLabel("State :");
+	JLabel lblState = new JLabel("Province :");
 	JLabel lblPhone = new JLabel("Phone :");
 
 	// AdminEntryLevel ObAdmin;
@@ -142,8 +142,8 @@ class AdminCreateAcc extends JFrame implements ActionListener {
 
 		// System.out.println(s);
 
-		// fields[0].setEditable(false);
-		// fields[8].setEditable(false);
+		fields[0].setEditable(false);
+		fields[8].setEditable(false);
 		// rightPanel.add(new JLabel(" "));
 		// rightPanel.add(new JLabel(" "));
 
@@ -234,21 +234,19 @@ class AdminCreateAcc extends JFrame implements ActionListener {
 		try {
 
 			server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT AccountNo FROM ClientInfo");
-			server.aDbase.uprs.last();
-			s = server.aDbase.uprs.getLong(1) + 1;
+			if (server.aDbase.uprs.last()) {
+				s = server.aDbase.uprs.getLong(1) + 1;
+			} else {
+				s = 1000000;
+			}
 			String t = Long.toString(s);
+
 			System.out.println(t);
-			fields[0].setText("    " + t);
+			fields[0].setText(t);
 
 			Random rand = new Random();
-			double p = 10000 * rand.nextDouble();
-			int pin = (int) p;
-			if ((pin > 999) && (pin < 10000)) {
-				fields[8].setText("    " + Integer.toString(pin));
-			} else {
-				fields[8].setText("    " + Integer.toString(pin + 1000));
-
-			}
+			int pin = rand.nextInt(9000) + 1000; // generates a random four-digit number
+			fields[8].setText(Integer.toString(pin));
 
 			server.aDbase.uprs.close();
 		} catch (java.sql.SQLException sqle) {
