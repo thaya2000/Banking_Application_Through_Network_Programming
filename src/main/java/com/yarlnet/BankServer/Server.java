@@ -15,17 +15,13 @@ import java.awt.Color;
 
 public class Server extends JFrame implements ActionListener, ChangeListener, Runnable {
 
-    // a list of the clients that are logged currently:
     public static Vector clients = new Vector();
 
-    // number of ports to receive messages from clients:
     private static int client_port;
 
-    // object to AccessServer class
     AccessServer lastClient;
     AccessDbase aDbase;
 
-    // keeps server's address:
     private static InetAddress localHost = null;
 
     // GUI's
@@ -37,22 +33,14 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
     AdminUpdateAcc adminUpdate;
     AdminViewAccount adminViewAcct;
 
-    // server sockets for receiving connection from clients:
     ServerSocket socketForClient = null;
-    // visual interface:
 
-    // button for termination of a client:
     JButton btnAdministrator = new JButton("Administrator ");
 
-    // btnAdministrator.setBackground(Color.BLUE);
-    // btnAdministrator.setForeground(Color.WHITE);
-
-    JLabel lblRunning; // label to show how many clients are logged.
+    JLabel lblRunning;
     long acctno, balance;
 
-    // thread that cares about accepting new clients:
     Thread thClientAccept = null;
-    Thread thUpdateClientInfo = null;
 
     public Server() {
         super(" HTV Bank Server");
@@ -159,9 +147,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
 
         // start threads:
         thClientAccept = new Thread(this);
-        thUpdateClientInfo = new Thread(this);
         thClientAccept.start();
-        thUpdateClientInfo.start();
     }
 
     public void run() {
@@ -176,12 +162,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
                 if (thClientAccept != null) // not shutting down yet?
                     System.err.println("Accept client -> " + e);
             }
-        }
-
-        while (thUpdateClientInfo == thisThread) {
-            if (clients.size() > 0) // no clients?
-                Thread.yield(); // this thread isn't so important, think of others.
-            pause(1200); // update every 1.2 of a second.
         }
     }
 
@@ -415,6 +395,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             }
         }
         thClientAccept = null;
+
         try {
             socketForClient.close();
         } catch (IOException e) {

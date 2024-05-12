@@ -163,7 +163,7 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
   public static void main(String args[]) {
     try {
       // InetAddress ipAddress = InetAddress.getLocalHost();
-      String ipAddressString = "192.168.136.82";
+      String ipAddressString = "192.168.136.216";
       InetAddress ipAddress = InetAddress.getByName(ipAddressString);
       int serverPort = Integer.parseInt("4444");
       socket = new Socket(ipAddress, serverPort);

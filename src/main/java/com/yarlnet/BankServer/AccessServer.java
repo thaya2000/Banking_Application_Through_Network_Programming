@@ -9,13 +9,12 @@ public class AccessServer extends Thread {
   BufferedReader inClient = null;
   PrintStream outClient = null;
 
-  // thread for getting data from clients:
   Thread thClient = null;
   StringTokenizer values;
   String strName = new String(" ");
   String strAcctNo = new String(" ");
   String strAction = new String(" ");
-  Server server; // pointer to owner server class (used to remove system).
+  Server server;
 
   public AccessServer(Server temp) {
     server = temp;
@@ -30,7 +29,6 @@ public class AccessServer extends Thread {
       System.err.println("connectClient -> " + e);
     }
 
-    // thread to receive messages from client:
     thClient = new Thread(this);
     thClient.start();
 
@@ -38,29 +36,26 @@ public class AccessServer extends Thread {
   }
 
   public void run() {
-
     Thread thisThread = Thread.currentThread();
-
-    // thread to receive messages from client:
     while (thClient == thisThread) {
       String inputLine = null;
       try {
         inputLine = inClient.readLine();
       } catch (IOException ioe) {
-        if (thClient != null) { // system not over yet?
+        if (thClient != null) {
           System.err.println("inClient.readLine() -> " + ioe);
         }
       }
       if (inputLine != null)
-        clientTalks(inputLine); // trigger "event".
+        clientTalks(inputLine);
     }
   }
 
   public void clientTalks(String msg) {
 
-    if (thClient == null) { // system over?
+    if (thClient == null) {
       System.out.println("CLIENT (ignored ): " + msg);
-      return; // no need to process.
+      return;
     }
 
     System.out.println("CLIENT: " + msg);
@@ -309,7 +304,6 @@ public class AccessServer extends Thread {
           sendToClient("PASSWORD_CHANGE_FAILED_INCORRECT_NEWPASSWORD");
 
         }
-
       } else if (cmd.equals("PIN_CHANGE")) {
 
         String AcctNo = values.nextToken();
@@ -547,9 +541,7 @@ public class AccessServer extends Thread {
           System.out.println("Error" + nle);
         }
 
-      }
-
-      else if (cmd.equals("DEPOSIT_IN_PROGRESS")) {
+      } else if (cmd.equals("DEPOSIT_IN_PROGRESS")) {
         String AcctNo = values.nextToken();
         String dep = values.nextToken();
 
@@ -585,36 +577,19 @@ public class AccessServer extends Thread {
   }
 
   public void sendToClient(String msg) {
-
     outClient.println(msg);
     System.out.println("Client Port   : " + clientConnection.getPort());
-    // Flush the stream and check its error state:
+    System.out.println("Server -> Client : " + msg);
     if (outClient.checkError())
       System.err.println("Cannot send -> " + msg);
   }
 
-  /**
-   * Returns the information about the system.
-   */
-  public String getInfo() {
-    return "Details of client terminal:\n" +
-        "Client Address: " + clientConnection.getInetAddress() + "\n" +
-        "Client Port   : " + clientConnection.getPort() + "\n\n" +
-
-        "Logged in User details:\n" +
-        "Current User      : " + strName + "\n" +
-        "Current Account no: " + strAcctNo + "\n" +
-        "Current Action    : " + strAction;
-  }
-
   public void closeEverything() {
     try {
-      // stop all system threads:
       thClient = null;
       clientConnection.close();
       inClient.close();
       outClient.close();
-
     } catch (Exception e) {
       System.err.println("On closeEverything() -> " + e);
     }
