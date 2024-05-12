@@ -8,10 +8,8 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.sql.*;
-import javax.swing.JButton;
+
 import javax.swing.border.EmptyBorder;
-import java.awt.Font;
-import java.awt.Color;
 
 public class Server extends JFrame implements ActionListener, ChangeListener, Runnable {
 
@@ -41,6 +39,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
     long acctno, balance;
 
     Thread thClientAccept = null;
+    Thread clockThread = null;
 
     public Server() {
         super(" HTV Bank Server");
@@ -147,7 +146,10 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
 
         // start threads:
         thClientAccept = new Thread(this);
+        clockThread = new Thread(this);
+
         thClientAccept.start();
+        clockThread.start();
     }
 
     public void run() {
@@ -161,6 +163,14 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             } catch (Exception e) {
                 if (thClientAccept != null) // not shutting down yet?
                     System.err.println("Accept client -> " + e);
+            }
+        }
+
+        while (clockThread == thisThread) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.err.println("clock thread -> " + e);
             }
         }
     }
