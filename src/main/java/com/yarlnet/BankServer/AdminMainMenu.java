@@ -6,8 +6,6 @@ import java.awt.*;
 
 class AdminMainMenu extends JFrame implements ActionListener {
 
-	/* Instance Variables */
-
 	JPanel mainPanel = new JPanel(),
 			centerPanel = new JPanel();
 
@@ -15,41 +13,19 @@ class AdminMainMenu extends JFrame implements ActionListener {
 	JButton btnDelete;
 	JButton btnEdit;
 	JButton btnViewAcct;
-	// JButton btnViewReport;
-	// JButton btnLnDet;
 	JButton btnLogout;
 
 	JLabel lblLeft;
 	JLabel lblRight;
 	Server server;
 
-	/**
-	 * Name :
-	 * 
-	 * @param :
-	 * @return : void
-	 *         Description : constructor with Argument
-	 */
-
 	public AdminMainMenu(Server temp)// Server temp
 	{
-		/* Instantiate an object of this class to use as ActionListener of the GUI */
 		server = temp;
 		Initialize();
-
 	}
 
-	/**
-	 * Name : Initialize
-	 * 
-	 * @param : none
-	 * @return : void
-	 *         Description : develops the GUI
-	 */
 	public void Initialize() {
-
-		// frame = new JFrame();
-		// look & feel setup:
 		try {
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
@@ -58,11 +34,6 @@ class AdminMainMenu extends JFrame implements ActionListener {
 					+ "look and feel: " + e);
 		}
 
-		/*
-		 * The default value is: HIDE_ON_CLOSE,
-		 * 
-		 */
-		// frame.
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
 		// processing window events:
@@ -76,7 +47,6 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		};
 		// frame.
 		addWindowListener(L);
-
 
 		btnCreate = new JButton("Create Account");
 		btnDelete = new JButton("Delete Account");
@@ -92,8 +62,6 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		lblLeft = new JLabel("               ");
 		lblRight = new JLabel("               ");
 
-
-
 		mainPanel = new JPanel(new BorderLayout(10, 10));
 		centerPanel = new JPanel(new GridLayout(6, 1, 8, 8));
 
@@ -101,10 +69,7 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		btnDelete.addActionListener(server);
 		btnEdit.addActionListener(server);
 		btnViewAcct.addActionListener(server);
-		// btnLnDet.addActionListener(server);
-		// btnViewReport.addActionListener(server);
 		btnLogout.addActionListener(server);
-
 
 		JLabel lbl1 = new JLabel("Administrator : Main Menu", SwingConstants.CENTER);
 		lbl1.setFont(new Font("", Font.BOLD, 12));
@@ -115,13 +80,6 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		// Center panel for buttons with GridLayout for two columns
 		JPanel centerPanel = new JPanel(new GridLayout(0, 2)); // 0 means any number of rows, 2 columns
 
-		// Buttons
-		JButton btnCreate = new JButton("Create");
-		JButton btnDelete = new JButton("Delete");
-		JButton btnEdit = new JButton("Edit");
-		JButton btnViewAcct = new JButton("View Account");
-		JButton btnLogout = new JButton("Logout");
-
 		// Adding buttons to the center panel
 		centerPanel.add(btnCreate);
 		centerPanel.add(btnDelete);
@@ -130,9 +88,6 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		centerPanel.add(btnLogout);
 
 		// Labels
-//		JLabel lbl1 = new JLabel("Top Label");
-//		JLabel lblLeft = new JLabel("Left Label");
-//		JLabel lblRight = new JLabel("Right Label");
 
 		// Adding components to mainPanel
 		mainPanel.add(lbl1, BorderLayout.NORTH);
@@ -140,52 +95,26 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		mainPanel.add(lblLeft, BorderLayout.EAST);
 		mainPanel.add(lblRight, BorderLayout.WEST);
 
-
 		setContentPane(mainPanel);
-
-		// it doesn't work with our JTabbedPane !!! ---> pack();
-		// frame.
 		setSize(250, 250);
-		setResizable(false);
-		// frame.
+		setResizable(true);
 		setBounds(200, 80, 250, 250);
-
-		// show the window:
-		// frame.
-		// setVisible(true);
 
 	}
 
-	/**
-	 * Name : actionPeformed
-	 * 
-	 * @param : ActionEvent
-	 * @return : void
-	 *         Description :
-	 */
 	public void actionPerformed(ActionEvent e) {
 
 	}
 
 	public void setVVVisible() {
-		// frame.
 		setVisible(true);
-
 	}
 
 	public void setClear() {
 	}
 
 	public void setInVVVisible() {
-		// frame.
 		setVisible(false);
-
 	}
-	/*
-	 * public static void main(String[] args)
-	 * {
-	 * new AdminEntryLevel();
-	 * }
-	 */
 
 }// end of class...

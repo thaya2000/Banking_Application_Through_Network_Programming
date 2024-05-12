@@ -13,7 +13,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Font;
 import java.awt.Color;
 
-
 public class Server extends JFrame implements ActionListener, ChangeListener, Runnable {
 
     // a list of the clients that are logged currently:
@@ -45,10 +44,8 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
     // button for termination of a client:
     JButton btnAdministrator = new JButton("Administrator ");
 
-
-//    btnAdministrator.setBackground(Color.BLUE);
-//    btnAdministrator.setForeground(Color.WHITE);
-
+    // btnAdministrator.setBackground(Color.BLUE);
+    // btnAdministrator.setForeground(Color.WHITE);
 
     JLabel lblRunning; // label to show how many clients are logged.
     long acctno, balance;
@@ -65,7 +62,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             System.err.println("Cannot open server socket: " + ioe);
             System.exit(0);
         }
-
 
         adminEntry = new AdminEntryLevel(this);
         adminCreate = new AdminCreateAcc(this);
@@ -89,8 +85,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         btnAdministrator.setBorderPainted(false);
         btnAdministrator.setBackground(Color.YELLOW);
         btnAdministrator.setForeground(Color.BLACK);
-
-
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         WindowListener L = new WindowAdapter() {
@@ -120,27 +114,24 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         // Panel for labels at right
         JPanel pRLBL = new JPanel(new GridLayout(1, 1));
         JLabel lblBank = new JLabel("HTV BANK");
-        lblBank.setHorizontalAlignment(JLabel.CENTER);  // Center alignment
-        lblBank.setForeground(Color.BLACK);  // Font color
-        lblBank.setFont(new Font("Arial", Font.BOLD, 44));  // Font style, weight, and size
+        lblBank.setHorizontalAlignment(JLabel.CENTER); // Center alignment
+        lblBank.setForeground(Color.BLACK); // Font color
+        lblBank.setFont(new Font("Arial", Font.BOLD, 44)); // Font style, weight, and size
         pRLBL.add(lblBank);
         pRLBL.setBorder(new EmptyBorder(40, 0, 30, 0));
-
 
         JPanel pDLBL = new JPanel(new GridLayout(1, 1)); // Assuming a simple grid layout
         JLabel lblDetails = new JLabel("Welcome to HTV Bank");
         lblDetails.setHorizontalAlignment(JLabel.CENTER); // Center the text
-        lblDetails.setForeground(Color.RED);  // Set the font color to red
+        lblDetails.setForeground(Color.RED); // Set the font color to red
         lblDetails.setFont(new Font("Arial", Font.PLAIN, 18)); // Set the font
         pDLBL.add(lblDetails);
         pDLBL.setBorder(new EmptyBorder(80, 0, 30, 0));
-
 
         // Adding panels to upper panel
         pUpper.add(pRLBL);
         pUpper.add(pLLBL);
         pUpper.add(pDLBL);
-
 
         // Add the upper panel to the main panel
         pMain.add(pUpper, BorderLayout.NORTH);
@@ -210,7 +201,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             btnAdministrator.setEnabled(false);
             adminEntry.setClear();
             adminEntry.setVisible(true);
-
         } else if (src == adminEntry.logIn) {
 
             String s = new String(adminEntry.pField.getPassword());

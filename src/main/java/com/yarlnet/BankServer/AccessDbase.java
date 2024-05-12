@@ -11,7 +11,7 @@ public class AccessDbase {
 
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/bank";
 	private static final String DB_USER = "root";
-	private static final String DB_PASSWORD = "VithunP99#";
+	private static final String DB_PASSWORD = "thaya123";
 	private static Connection connection;
 
 	public AccessDbase() {
