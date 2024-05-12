@@ -66,10 +66,7 @@ class AdminViewAccount extends JFrame implements ActionListener {
       addWindowListener(L);
 
       btnSearch = new JButton("Search");
-      // btnDbBegin = new JButton(" |< ");
-      // btnDbBwd = new JButton(" << ");
-      // btnDbFwd = new JButton(" >> ");
-      // btnDbEnd = new JButton(" >| ");
+
       lblLeft = new JLabel("               ");
       lblRight = new JLabel("               ");
       fields = new JTextField[9];
@@ -93,12 +90,6 @@ class AdminViewAccount extends JFrame implements ActionListener {
       lblState.setSize(5, 4);
       lblPhone.setSize(5, 4);
 
-      // btnSubmit.setSize(10,5);
-      // btnCancel.setSize(10,5);
-      // btnDbBegin.addActionListener(this);
-      // btnDbBwd.addActionListener(this);
-      // btnDbFwd.addActionListener(this);
-      // btnDbEnd.addActionListener(this);
       btnSearch.addActionListener(this);
       for (int i = 0; i < 9; i++) {
 
@@ -111,12 +102,7 @@ class AdminViewAccount extends JFrame implements ActionListener {
 
       }
 
-      // System.out.println(s);
-
       txtAcctNo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-      // rightPanel.add(new JLabel(" "));
-      // rightPanel.add(new JLabel(" "));
 
       centerPanel.add(lblAcctNo);
       centerPanel.add(fields[0]);
@@ -151,10 +137,7 @@ class AdminViewAccount extends JFrame implements ActionListener {
       upperPanel.add(new JLabel(" ", SwingConstants.CENTER));
 
       mainPanel.add(upperPanel, BorderLayout.NORTH);
-      // bottomPanel.add(btnDbBegin);
-      // bottomPanel.add(btnDbBwd);
-      // bottomPanel.add(btnDbFwd);
-      // bottomPanel.add(btnDbEnd);
+
       inbottomPanel.add(new JLabel("Enter Account No"));
       inbottomPanel.add(txtAcctNo);
       inbottomPanel.add(btnSearch);
@@ -165,242 +148,17 @@ class AdminViewAccount extends JFrame implements ActionListener {
 
       setContentPane(mainPanel);
 
-      // it doesn't work with our JTabbedPane !!! ---> pack();
-      // frame.
       setSize(400, 400);
-      // frame.
+
       setBounds(150, 80, 400, 400);
 
-      // show the window:
-      // frame.
       setVisible(true);
       setResizable(false);
 
    }
 
-   /**
-    * Name : actionPeformed
-    * 
-    * @param : ActionEvent
-    * @return : void
-    *         Description :
-    */
    public void actionPerformed(ActionEvent e) {
       JButton src = (JButton) e.getSource();
-
-      // if (src == btnDbBegin) {
-
-      // try {
-
-      // server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery(
-      // "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,Province,Phone,Validity
-      // FROM ClientInfo");
-
-      // server.aDbase.uprs.first();
-
-      // long acctno = server.aDbase.uprs.getLong(1);
-      // System.out.println(acctno);
-      // String AcNo = Long.toString(acctno);
-
-      // boolean val = server.aDbase.uprs.getBoolean(8);
-      // String valid;
-      // if (val)
-      // valid = "Yes";
-      // else
-      // valid = "No";
-      // txtAcctNo.setText(AcNo);
-      // fields[0].setText(AcNo);
-      // fields[1].setText(" " + server.aDbase.uprs.getString(2));
-
-      // fields[3].setText(" " + valid);
-      // fields[4].setText(" " + server.aDbase.uprs.getString(3));
-      // fields[5].setText(" " + server.aDbase.uprs.getString(4));
-      // fields[6].setText(" " + server.aDbase.uprs.getString(5));
-      // fields[7].setText(" " + server.aDbase.uprs.getString(6));
-      // fields[8].setText(" " + server.aDbase.uprs.getString(7));
-
-      // server.aDbase.uprs.close();
-
-      // server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT Balance FROM
-      // ClientAccStatus");
-      // server.aDbase.uprs.first();
-      // long balance = server.aDbase.uprs.getLong(1);
-      // String Bal = Long.toString(balance);
-      // fields[2].setText(" Rs " + Bal + "\\-");
-
-      // server.aDbase.uprs.close();
-
-      // }
-
-      // catch (SQLException sqle) {
-      // System.out.println("Error :" + sqle);
-      // }
-
-      // }
-
-      // else if (src == btnDbEnd) {
-
-      // try {
-
-      // server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery(
-      // "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,Province,Phone,Validity
-      // FROM ClientInfo");
-
-      // server.aDbase.uprs.last();
-
-      // long acctno = server.aDbase.uprs.getLong(1);
-      // System.out.println(acctno);
-      // String AcNo = Long.toString(acctno);
-
-      // boolean val = server.aDbase.uprs.getBoolean(8);
-      // String valid;
-      // if (val)
-      // valid = "Yes";
-      // else
-      // valid = "No";
-      // txtAcctNo.setText(AcNo);
-      // fields[0].setText(AcNo);
-      // fields[1].setText(" " + server.aDbase.uprs.getString(2));
-
-      // fields[3].setText(" " + valid);
-      // fields[4].setText(" " + server.aDbase.uprs.getString(3));
-      // fields[5].setText(" " + server.aDbase.uprs.getString(4));
-      // fields[6].setText(" " + server.aDbase.uprs.getString(5));
-      // fields[7].setText(" " + server.aDbase.uprs.getString(6));
-      // fields[8].setText(" " + server.aDbase.uprs.getString(7));
-
-      // server.aDbase.uprs = server.aDbase.tmpStmt.executeQuery("SELECT Balance FROM
-      // ClientAccStatus");
-      // server.aDbase.uprs.last();
-      // long balance = server.aDbase.uprs.getLong(1);
-      // String Bal = Long.toString(balance);
-      // fields[2].setText(" Rs " + Bal + "\\-");
-      // server.aDbase.uprs.close();
-
-      // }
-
-      // catch (SQLException sqle) {
-      // System.out.println("Error :" + sqle);
-      // }
-      // } else if (src == btnDbBwd) {
-      // try {
-
-      // String s = fields[0].getText();
-      // long act = Long.parseLong(s);
-      // System.out.println(act);
-      // act = act - 1;
-      // String Actt = Long.toString(act);
-      // server.aDbase.uprs = server.aDbase.stmt.executeQuery(
-      // "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,Province,Phone,Validity
-      // FROM ClientInfo WHERE AccountNo = "
-      // + Actt);
-
-      // server.aDbase.uprs.next();
-
-      // long acctno = server.aDbase.uprs.getLong(1);
-      // System.out.println(acctno);
-      // String AcNo = Long.toString(acctno);
-
-      // boolean val = server.aDbase.uprs.getBoolean(8);
-      // String valid;
-      // if (val)
-      // valid = "Yes";
-      // else
-      // valid = "No";
-      // txtAcctNo.setText(AcNo);
-      // fields[0].setText(AcNo);
-      // fields[1].setText(" " + server.aDbase.uprs.getString(2));
-
-      // fields[3].setText(" " + valid);
-      // fields[4].setText(" " + server.aDbase.uprs.getString(3));
-      // fields[5].setText(" " + server.aDbase.uprs.getString(4));
-      // fields[6].setText(" " + server.aDbase.uprs.getString(5));
-      // fields[7].setText(" " + server.aDbase.uprs.getString(6));
-      // fields[8].setText(" " + server.aDbase.uprs.getString(7));
-
-      // server.aDbase.uprs = server.aDbase.stmt
-      // .executeQuery("SELECT Balance FROM ClientAccStatus WHERE AccountNo = " +
-      // Actt);
-      // server.aDbase.uprs.next();
-      // long balance = server.aDbase.uprs.getLong(1);
-      // String Bal = Long.toString(balance);
-      // fields[2].setText(" Rs " + Bal + "\\-");
-      // server.aDbase.uprs.close();
-
-      // }
-
-      // catch (SQLException sqle) {
-      // JOptionPane.showMessageDialog(this,
-      // "End of Record",
-      // "Error",
-      // JOptionPane.ERROR_MESSAGE);
-      // System.out.println("Error :" + sqle);
-      // } catch (java.lang.NumberFormatException num) {
-
-      // System.out.println("Error :" + num);
-      // }
-
-      // } else if (src == btnDbFwd)
-
-      // {
-      // try {
-
-      // String s = fields[0].getText();
-      // long act = Long.parseLong(s);
-      // System.out.println(act);
-      // act = act + 1;
-      // String Actt = Long.toString(act);
-      // server.aDbase.uprs = server.aDbase.stmt.executeQuery(
-      // "SELECT AccountNo,Name,AddressLine1,AddressLine2,City,Province,Phone,Validity
-      // FROM ClientInfo WHERE AccountNo = "
-      // + Actt);
-
-      // server.aDbase.uprs.next();
-
-      // long acctno = server.aDbase.uprs.getLong(1);
-      // System.out.println(acctno);
-      // String AcNo = Long.toString(acctno);
-
-      // boolean val = server.aDbase.uprs.getBoolean(8);
-      // String valid;
-      // if (val)
-      // valid = "Yes";
-      // else
-      // valid = "No";
-      // txtAcctNo.setText(AcNo);
-      // fields[0].setText(AcNo);
-      // fields[1].setText(" " + server.aDbase.uprs.getString(2));
-
-      // fields[3].setText(" " + valid);
-      // fields[4].setText(" " + server.aDbase.uprs.getString(3));
-      // fields[5].setText(" " + server.aDbase.uprs.getString(4));
-      // fields[6].setText(" " + server.aDbase.uprs.getString(5));
-      // fields[7].setText(" " + server.aDbase.uprs.getString(6));
-      // fields[8].setText(" " + server.aDbase.uprs.getString(7));
-
-      // server.aDbase.uprs = server.aDbase.stmt
-      // .executeQuery("SELECT Balance FROM ClientAccStatus WHERE AccountNo = " +
-      // Actt);
-      // server.aDbase.uprs.next();
-      // long balance = server.aDbase.uprs.getLong(1);
-      // String Bal = Long.toString(balance);
-      // fields[2].setText(" Rs " + Bal + "\\-");
-      // server.aDbase.uprs.close();
-
-      // }
-
-      // catch (SQLException sqle) {
-      // JOptionPane.showMessageDialog(this,
-      // "End of Record",
-      // "Error",
-      // JOptionPane.ERROR_MESSAGE);
-      // System.out.println("Error :" + sqle);
-      // } catch (java.lang.NumberFormatException num) {
-
-      // System.out.println("Error :" + num);
-      // }
-
-      // } else
 
       if (src == btnSearch) {
          try {
@@ -520,11 +278,4 @@ class AdminViewAccount extends JFrame implements ActionListener {
 
    }
 
-   /*
-    * public static void main(String[] args)
-    * {
-    * new AdminCreateAcc();
-    * }
-    */
-
-}// end of class...
+}

@@ -22,7 +22,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
 
     private static InetAddress localHost = null;
 
-    // GUI's
     AdminEntryLevel adminEntry;
     AdminCreateAcc adminCreate;
     AdminDeleteAcc adminDelete;
@@ -39,6 +38,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
     long acctno, balance;
 
     Thread thClientAccept = null;
+    Thread thUpdateClientInfo = null;
     Thread clockThread = null;
 
     public Server() {
@@ -84,11 +84,10 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         addWindowListener(L);
 
         JPanel pMain = new JPanel(new BorderLayout());
-        // Upper layout with vertical BoxLayout
-        JPanel pUpper = new JPanel();
-        pUpper.setLayout(new BoxLayout(pUpper, BoxLayout.Y_AXIS)); // Stack vertically
 
-        // Panel for labels at left
+        JPanel pUpper = new JPanel();
+        pUpper.setLayout(new BoxLayout(pUpper, BoxLayout.Y_AXIS));
+
         JPanel pLLBL = new JPanel(new GridLayout(5, 5));
         pLLBL.setBackground(Color.YELLOW);
         pLLBL.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -98,24 +97,22 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         lblRunning = new JLabel("     Currently logged : 0 client(s).");
         pLLBL.add(lblRunning);
 
-        // Panel for labels at right
         JPanel pRLBL = new JPanel(new GridLayout(1, 1));
         JLabel lblBank = new JLabel("HTV BANK");
-        lblBank.setHorizontalAlignment(JLabel.CENTER); // Center alignment
+        lblBank.setHorizontalAlignment(JLabel.CENTER);
         lblBank.setForeground(Color.BLACK); // Font color
-        lblBank.setFont(new Font("Arial", Font.BOLD, 44)); // Font style, weight, and size
+        lblBank.setFont(new Font("Arial", Font.BOLD, 44));
         pRLBL.add(lblBank);
         pRLBL.setBorder(new EmptyBorder(40, 0, 30, 0));
 
-        JPanel pDLBL = new JPanel(new GridLayout(1, 1)); // Assuming a simple grid layout
+        JPanel pDLBL = new JPanel(new GridLayout(1, 1));
         JLabel lblDetails = new JLabel("Welcome to HTV Bank");
-        lblDetails.setHorizontalAlignment(JLabel.CENTER); // Center the text
-        lblDetails.setForeground(Color.RED); // Set the font color to red
-        lblDetails.setFont(new Font("Arial", Font.PLAIN, 18)); // Set the font
+        lblDetails.setHorizontalAlignment(JLabel.CENTER);
+        lblDetails.setForeground(Color.RED);
+        lblDetails.setFont(new Font("Arial", Font.PLAIN, 18));
         pDLBL.add(lblDetails);
         pDLBL.setBorder(new EmptyBorder(80, 0, 30, 0));
 
-        // Adding panels to upper panel
         pUpper.add(pRLBL);
         pUpper.add(pLLBL);
         pUpper.add(pDLBL);
@@ -133,7 +130,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         adminBtns.setBorder(new EmptyBorder(0, 0, 100, 0));
         pMain.add(adminBtns, BorderLayout.SOUTH);
 
-        // set content pane:
         setContentPane(pMain);
         setSize(600, 500);
         setBounds(100, 20, 600, 500);
@@ -144,11 +140,12 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         aDbase.connectionDb();
         pause(2000);
 
-        // start threads:
         thClientAccept = new Thread(this);
+        thUpdateClientInfo = new Thread(this);
         clockThread = new Thread(this);
 
         thClientAccept.start();
+        thUpdateClientInfo.start();
         clockThread.start();
     }
 
@@ -161,7 +158,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
                 lastClient = new AccessServer(this);
                 lastClient.connectClient(clientConnection);
             } catch (Exception e) {
-                if (thClientAccept != null) // not shutting down yet?
+                if (thClientAccept != null)
                     System.err.println("Accept client -> " + e);
             }
         }
@@ -172,6 +169,12 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             } catch (InterruptedException e) {
                 System.err.println("clock thread -> " + e);
             }
+        }
+
+        while (thUpdateClientInfo == thisThread) {
+            if (clients.size() > 0)
+                thUpdateClientInfo.yield();
+            pause(1200);
         }
     }
 

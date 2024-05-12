@@ -111,26 +111,16 @@ class AdminDeleteAcc extends JFrame implements ActionListener {
 		mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
 		setContentPane(mainPanel);
-
-		// it doesn't work with our JTabbedPane !!! ---> pack();
-		// frame.
+.
 		setSize(350, 225);
-		// frame.
+		
 		setBounds(150, 80, 350, 225);
 
-		// show the window:
-		// frame.
+		
 		setVisible(false);
 
 	}
 
-	/**
-	 * Name : actionPeformed
-	 * 
-	 * @param : ActionEvent
-	 * @return : void
-	 *         Description :
-	 */
 	public void actionPerformed(ActionEvent e) {
 
 	}
@@ -154,11 +144,5 @@ class AdminDeleteAcc extends JFrame implements ActionListener {
 	public void closeApplication() {
 		System.exit(0);
 	}
-	/*
-	 * public static void main(String[] args)
-	 * {
-	 * new AdminDeleteAcc();
-	 * }
-	 */
 
-}// end of class...
+}

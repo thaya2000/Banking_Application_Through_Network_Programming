@@ -6,8 +6,6 @@ import java.awt.*;
 
 class ClientDeposit extends JFrame implements ActionListener {
 
-    /* Instance Variables */
-
     JPanel mainPanel = new JPanel();
     JPanel centerPanel = new JPanel();
     JPanel leftPanel = new JPanel();
@@ -35,26 +33,16 @@ class ClientDeposit extends JFrame implements ActionListener {
 
     ClientLog clientLg;
 
-    public ClientDeposit(ClientLog temp)// Server temp
-    {
-        /* Instantiate an object of this class to use as ActionListener of the GUI */
+    public ClientDeposit(ClientLog temp) {
+
         super("Network Bank");
         clientLg = temp;
         Initialize();
 
     }
 
-    /**
-     * Name : Initialize
-     * 
-     * @param : none
-     * @return : void
-     *         Description : develops the GUI
-     */
     public void Initialize() {
 
-        // frame = new JFrame();
-        // look & feel setup:
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
@@ -63,11 +51,6 @@ class ClientDeposit extends JFrame implements ActionListener {
                     + "look and feel: " + e);
         }
 
-        /*
-         * The default value is: HIDE_ON_CLOSE,
-         * 
-         */
-        // frame.
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
         // processing window events:
@@ -77,14 +60,9 @@ class ClientDeposit extends JFrame implements ActionListener {
                 // closeApplication();
             }
         };
-        // frame.
+
         addWindowListener(L);
 
-        // font = new Font("SansSerif",Font.BOLD, 14);
-        // font1 = new Font ("TimesNewRoman", Font.BOLD , 14);
-        // color1 = new Color(255,0,0);
-        // color = new Color(0,200,240);
-        // color2 = new Color(0,0,255);
         lblLeft = new JLabel("               ");
         lblRight = new JLabel("               ");
 
@@ -164,14 +142,10 @@ class ClientDeposit extends JFrame implements ActionListener {
 
         setContentPane(mainPanel);
 
-        // it doesn't work with our JTabbedPane !!! ---> pack();
-        // frame.
         setSize(300, 220);
-        // frame.
+
         setBounds(200, 80, 300, 220);
 
-        // show the window:
-        // frame.
         setResizable(false);
         setVisible(false);
 
@@ -182,23 +156,21 @@ class ClientDeposit extends JFrame implements ActionListener {
 
         if (src == btnDep) {
 
-            // PENDING.........
-
         } else if (src == btnCancel) {
         }
 
     }
 
     public void setVVVisible() {
-        // frame.
+
         setVisible(true);
 
     }
 
     public void setInVVVisible() {
-        // frame.
+
         setVisible(false);
 
     }
 
-}// end of class..
+}

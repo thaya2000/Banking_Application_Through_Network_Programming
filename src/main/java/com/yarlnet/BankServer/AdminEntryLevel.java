@@ -28,33 +28,15 @@ class AdminEntryLevel extends JFrame implements ActionListener {
     JLabel lblLeft;
     JLabel lblRight;
 
-    /**
-     * Name :
-     * 
-     * @param :
-     * @return : void
-     *         Description : constructor with Argument
-     */
+    public AdminEntryLevel(Server temp) {
 
-    public AdminEntryLevel(Server temp)// Server temp
-    {
-        /* Instantiate an object of this class to use as ActionListener of the GUI */
         server = temp;
         Initialize();
 
     }
 
-    /**
-     * Name : Initialize
-     * 
-     * @param : none
-     * @return : void
-     *         Description : develops the GUI
-     */
     public void Initialize() {
 
-        // frame = new JFrame();
-        // look & feel setup:
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
@@ -63,11 +45,6 @@ class AdminEntryLevel extends JFrame implements ActionListener {
                     + "look and feel: " + e);
         }
 
-        /*
-         * The default value is: HIDE_ON_CLOSE,
-         * 
-         */
-        // frame.
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         // processing window events:
@@ -77,14 +54,9 @@ class AdminEntryLevel extends JFrame implements ActionListener {
                 // closeApplication();
             }
         };
-        // frame.
+
         addWindowListener(L);
 
-        // font = new Font("SansSerif",Font.BOLD, 14);
-        // font1 = new Font ("TimesNewRoman", Font.BOLD , 14);
-        // color1 = new Color(255,0,0);
-        // color = new Color(0,200,240);
-        // color2 = new Color(0,0,255);
         logIn = new JButton("Log In");// .setFont(font);
         cancelLogIn = new JButton("Cancel");// .setFont(font);
 
@@ -121,41 +93,29 @@ class AdminEntryLevel extends JFrame implements ActionListener {
         mainPanel.add(centerPanel, BorderLayout.CENTER);
         mainPanel.add(lblLeft, BorderLayout.EAST);
         mainPanel.add(lblRight, BorderLayout.WEST);
-        // set content pane:
-        // frame.
+
         setContentPane(mainPanel);
 
-        // it doesn't work with our JTabbedPane !!! ---> pack();
-        // frame.
         setSize(300, 155);
-        // frame.
+
         setBounds(200, 45, 300, 155);
 
-        // show the window:
-        // frame.
         setVisible(false);
 
     }
 
-    /**
-     * Name : actionPeformed
-     * 
-     * @param : ActionEvent
-     * @return : void
-     *         Description :
-     */
     public void actionPerformed(ActionEvent e) {
 
     }
 
     public void setVVVisible() {
-        // frame.
+
         setVisible(true);
 
     }
 
     public void setInVVVisible() {
-        // frame.
+
         setVisible(false);
 
     }
@@ -165,11 +125,5 @@ class AdminEntryLevel extends JFrame implements ActionListener {
         pField.setText("");
         txtID.setFocusable(true);
     }
-    /*
-     * public static void main(String[] args)
-     * {
-     * new AdminEntryLevel();
-     * }
-     */
 
-}// end of class...
+}
