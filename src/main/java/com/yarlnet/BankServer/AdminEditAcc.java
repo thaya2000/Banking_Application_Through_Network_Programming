@@ -20,8 +20,7 @@ class AdminEditAcc extends JFrame implements ActionListener {
 	JTextField txtAcctNo;
 	Server server;
 
-	public AdminEditAcc(Server temp)// AdminMainMenu temp )//Server temp
-	{
+	public AdminEditAcc(Server temp) {
 		server = temp;
 		Initialize();
 	}

@@ -178,8 +178,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             }
         }
 
-        // thread that cares about updating the client info:
-        // automatic update of info for selected client:
         while (thUpdateClientInfo == thisThread) {
             if (clients.size() > 0) // no clients?
                 Thread.yield(); // this thread isn't so important, think of others.
@@ -242,11 +240,12 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             adminMain.setVisible(false);
             adminViewAcct.setClear();
             adminViewAcct.setVisible(true);
-
+            System.out.println("Admin View Account Window Opened");
         } else if (src == adminMain.btnLogout) {
             adminEntry.setClear();
             adminMain.setVisible(false);
             adminEntry.setVisible(true);
+            System.out.println("Admin Main Menu Window Closed");
         } else if (src == adminCreate.btnSubmit) {
             try {
                 if ((adminCreate.fields[1].getText().trim().equals(""))
@@ -270,7 +269,8 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
                     aDbase.stmt.executeUpdate("INSERT INTO ClientAccStatus" + " VALUES( "
                             + adminCreate.fields[0].getText() + ",'" + adminCreate.fields[1].getText()
                             + "', 500, False)");
-                    System.out.println("Dbase Created");
+
+                    System.out.println("New Account Created for Customer " + adminCreate.fields[1].getText());
                     JOptionPane.showMessageDialog(adminCreate,
                             "Account No : " + adminCreate.fields[0].getText() + "\nName          : "
                                     + adminCreate.fields[1].getText() + "\nPassword    : "
@@ -317,10 +317,8 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             System.out.println("Admin Delete Account Window Closed");
         } else if (src == adminEdit.btnEdit) {
             try {
-
                 String s = adminEdit.txtAcctNo.getText();
                 aDbase.uprs = aDbase.stmt.executeQuery("SELECT * FROM ClientInfo WHERE AccountNo = " + s);
-
                 aDbase.uprs.next();
                 adminUpdate.fields[0].setText(s);
                 adminUpdate.fields[0].setEditable(false);
@@ -367,10 +365,9 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
                         JOptionPane.INFORMATION_MESSAGE);
                 adminUpdate.setVisible(false);
                 adminMain.setVisible(true);
+                System.out.println("Admin Update Account Window Closed");
             } catch (SQLException sqle) {
-
                 System.out.println("Error" + sqle);
-
             }
 
         } else if (src == adminUpdate.btnCancel) {
@@ -394,13 +391,9 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             System.out.println("Unknown host - probably localhost with no IP!");
         }
 
-        // print out the info (the same info is also shown on the server's
-        // GUI window).
         System.out.println("Server is running on host: " + localHost);
         System.out.println("Waiting clients on port: " + client_port);
-        // create & start server GUI engine:
         new Server();
-
     }
 
     private void closeApplication() {
