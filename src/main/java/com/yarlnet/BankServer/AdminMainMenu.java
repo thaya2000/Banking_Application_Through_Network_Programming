@@ -77,41 +77,22 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		// frame.
 		addWindowListener(L);
 
-		// font = new Font("SansSerif",Font.BOLD, 14);
-		// font1 = new Font ("TimesNewRoman", Font.BOLD , 14);
-		// color1 = new Color(255,0,0);
-		// color = new Color(0,200,240);
-		// color2 = new Color(0,0,255);
-		btnCreate = new JButton("Create Account");// .setFont(font);
-		btnDelete = new JButton("Delete Account");// .setFont(font);
-		btnEdit = new JButton("Edit Account");// .setFont(font);
+
+		btnCreate = new JButton("Create Account");
+		btnDelete = new JButton("Delete Account");
+		btnEdit = new JButton("Edit Account");
 		btnViewAcct = new JButton("View Account");
-		// btnLnDet = new JButton("Loan Details");
-		// btnViewReport = new JButton("View Report");// .setFont(font);
-		btnLogout = new JButton("Log Out");// .setFont(font);
+		btnLogout = new JButton("Log Out");
 		btnCreate.updateUI();
 		btnDelete.updateUI();
 		btnEdit.updateUI();
 		btnViewAcct.updateUI();
-		// btnLnDet.updateUI();
-		// btnViewReport.updateUI();
+
 		btnLogout.updateUI();
 		lblLeft = new JLabel("               ");
 		lblRight = new JLabel("               ");
 
-		// adminCreate = new AdminCreateAcc();
-		// display[0] = new JLabel("---------------------------------------- " );
-		// display = new JLabel(" Main Menu " );
-		// display[2] = new JLabel("---------------------------------------- " );
-		// display[3] = new JLabel("---------------------------------------- " );
-		// display.setFont(font1);
-		// display.setForeground(color2);
-		// display.setText(
-		// "-------------------------------------------------------------------------------------------------------------
-		// \n ADMINISTRATOR
-		// \n------------------------------------------------------------------------------------------------------------------------------------------------------------\nPlease
-		// enter the following Data to continue..\n");
-		// display.setEditable(false);
+
 
 		mainPanel = new JPanel(new BorderLayout(10, 10));
 		centerPanel = new JPanel(new GridLayout(6, 1, 8, 8));
@@ -123,22 +104,42 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		// btnLnDet.addActionListener(server);
 		// btnViewReport.addActionListener(server);
 		btnLogout.addActionListener(server);
+
+
 		JLabel lbl1 = new JLabel("Administrator : Main Menu", SwingConstants.CENTER);
 		lbl1.setFont(new Font("", Font.BOLD, 12));
 		lbl1.setSize(5, 4);
 
-		mainPanel.add(lbl1, BorderLayout.NORTH);// .setFont(font));
+		JPanel mainPanel = new JPanel(new BorderLayout());
+
+		// Center panel for buttons with GridLayout for two columns
+		JPanel centerPanel = new JPanel(new GridLayout(0, 2)); // 0 means any number of rows, 2 columns
+
+		// Buttons
+		JButton btnCreate = new JButton("Create");
+		JButton btnDelete = new JButton("Delete");
+		JButton btnEdit = new JButton("Edit");
+		JButton btnViewAcct = new JButton("View Account");
+		JButton btnLogout = new JButton("Logout");
+
+		// Adding buttons to the center panel
 		centerPanel.add(btnCreate);
 		centerPanel.add(btnDelete);
 		centerPanel.add(btnEdit);
 		centerPanel.add(btnViewAcct);
-		// centerPanel.add(btnLnDet);
-		// centerPanel.add(btnViewReport);
 		centerPanel.add(btnLogout);
+
+		// Labels
+//		JLabel lbl1 = new JLabel("Top Label");
+//		JLabel lblLeft = new JLabel("Left Label");
+//		JLabel lblRight = new JLabel("Right Label");
+
+		// Adding components to mainPanel
+		mainPanel.add(lbl1, BorderLayout.NORTH);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
 		mainPanel.add(lblLeft, BorderLayout.EAST);
 		mainPanel.add(lblRight, BorderLayout.WEST);
-		// mainPanel.add(lblRight,BorderLayout.SOUTH);
+
 
 		setContentPane(mainPanel);
 

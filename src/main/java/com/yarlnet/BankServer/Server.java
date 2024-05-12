@@ -8,6 +8,11 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.sql.*;
+import javax.swing.JButton;
+import javax.swing.border.EmptyBorder;
+import java.awt.Font;
+import java.awt.Color;
+
 
 public class Server extends JFrame implements ActionListener, ChangeListener, Runnable {
 
@@ -39,6 +44,12 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
 
     // button for termination of a client:
     JButton btnAdministrator = new JButton("Administrator ");
+
+
+//    btnAdministrator.setBackground(Color.BLUE);
+//    btnAdministrator.setForeground(Color.WHITE);
+
+
     JLabel lblRunning; // label to show how many clients are logged.
     long acctno, balance;
 
@@ -47,13 +58,14 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
     Thread thUpdateClientInfo = null;
 
     public Server() {
-        super(" Bank Server");
+        super(" HTV Bank Server");
         try {
             socketForClient = new ServerSocket(client_port);
         } catch (IOException ioe) {
             System.err.println("Cannot open server socket: " + ioe);
             System.exit(0);
         }
+
 
         adminEntry = new AdminEntryLevel(this);
         adminCreate = new AdminCreateAcc(this);
@@ -73,6 +85,13 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         }
 
         btnAdministrator.updateUI();
+        btnAdministrator.setContentAreaFilled(true);
+        btnAdministrator.setBorderPainted(false);
+        btnAdministrator.setBackground(Color.YELLOW);
+        btnAdministrator.setForeground(Color.BLACK);
+
+
+
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         WindowListener L = new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -83,23 +102,47 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
 
         addWindowListener(L);
 
-        JPanel pMain = new JPanel(new BorderLayout()); // main layout.
-        JPanel pUpper = new JPanel(new GridLayout(1, 2)); // upper layout.
-        JPanel pLLBL = new JPanel(new GridLayout(5, 1)); // for labels at left.
-        JPanel pRLBL = new JPanel(new GridLayout(1, 1)); // for labels at right.
+        JPanel pMain = new JPanel(new BorderLayout());
+        // Upper layout with vertical BoxLayout
+        JPanel pUpper = new JPanel();
+        pUpper.setLayout(new BoxLayout(pUpper, BoxLayout.Y_AXIS)); // Stack vertically
 
-        lblRunning = new JLabel("     Currently logged : 0 client(s).");
-
+        // Panel for labels at left
+        JPanel pLLBL = new JPanel(new GridLayout(5, 5));
+        pLLBL.setBackground(Color.YELLOW);
+        pLLBL.setBorder(new EmptyBorder(10, 10, 10, 10));
         pLLBL.add(new JLabel(" "));
         pLLBL.add(new JLabel(" "));
         pLLBL.add(new JLabel("     Server is running on host: " + localHost));
+        lblRunning = new JLabel("     Currently logged : 0 client(s).");
         pLLBL.add(lblRunning);
 
-        pUpper.add(pLLBL);
+        // Panel for labels at right
+        JPanel pRLBL = new JPanel(new GridLayout(1, 1));
+        JLabel lblBank = new JLabel("HTV BANK");
+        lblBank.setHorizontalAlignment(JLabel.CENTER);  // Center alignment
+        lblBank.setForeground(Color.BLACK);  // Font color
+        lblBank.setFont(new Font("Arial", Font.BOLD, 44));  // Font style, weight, and size
+        pRLBL.add(lblBank);
+        pRLBL.setBorder(new EmptyBorder(40, 0, 30, 0));
+
+
+        JPanel pDLBL = new JPanel(new GridLayout(1, 1)); // Assuming a simple grid layout
+        JLabel lblDetails = new JLabel("Welcome to HTV Bank");
+        lblDetails.setHorizontalAlignment(JLabel.CENTER); // Center the text
+        lblDetails.setForeground(Color.RED);  // Set the font color to red
+        lblDetails.setFont(new Font("Arial", Font.PLAIN, 18)); // Set the font
+        pDLBL.add(lblDetails);
+        pDLBL.setBorder(new EmptyBorder(80, 0, 30, 0));
+
+
+        // Adding panels to upper panel
         pUpper.add(pRLBL);
+        pUpper.add(pLLBL);
+        pUpper.add(pDLBL);
 
-        // JPanel pBtns = new JPanel(new FlowLayout()); // for "Terminate" button.
 
+        // Add the upper panel to the main panel
         pMain.add(pUpper, BorderLayout.NORTH);
 
         JPanel adminBtns = new JPanel(new BorderLayout());
@@ -109,6 +152,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         btnAdministrator.addActionListener(this);
         adminDisplay.add(btnAdministrator);
         adminBtns.add(adminDisplay, BorderLayout.SOUTH);
+        adminBtns.setBorder(new EmptyBorder(0, 0, 100, 0));
         pMain.add(adminBtns, BorderLayout.SOUTH);
 
         // set content pane:
