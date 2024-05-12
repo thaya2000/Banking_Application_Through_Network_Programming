@@ -19,8 +19,7 @@ class AdminMainMenu extends JFrame implements ActionListener {
 	JLabel lblRight;
 	Server server;
 
-	public AdminMainMenu(Server temp)// Server temp
-	{
+	public AdminMainMenu(Server temp) {
 		server = temp;
 		Initialize();
 	}
@@ -36,16 +35,12 @@ class AdminMainMenu extends JFrame implements ActionListener {
 
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-		// processing window events:
 		WindowListener L = new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-
 				server.btnAdministrator.setEnabled(true);
-
-				// closeApplication();
 			}
 		};
-		// frame.
+
 		addWindowListener(L);
 
 		btnCreate = new JButton("Create Account");
@@ -53,18 +48,19 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		btnEdit = new JButton("Edit Account");
 		btnViewAcct = new JButton("View Account");
 		btnLogout = new JButton("Log Out");
+
 		btnCreate.updateUI();
 		btnDelete.updateUI();
 		btnEdit.updateUI();
 		btnViewAcct.updateUI();
-
 		btnLogout.updateUI();
+
 		lblLeft = new JLabel("               ");
 		lblRight = new JLabel("               ");
 
 		mainPanel = new JPanel(new BorderLayout(10, 10));
-		centerPanel = new JPanel(new GridLayout(6, 1, 8, 8));
-
+		centerPanel = new JPanel(new GridLayout(3, 2, 8, 8));
+		JPanel logoutPanel = new JPanel(new FlowLayout());
 		btnCreate.addActionListener(server);
 		btnDelete.addActionListener(server);
 		btnEdit.addActionListener(server);
@@ -72,34 +68,38 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		btnLogout.addActionListener(server);
 
 		JLabel lbl1 = new JLabel("Administrator : Main Menu", SwingConstants.CENTER);
-		lbl1.setFont(new Font("", Font.BOLD, 12));
+		lbl1.setFont(new Font("", Font.BOLD, 30));
 		lbl1.setSize(5, 4);
 
-		JPanel mainPanel = new JPanel(new BorderLayout());
+		JLabel lbl2 = new JLabel("", SwingConstants.CENTER);
+		lbl1.setFont(new Font("", Font.BOLD, 20));
+		lbl1.setSize(5, 20);
 
-		// Center panel for buttons with GridLayout for two columns
-		JPanel centerPanel = new JPanel(new GridLayout(0, 2)); // 0 means any number of rows, 2 columns
+		// JPanel mainPanel = new JPanel(new BorderLayout());
+		btnCreate.setBackground(Color.YELLOW);
+		btnDelete.setBackground(Color.yellow);
+		btnEdit.setBackground(Color.YELLOW);
+		btnViewAcct.setBackground(Color.yellow);
+		btnLogout.setBackground(Color.red);
 
-		// Adding buttons to the center panel
 		centerPanel.add(btnCreate);
 		centerPanel.add(btnDelete);
 		centerPanel.add(btnEdit);
 		centerPanel.add(btnViewAcct);
-		centerPanel.add(btnLogout);
 
-		// Labels
+		logoutPanel.add(btnLogout);
 
-		// Adding components to mainPanel
 		mainPanel.add(lbl1, BorderLayout.NORTH);
+		mainPanel.add(lbl2, BorderLayout.SOUTH);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
+		mainPanel.add(logoutPanel, BorderLayout.SOUTH);
 		mainPanel.add(lblLeft, BorderLayout.EAST);
 		mainPanel.add(lblRight, BorderLayout.WEST);
 
 		setContentPane(mainPanel);
-		setSize(250, 250);
+		setSize(500, 300);
 		setResizable(true);
-		setBounds(200, 80, 250, 250);
-
+		setBounds(250, 100, 500, 200);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -117,4 +117,4 @@ class AdminMainMenu extends JFrame implements ActionListener {
 		setVisible(false);
 	}
 
-}// end of class...
+}

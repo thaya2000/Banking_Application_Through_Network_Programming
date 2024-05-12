@@ -6,9 +6,6 @@ import java.awt.*;
 import java.util.*;
 
 class AdminCreateAcc extends JFrame implements ActionListener {
-
-	/* Instance Variables */
-
 	long s;
 	JPanel mainPanel = new JPanel();
 	JPanel centerPanel = new JPanel();
@@ -19,7 +16,6 @@ class AdminCreateAcc extends JFrame implements ActionListener {
 	JButton btnSubmit;
 	JButton btnCancel;
 	Server server;
-	// AdminMainMenu adminMain;
 
 	JLabel lblAcctNo = new JLabel("Account No:");
 	JLabel lblPin = new JLabel("Pin:");
@@ -31,17 +27,13 @@ class AdminCreateAcc extends JFrame implements ActionListener {
 	JLabel lblState = new JLabel("Province :");
 	JLabel lblPhone = new JLabel("Phone :");
 
-	// AdminEntryLevel ObAdmin;
 	JLabel lblLeft;
 	JLabel lblRight;
 	JTextField fields[];
 
-	public AdminCreateAcc(Server temp)
-
-	{
+	public AdminCreateAcc(Server temp) {
 		server = temp;
 		Initialize();
-
 	}
 
 	public void Initialize() {
@@ -155,7 +147,7 @@ class AdminCreateAcc extends JFrame implements ActionListener {
 			}
 			String t = Long.toString(s);
 
-			System.out.println(t);
+			// System.out.println(t);
 			fields[0].setText(t);
 
 			Random rand = new Random();

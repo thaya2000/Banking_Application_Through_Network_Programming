@@ -6,8 +6,6 @@ import java.awt.*;
 
 class ClientViewAcc extends JFrame implements ActionListener {
 
-    /* Instance Variables */
-
     JPanel mainPanel = new JPanel();
     JPanel centerPanel = new JPanel();
     JPanel leftPanel = new JPanel();
@@ -32,11 +30,9 @@ class ClientViewAcc extends JFrame implements ActionListener {
 
     public ClientViewAcc(ClientLog temp)// Server temp
     {
-        /* Instantiate an object of this class to use as ActionListener of the GUI */
         super("Network Bank");
         clientLg = temp;
         Initialize();
-
     }
 
     public void Initialize() {

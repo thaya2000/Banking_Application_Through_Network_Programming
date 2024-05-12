@@ -207,7 +207,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
 
             if ((adminEntry.txtID.getText().equalsIgnoreCase("admin")) &&
                     (s.equals("admin"))) {
-                System.out.println("AdminEntryLevel: Logged In");
+                // System.out.println("AdminEntryLevel: Logged In");
                 adminEntry.setVisible(false);
                 adminMain.setClear();
                 adminMain.setVisible(true);
@@ -227,17 +227,17 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
             adminMain.setVisible(false);
             adminCreate.setClear();
             adminCreate.setVisible(true);
-            System.out.println("Admin Create Acc");
+            System.out.println("Admin Create Account Window Opened");
         } else if (src == adminMain.btnDelete) {
             adminMain.setVisible(false);
             adminDelete.setClear();
             adminDelete.setVisible(true);
-            System.out.println("Admin Delete Acc");
+            System.out.println("Admin Delete Account Window Opened");
         } else if (src == adminMain.btnEdit) {
             adminMain.setVisible(false);
             adminEdit.setClear();
             adminEdit.setVisible(true);
-            System.out.println("Admin Edit Acc");
+            System.out.println("Admin Edit Account Window Opened");
         } else if (src == adminMain.btnViewAcct) {
             adminMain.setVisible(false);
             adminViewAcct.setClear();
@@ -287,6 +287,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         } else if (src == adminCreate.btnCancel) {
             adminCreate.setVisible(false);
             adminMain.setVisible(true);
+            System.out.println("Admin Create Account Window Closed");
         } else if (src == adminDelete.btnDelete) {
             try {
                 String s = adminDelete.txtAcctNo.getText();
@@ -313,6 +314,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         } else if (src == adminDelete.btnCancel) {
             adminDelete.setVisible(false);
             adminMain.setVisible(true);
+            System.out.println("Admin Delete Account Window Closed");
         } else if (src == adminEdit.btnEdit) {
             try {
 
@@ -340,6 +342,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         } else if (src == adminEdit.btnCancel) {
             adminEdit.setVisible(false);
             adminMain.setVisible(true);
+            System.out.println("Admin Edit Account Window Closed");
         } else if (src == adminUpdate.btnUpdate) {
             try {
                 String s = adminEdit.txtAcctNo.getText();
@@ -373,112 +376,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener, Ru
         } else if (src == adminUpdate.btnCancel) {
             adminUpdate.setVisible(false);
             adminMain.setVisible(true);
-        } else if (src == adminViewAcct.btnDbBegin) {
-            try {
-                String query1 = " SELECT * FROM ClientInfo ";
-                String query2 = " SELECT Balance FROM ClientAccStatus ";
-                aDbase.tmpuprs = aDbase.tmpStmt.executeQuery(query1);
-
-                aDbase.tmpuprs.first();
-                acctno = aDbase.uprs.getLong(1);
-                String AcNo = Long.toString(acctno);
-
-                boolean val = aDbase.uprs.getBoolean(9);
-                String valid;
-                if (val)
-                    valid = "Yes";
-                else
-                    valid = "No";
-
-                adminViewAcct.fields[0].setText(" " + AcNo);
-                adminViewAcct.fields[1].setText(" " + aDbase.uprs.getString(2));
-
-                adminViewAcct.fields[3].setText(" " + valid);
-                adminViewAcct.fields[4].setText(" " + aDbase.uprs.getString(4));
-                adminViewAcct.fields[5].setText(" " + aDbase.uprs.getString(5));
-                adminViewAcct.fields[6].setText(" " + aDbase.uprs.getString(6));
-                adminViewAcct.fields[7].setText(" " + aDbase.uprs.getString(7));
-                adminViewAcct.fields[8].setText(" " + aDbase.uprs.getString(8));
-
-                balance = aDbase.tmpuprs.getLong(1);
-                String Bal = Long.toString(balance);
-                adminViewAcct.fields[2].setText(" Rs " + Bal + "\\-");
-
-                System.out.println("Admin View Acct   |<");
-            } catch (SQLException sqle) {
-                System.out.println("Error :" + sqle);
-            }
-
-        } else if (src == adminViewAcct.btnDbBwd) {
-            try {
-                if (!aDbase.uprs.isFirst()) {
-
-                    aDbase.uprs.previous();
-                    aDbase.tmpuprs.previous();
-                    acctno = aDbase.uprs.getLong(1);
-                    String AcNo = Long.toString(acctno);
-
-                    boolean val = aDbase.uprs.getBoolean(9);
-                    String valid;
-                    if (val)
-                        valid = "Yes";
-                    else
-                        valid = "No";
-
-                    adminViewAcct.fields[0].setText(" " + AcNo);
-                    adminViewAcct.fields[1].setText(" " + aDbase.uprs.getString(2));
-
-                    adminViewAcct.fields[3].setText(" " + valid);
-                    adminViewAcct.fields[4].setText(" " + aDbase.uprs.getString(4));
-                    adminViewAcct.fields[5].setText(" " + aDbase.uprs.getString(5));
-                    adminViewAcct.fields[6].setText(" " + aDbase.uprs.getString(6));
-                    adminViewAcct.fields[7].setText(" " + aDbase.uprs.getString(7));
-                    adminViewAcct.fields[8].setText(" " + aDbase.uprs.getString(8));
-
-                    balance = aDbase.tmpuprs.getLong(1);
-                    String Bal = Long.toString(balance);
-                    adminViewAcct.fields[2].setText(" Rs " + Bal + "\\-");
-
-                    System.out.println("Admin View Acct   <<");
-                }
-            } catch (SQLException sqle) {
-                System.out.println("Error :" + sqle);
-            }
-
-        } else if (src == adminViewAcct.btnDbFwd) {
-            try {
-                if (!aDbase.uprs.isLast()) {
-                    aDbase.uprs.next();
-                    aDbase.tmpuprs.next();
-                    acctno = aDbase.uprs.getLong(1);
-                    String AcNo = Long.toString(acctno);
-
-                    boolean val = aDbase.uprs.getBoolean(9);
-                    String valid;
-                    if (val)
-                        valid = "Yes";
-                    else
-                        valid = "No";
-
-                    adminViewAcct.fields[0].setText(" " + AcNo);
-                    adminViewAcct.fields[1].setText(" " + aDbase.uprs.getString(2));
-
-                    adminViewAcct.fields[3].setText(" " + valid);
-                    adminViewAcct.fields[4].setText(" " + aDbase.uprs.getString(4));
-                    adminViewAcct.fields[5].setText(" " + aDbase.uprs.getString(5));
-                    adminViewAcct.fields[6].setText(" " + aDbase.uprs.getString(6));
-                    adminViewAcct.fields[7].setText(" " + aDbase.uprs.getString(7));
-                    adminViewAcct.fields[8].setText(" " + aDbase.uprs.getString(8));
-
-                    balance = aDbase.tmpuprs.getLong(1);
-                    String Bal = Long.toString(balance);
-                    adminViewAcct.fields[2].setText(" Rs " + Bal + "\\-");
-
-                    System.out.println("Admin View Acct   >>");
-                }
-            } catch (SQLException sqle) {
-                System.out.println("Error :" + sqle);
-            }
+            System.out.println("Admin Update Account Window Closed");
         }
     }
 

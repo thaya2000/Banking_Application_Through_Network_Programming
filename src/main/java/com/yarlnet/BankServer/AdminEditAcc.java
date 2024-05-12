@@ -5,9 +5,6 @@ import java.awt.event.*;
 import java.awt.*;
 
 class AdminEditAcc extends JFrame implements ActionListener {
-
-	/* Instance Variables */
-
 	JPanel mainPanel = new JPanel();
 	JPanel centerPanel = new JPanel();
 	JPanel leftPanel = new JPanel();
@@ -18,33 +15,18 @@ class AdminEditAcc extends JFrame implements ActionListener {
 	JButton btnCancel;
 	JLabel lblLeft;
 	JLabel lblRight;
-
 	JLabel lblInfo = new JLabel("Enter Account No  :");
 
 	JTextField txtAcctNo;
 	Server server;
 
 	public AdminEditAcc(Server temp)// AdminMainMenu temp )//Server temp
-
 	{
-		/* Instantiate an object of this class to use as ActionListener of the GUI */
-		// adminMain = temp ;
 		server = temp;
 		Initialize();
-
 	}
 
-	/**
-	 * Name : Initialize
-	 * 
-	 * @param : none
-	 * @return : void
-	 *         Description : develops the GUI
-	 */
 	public void Initialize() {
-
-		// frame = new JFrame();
-		// look & feel setup:
 		try {
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
@@ -53,22 +35,14 @@ class AdminEditAcc extends JFrame implements ActionListener {
 					+ "look and feel: " + e);
 		}
 
-		/*
-		 * The default value is: HIDE_ON_CLOSE,
-		 * 
-		 */
-		// frame.
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-		// processing window events:
 		WindowListener L = new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				server.btnAdministrator.setEnabled(true);
-
-				// closeApplication();
 			}
 		};
-		// frame.
+
 		addWindowListener(L);
 
 		mainPanel = new JPanel(new BorderLayout(10, 10));
@@ -80,13 +54,6 @@ class AdminEditAcc extends JFrame implements ActionListener {
 		btnEdit = new JButton(" Edit ");
 
 		btnCancel = new JButton("Cancel");
-		/*
-		 * btnEdit.setSize(10,4);
-		 * btnCancel.setSize(10,4);
-		 * 
-		 * txtAcctNo.setSize(15,4);
-		 */
-		// lblInfo.setSize(15,4);
 		btnEdit.addActionListener(server);
 		btnCancel.addActionListener(server);
 		lblLeft = new JLabel("             ");
@@ -107,8 +74,6 @@ class AdminEditAcc extends JFrame implements ActionListener {
 		upperPanel.add(new JLabel(" ", SwingConstants.CENTER));
 
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
-		// mainPanel.add(lblLeft,BorderLayout.EAST);
-		// mainPanel.add(lblRight,BorderLayout.WEST);
 		mainPanel.add(lblLeft, BorderLayout.EAST);
 		mainPanel.add(lblRight, BorderLayout.WEST);
 		mainPanel.add(upperPanel, BorderLayout.NORTH);
@@ -119,33 +84,16 @@ class AdminEditAcc extends JFrame implements ActionListener {
 		mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
 		setContentPane(mainPanel);
-
-		// it doesn't work with our JTabbedPane !!! ---> pack();
-		// frame.
 		setSize(350, 225);
-		// frame.
 		setBounds(150, 80, 350, 225);
-
-		// show the window:
-		// frame.
 		setVisible(false);
-
 	}
 
-	/**
-	 * Name : actionPeformed
-	 * 
-	 * @param : ActionEvent
-	 * @return : void
-	 *         Description :
-	 */
 	public void actionPerformed(ActionEvent e) {
 	}
 
 	public void setVVVisible() {
-		// frame.
 		setVisible(true);
-
 	}
 
 	public void setClear() {
@@ -153,16 +101,7 @@ class AdminEditAcc extends JFrame implements ActionListener {
 	}
 
 	public void setInVVVisible() {
-		// frame.
 		setVisible(false);
-
 	}
 
-	/*
-	 * public static void main(String[] args)
-	 * {
-	 * new AdminEditAcc();
-	 * }
-	 */
-
-}// end of class...
+}

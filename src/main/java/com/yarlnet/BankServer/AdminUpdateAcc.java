@@ -6,8 +6,6 @@ import java.awt.*;
 
 class AdminUpdateAcc extends JFrame implements ActionListener {
 
-	/* Instance Variables */
-
 	JPanel mainPanel = new JPanel();
 	JPanel centerPanel = new JPanel();
 	JPanel leftPanel = new JPanel();
@@ -27,28 +25,12 @@ class AdminUpdateAcc extends JFrame implements ActionListener {
 			"Province :", "Phone :"
 	};
 
-	public AdminUpdateAcc(Server temp)// AdminMainMenu temp )//Server temp
-
-	{
-		/* Instantiate an object of this class to use as ActionListener of the GUI */
-		// adminMain = temp ;
+	public AdminUpdateAcc(Server temp) {
 		server = temp;
 		Initialize();
-
 	}
 
-	/**
-	 * Name : Initialize
-	 * 
-	 * @param : none
-	 * @return : void
-	 *         Description : develops the GUI
-	 */
-
 	public void Initialize() {
-
-		// frame = new JFrame();
-		// look & feel setup:
 		try {
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
@@ -57,21 +39,14 @@ class AdminUpdateAcc extends JFrame implements ActionListener {
 					+ "look and feel: " + e);
 		}
 
-		/*
-		 * The default value is: HIDE_ON_CLOSE,
-		 * 
-		 */
-		// frame.
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-		// processing window events:
 		WindowListener L = new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				server.btnAdministrator.setEnabled(true);
-				// closeApplication();
 			}
 		};
-		// frame.
+
 		addWindowListener(L);
 
 		btnUpdate = new JButton("Update");
@@ -100,15 +75,8 @@ class AdminUpdateAcc extends JFrame implements ActionListener {
 			centerPanel.add(fields[i]);
 		}
 
-		// centerPanel.add(new JLabel(""));
 		bottomPanel.add(btnUpdate);
-
-		// centerPanel.add(new JLabel(""));
 		bottomPanel.add(btnCancel);
-
-		// centerPanel.add(leftPanel);
-		// centerPanel.add(rightPanel);
-
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
 
 		mainPanel.add(lblLeft, BorderLayout.EAST);
@@ -123,54 +91,28 @@ class AdminUpdateAcc extends JFrame implements ActionListener {
 		upperPanel.add(new JLabel(" ", SwingConstants.CENTER));
 
 		mainPanel.add(upperPanel, BorderLayout.NORTH);
-
 		mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
 		setContentPane(mainPanel);
-
-		// it doesn't work with our JTabbedPane !!! ---> pack();
-		// frame.
 		setSize(400, 400);
-		// frame.
 		setBounds(150, 80, 400, 400);
-
-		// show the window:
-		// frame.
 		setVisible(false);
-
 	}
 
-	/**
-	 * Name : actionPeformed
-	 * 
-	 * @param : ActionEvent
-	 * @return : void
-	 *         Description :
-	 */
 	public void actionPerformed(ActionEvent e) {
 
 	}
 
 	public void setVVVisible() {
-		// frame.
 		setVisible(true);
-
 	}
 
 	public void setInVVVisible() {
-		// frame.
 		setVisible(false);
-
 	}
 
 	public void closeApplication() {
 		System.exit(0);
 	}
-	/*
-	 * public static void main(String[] args)
-	 * {
-	 * new AdminUpdateAcc();
-	 * }
-	 */
 
-}// end of class...
+}

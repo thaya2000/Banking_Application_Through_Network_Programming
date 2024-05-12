@@ -162,7 +162,9 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
   public static void main(String args[]) {
     try {
-      InetAddress ipAddress = InetAddress.getLocalHost();
+      // InetAddress ipAddress = InetAddress.getLocalHost();
+      String ipAddressString = "192.168.136.82";
+      InetAddress ipAddress = InetAddress.getByName(ipAddressString);
       int serverPort = Integer.parseInt("4444");
       socket = new Socket(ipAddress, serverPort);
     } catch (Exception e) {
@@ -179,9 +181,9 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
       System.exit(1);
     }
 
-    // print the address of player - for verification:
     InetAddress localHost = null;
     try {
+      // localHost = InetAddress.getByName("192.168.136.82");
       localHost = InetAddress.getLocalHost();
     } catch (UnknownHostException e) {
       System.out.println("Unknown host - probably localhost with no IP!");
@@ -209,9 +211,9 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
     System.out.println("SERVER: " + msg);
 
-    if (thServer == null) { // system over?
+    if (thServer == null) {
       System.out.println("CLIENT (ignored ): " + msg);
-      return; // no need to process.
+      return;
     }
 
     if (msg.equals("Welcome_Client")) {
