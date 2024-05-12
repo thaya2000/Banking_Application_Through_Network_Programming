@@ -6,7 +6,6 @@ import java.awt.*;
 
 class ClientValidatePin extends JFrame implements ActionListener {
 
-	/* Instance Variables */
 	JPanel mainPanel = new JPanel(),
 			centerPanel = new JPanel(),
 			bottomPanel = new JPanel();
@@ -18,7 +17,6 @@ class ClientValidatePin extends JFrame implements ActionListener {
 	JLabel display;
 
 	ClientLog clientLg;
-	// JFrame frame;
 	Color color1;
 	Font font1;
 	Color color2;
@@ -28,35 +26,15 @@ class ClientValidatePin extends JFrame implements ActionListener {
 	JLabel lblLeft;
 	JLabel lblRight;
 
-	/**
-	 * Name :
-	 * 
-	 * @param :
-	 * @return : void
-	 *         Description : constructor with Argument
-	 */
-
 	public ClientValidatePin(ClientLog temp)// Server temp
 	{
-		/* Instantiate an object of this class to use as ActionListener of the GUI */
 		super("Network Bank ");
-		// super("Validate Pin");
 		clientLg = temp;
 		Initialize();
-
 	}
 
-	/**
-	 * Name : Initialize
-	 * 
-	 * @param : none
-	 * @return : void
-	 *         Description : develops the GUI
-	 */
 	public void Initialize() {
 
-		// frame = new JFrame();
-		// look & feel setup:
 		try {
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
@@ -65,52 +43,21 @@ class ClientValidatePin extends JFrame implements ActionListener {
 					+ "look and feel: " + e);
 		}
 
-		/*
-		 * The default value is: HIDE_ON_CLOSE,
-		 * 
-		 */
-		// frame.
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-		// processing window events:
 		WindowListener L = new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				clientLg.clientMain.setVisible(true);
-				// closeApplication();
 			}
 		};
-		// frame.
+
 		addWindowListener(L);
 
-		// font = new Font("SansSerif",Font.BOLD, 14);
-		// font1 = new Font ("TimesNewRoman", Font.BOLD , 14);
-		// color1 = new Color(255,0,0);
-		// color = new Color(0,200,240);
-		// color2 = new Color(0,0,255);
-		logIn = new JButton("OK");// .setFont(font);
-		cancelLogIn = new JButton("Cancel");// .setFont(font);
+		logIn = new JButton("OK");
+		cancelLogIn = new JButton("Cancel");
 
 		lblLeft = new JLabel("           ");
 		lblRight = new JLabel("           ");
-		// display[0] = new JLabel("---------------------------------------- " );
-		// display = new JLabel("Personal Identification
-		// Number(PIN)",SwingConstants.CENTER );
-		// display[2] = new JLabel("---------------------------------------- " );
-		// display[3] = new JLabel("---------------------------------------- " );
-		// display.setFont(font1);
-		// display.setForeground(color2);
-		// display.setText(
-		// "-------------------------------------------------------------------------------------------------------------
-		// \n ADMINISTRATOR
-		// \n------------------------------------------------------------------------------------------------------------------------------------------------------------\nPlease
-		// enter the following Data to continue..\n");
-		// display.setEditable(false);
-
-		// logIn.updateUI();
-		// cancelLogIn.updateUI();
-		// fields[0].updateUI();
-		// fields[1].updateUI();
-		// display.updateUI();
 
 		JLabel lbl1 = new JLabel("Validate PIN", SwingConstants.CENTER);
 		lbl1.setFont(new Font("", Font.BOLD, 12));
@@ -129,63 +76,35 @@ class ClientValidatePin extends JFrame implements ActionListener {
 		centerPanel.add(txtPin);
 		bottomPanel.add(logIn);
 		bottomPanel.add(cancelLogIn);
-		// mainPanel.add(display[0],BorderLayout.NORTH);
 		mainPanel.add(lbl1, BorderLayout.NORTH);
-		// mainPanel.add(display[2],BorderLayout.NORTH);
-		// mainPanel.add(display[3],BorderLayout.NORTH);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
 		mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 		mainPanel.add(lblLeft, BorderLayout.EAST);
 		mainPanel.add(lblRight, BorderLayout.WEST);
-		// set content pane:
-		// frame.
 		setContentPane(mainPanel);
 
-		// it doesn't work with our JTabbedPane !!! ---> pack();
-		// frame.
 		setSize(300, 115);
-		// frame.
 		setBounds(200, 45, 300, 115);
 		setResizable(false);
-		// show the window:
-		// frame.
 		setVisible(false);
 
 	}
 
-	/**
-	 * Name : actionPeformed
-	 * 
-	 * @param : ActionEvent
-	 * @return : void
-	 *         Description :
-	 */
 	public void actionPerformed(ActionEvent e) {
 
 	}
 
 	public void setVVVisible() {
-		// frame.
 		setVisible(true);
-
 	}
 
 	public void setInVVVisible() {
-		// frame.
 		setVisible(false);
-
 	}
 
 	public void setClear() {
 		txtPin.setText("");
-
 		txtPin.setFocusable(true);
 	}
-	/*
-	 * public static void main(String[] args)
-	 * {
-	 * new AdminEntryLevel();
-	 * }
-	 */
 
-}// end of class...
+}

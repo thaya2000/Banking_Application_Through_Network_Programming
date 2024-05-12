@@ -178,13 +178,6 @@ class AdminViewAccount extends JFrame implements ActionListener {
 
    }
 
-   /**
-    * Name : actionPeformed
-    * 
-    * @param : ActionEvent
-    * @return : void
-    *         Description :
-    */
    public void actionPerformed(ActionEvent e) {
       JButton src = (JButton) e.getSource();
 
@@ -519,12 +512,5 @@ class AdminViewAccount extends JFrame implements ActionListener {
       setVisible(false);
 
    }
-
-   /*
-    * public static void main(String[] args)
-    * {
-    * new AdminCreateAcc();
-    * }
-    */
 
 }// end of class...

@@ -54,7 +54,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
         clientWDraw.setVisible(false);
         clientView.setVisible(false);
         clientTrans.setVisible(false);
-        // sendToServer("FORCED_LOGGED_OUT." + txtAcctNo.getText());
         setVisible(true);
         setClear();
         JOptionPane.showMessageDialog(clientMain,
@@ -76,14 +75,13 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
     clientAcctOp = new ClientAcctOptions(this);
     clientPP = new ClientPassPin(this);
 
-    // prepare the layout:
     JPanel pMain = new JPanel();
     pMain.setLayout(new BorderLayout());
 
-    JPanel pUpper = new JPanel(); // for labels.
+    JPanel pUpper = new JPanel();
     pUpper.setLayout(new GridLayout(1, 2));
 
-    JPanel pUp = new JPanel(); // for labels.
+    JPanel pUp = new JPanel();
     pUp.setLayout(new GridLayout(5, 1));
 
     JPanel pBtn = new JPanel();
@@ -147,14 +145,12 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
     pMain.add(pBtn, BorderLayout.SOUTH);
     btnLogIn.addActionListener(this);
 
-    // show the window:
     setContentPane(pMain);
     setSize(330, 250);
     setBounds(220, 175, 330, 250);
     setResizable(false);
     setVisible(true);
 
-    // start the thread that cares about receiving data from server:
     thServer = new Thread(this);
     thServer.start();
     sendToServer("Hello_Server");
@@ -162,7 +158,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
   public static void main(String args[]) {
     try {
-      // InetAddress ipAddress = InetAddress.getLocalHost();
       String ipAddressString = "192.168.136.216";
       InetAddress ipAddress = InetAddress.getByName(ipAddressString);
       int serverPort = Integer.parseInt("4444");
@@ -183,7 +178,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
 
     InetAddress localHost = null;
     try {
-      // localHost = InetAddress.getByName("192.168.136.82");
       localHost = InetAddress.getLocalHost();
     } catch (UnknownHostException e) {
       System.out.println("Unknown host - probably localhost with no IP!");
@@ -191,14 +185,6 @@ public class ClientLog extends JFrame implements ActionListener, Runnable {
     System.out.println("Clients local address: " + localHost);
     new ClientLog();
   }
-
-  // private void pause(int time) {
-  // try {
-  // Thread.sleep(time);
-  // } catch (InterruptedException e) {
-  // System.err.println(e.getMessage());
-  // }
-  // }
 
   public void sendToServer(String msg) {
     out.println(msg);

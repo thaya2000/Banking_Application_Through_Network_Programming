@@ -36,9 +36,6 @@ class ClientViewAcc extends JFrame implements ActionListener {
     }
 
     public void Initialize() {
-
-        // frame = new JFrame();
-        // look & feel setup:
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
@@ -47,28 +44,14 @@ class ClientViewAcc extends JFrame implements ActionListener {
                     + "look and feel: " + e);
         }
 
-        /*
-         * The default value is: HIDE_ON_CLOSE,
-         * 
-         */
-        // frame.
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-        // processing window events:
         WindowListener L = new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 clientLg.clientMain.setVisible(true);
-                // closeApplication();
             }
         };
-        // frame.
         addWindowListener(L);
-
-        // font = new Font("SansSerif",Font.BOLD, 14);
-        // font1 = new Font ("TimesNewRoman", Font.BOLD , 14);
-        // color1 = new Color(255,0,0);
-        // color = new Color(0,200,240);
-        // color2 = new Color(0,0,255);
         lblLeft = new JLabel("               ");
         lblRight = new JLabel("               ");
         lblName.setBackground(color2);
@@ -111,7 +94,6 @@ class ClientViewAcc extends JFrame implements ActionListener {
         bottomPanel = new JPanel(new FlowLayout());
 
         mainPanel.add(lbl1, BorderLayout.NORTH);
-        // .setFont(font));
 
         centerPanel.add(lbl2);
         centerPanel.add(lblName);
@@ -120,8 +102,6 @@ class ClientViewAcc extends JFrame implements ActionListener {
         centerPanel.add(lbl4);
 
         centerPanel.add(lblBal);
-        // centerPanel.add(leftPanel);
-        // centerPanel.add(rightPanel);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
         bottomPanel.add(btnOk);
@@ -130,15 +110,8 @@ class ClientViewAcc extends JFrame implements ActionListener {
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         setContentPane(mainPanel);
-
-        // it doesn't work with our JTabbedPane !!! ---> pack();
-        // frame.
         setSize(400, 250);
-        // frame.
         setBounds(220, 175, 400, 250);
-
-        // show the window:
-        // frame.
         setResizable(false);
         setVisible(false);
 
@@ -157,15 +130,13 @@ class ClientViewAcc extends JFrame implements ActionListener {
     }
 
     public void setVVVisible() {
-        // frame.
         setVisible(true);
 
     }
 
     public void setInVVVisible() {
-        // frame.
         setVisible(false);
 
     }
 
-}// end of class..
+}

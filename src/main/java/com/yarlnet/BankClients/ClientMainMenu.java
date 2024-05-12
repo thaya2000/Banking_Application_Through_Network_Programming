@@ -43,12 +43,12 @@ class ClientMainMenu extends JFrame implements ActionListener {
 			}
 		};
 		addWindowListener(L);
-		btnViewAcc = new JButton("View Account");// .setFont(font);
-		btnTransfer = new JButton("Transfer Money");// .setFont(font);
-		btnDeposit = new JButton("Deposit");// .setFont(font);
+		btnViewAcc = new JButton("View Account");
+		btnTransfer = new JButton("Transfer Money");
+		btnDeposit = new JButton("Deposit");
 		btnWithdraw = new JButton("Withdraw");
 		btnAcctOp = new JButton("Account Options");
-		btnExit = new JButton("Exit"); // .setFont(font);
+		btnExit = new JButton("Exit");
 		lblLeft = new JLabel("               ");
 		lblRight = new JLabel("               ");
 

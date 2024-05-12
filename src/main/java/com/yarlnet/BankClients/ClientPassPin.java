@@ -5,7 +5,6 @@ import java.awt.event.*;
 import java.awt.*;
 
 class ClientPassPin extends JFrame implements ActionListener {
-    /* Instance Variables */
     JPanel mainPanel = new JPanel();
     JPanel centerPanel = new JPanel();
     JPanel leftPanel = new JPanel();
@@ -24,7 +23,6 @@ class ClientPassPin extends JFrame implements ActionListener {
     JPasswordField txtVal1 = new JPasswordField("");
     JPasswordField txtVal2 = new JPasswordField("");
     JPasswordField txtVal3 = new JPasswordField("");
-    // JPasswordField txtPassword;
     JButton btnOk = new JButton("OK");
     JButton btnCancel = new JButton("Cancel");
     JLabel lblLeft;
@@ -32,26 +30,13 @@ class ClientPassPin extends JFrame implements ActionListener {
     ClientLog clientLg;
     String info;
 
-    public ClientPassPin(ClientLog temp)// Server temp
-    {
-        /* Instantiate an object of this class to use as ActionListener of the GUI */
+    public ClientPassPin(ClientLog temp) {
         super("Network Bank");
         clientLg = temp;
         Initialize();
-
     }
 
-    /**
-     * Name : Initialize
-     * 
-     * @param : none
-     * @return : void
-     *         Description : develops the GUI
-     */
     public void Initialize() {
-
-        // frame = new JFrame();
-        // look & feel setup:
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
@@ -60,21 +45,13 @@ class ClientPassPin extends JFrame implements ActionListener {
                     + "look and feel: " + e);
         }
 
-        /*
-         * The default value is: HIDE_ON_CLOSE,
-         * 
-         */
-        // frame.
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-        // processing window events:
         WindowListener L = new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 clientLg.clientMain.setVisible(true);
-                // closeApplication();
             }
         };
-        // frame.
         addWindowListener(L);
 
         lblhead.setFont(new Font("", Font.BOLD, 12));
@@ -124,8 +101,6 @@ class ClientPassPin extends JFrame implements ActionListener {
         bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         mainPanel.add(lblhead, BorderLayout.NORTH);
-        // .setFont(font));
-
         centerPanel.add(lbl1);
         centerPanel.add(lblName);
 
@@ -151,28 +126,13 @@ class ClientPassPin extends JFrame implements ActionListener {
 
         setContentPane(mainPanel);
 
-        // it doesn't work with our JTabbedPane !!! ---> pack();
-        // frame.
         setSize(320, 275);
-        // frame.
         setBounds(220, 175, 320, 275);
-
-        // show the window:
-        // frame.
-
         setVisible(false);
-
     }
 
-    /**
-     * Name : actionPeformed
-     * 
-     * @param : ActionEvent
-     * @return : void
-     *         Description :
-     */
     public void actionPerformed(ActionEvent e) {
 
     }
 
-}// end of class..
+}

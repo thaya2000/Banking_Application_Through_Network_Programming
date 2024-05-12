@@ -19,7 +19,6 @@ class AdminEntryLevel extends JFrame implements ActionListener {
     JLabel display, display2;
 
     Server server;
-    // JFrame frame;
     Color color1;
     Font font1;
     Color color2;
@@ -28,33 +27,14 @@ class AdminEntryLevel extends JFrame implements ActionListener {
     JLabel lblLeft;
     JLabel lblRight;
 
-    /**
-     * Name :
-     * 
-     * @param :
-     * @return : void
-     *         Description : constructor with Argument
-     */
-
     public AdminEntryLevel(Server temp)// Server temp
     {
-        /* Instantiate an object of this class to use as ActionListener of the GUI */
         server = temp;
         Initialize();
-
     }
 
-    /**
-     * Name : Initialize
-     * 
-     * @param : none
-     * @return : void
-     *         Description : develops the GUI
-     */
     public void Initialize() {
 
-        // frame = new JFrame();
-        // look & feel setup:
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
@@ -63,18 +43,11 @@ class AdminEntryLevel extends JFrame implements ActionListener {
                     + "look and feel: " + e);
         }
 
-        /*
-         * The default value is: HIDE_ON_CLOSE,
-         * 
-         */
-        // frame.
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        // processing window events:
         WindowListener L = new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 server.btnAdministrator.setEnabled(true);
-                // closeApplication();
             }
         };
         // frame.
@@ -137,13 +110,6 @@ class AdminEntryLevel extends JFrame implements ActionListener {
 
     }
 
-    /**
-     * Name : actionPeformed
-     * 
-     * @param : ActionEvent
-     * @return : void
-     *         Description :
-     */
     public void actionPerformed(ActionEvent e) {
 
     }
@@ -165,11 +131,5 @@ class AdminEntryLevel extends JFrame implements ActionListener {
         pField.setText("");
         txtID.setFocusable(true);
     }
-    /*
-     * public static void main(String[] args)
-     * {
-     * new AdminEntryLevel();
-     * }
-     */
 
-}// end of class...
+}

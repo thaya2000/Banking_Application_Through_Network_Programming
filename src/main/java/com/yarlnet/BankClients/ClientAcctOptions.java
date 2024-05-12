@@ -1,12 +1,3 @@
-/****
-* File Name		:
-* Author		:
-* Professor		:
-* Project		:
-* Description	:
-*/
-
-/* Standard Java Packages */
 package com.yarlnet.BankClients;
 
 import javax.swing.*;
@@ -14,8 +5,6 @@ import java.awt.event.*;
 import java.awt.*;
 
 class ClientAcctOptions extends JFrame implements ActionListener {
-
-	/* Instance Variables */
 
 	JPanel mainPanel = new JPanel(),
 			centerPanel = new JPanel();
@@ -29,34 +18,15 @@ class ClientAcctOptions extends JFrame implements ActionListener {
 	JLabel lblRight;
 	ClientLog clientLg;
 
-	/**
-	 * Name :
-	 * 
-	 * @param :
-	 * @return : void
-	 *         Description : constructor with Argument
-	 */
-
 	public ClientAcctOptions(ClientLog temp)// Server temp
 	{
-		/* Instantiate an object of this class to use as ActionListener of the GUI */
 		super("Network Bank");
 		clientLg = temp;
 		Initialize();
 
 	}
 
-	/**
-	 * Name : Initialize
-	 * 
-	 * @param : none
-	 * @return : void
-	 *         Description : develops the GUI
-	 */
 	public void Initialize() {
-
-		// frame = new JFrame();
-		// look & feel setup:
 		try {
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
@@ -65,14 +35,8 @@ class ClientAcctOptions extends JFrame implements ActionListener {
 					+ "look and feel: " + e);
 		}
 
-		/*
-		 * The default value is: HIDE_ON_CLOSE,
-		 * 
-		 */
-		// frame.
 		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-		// processing window events:
 		WindowListener L = new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				clientLg.clientMain.setVisible(true);
@@ -82,9 +46,9 @@ class ClientAcctOptions extends JFrame implements ActionListener {
 
 		addWindowListener(L);
 
-		btnChPass = new JButton("Change Password");// .setFont(font);
-		btnChPin = new JButton("Change PIN");// .setFont(font);
-		btnCancel = new JButton("Cancel");// .setFont(font);
+		btnChPass = new JButton("Change Password");
+		btnChPin = new JButton("Change PIN");
+		btnCancel = new JButton("Cancel");
 
 		lblLeft = new JLabel("               ");
 		lblRight = new JLabel("               ");
@@ -113,22 +77,14 @@ class ClientAcctOptions extends JFrame implements ActionListener {
 		mainPanel.add(new JLabel(" "), BorderLayout.SOUTH);
 
 		setContentPane(mainPanel);
-
-		// it doesn't work with our JTabbedPane !!! ---> pack();
-		// frame.
 		setSize(270, 210);
 		setResizable(false);
-		// frame.
 		setBounds(220, 175, 270, 210);
-
-		// show the window:
-		// frame.
 		setVisible(false);
-
 	}
 
 	public void actionPerformed(ActionEvent e) {
 
 	}
 
-}// end of class..
+}
